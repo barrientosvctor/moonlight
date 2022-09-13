@@ -1,0 +1,28 @@
+{
+  "name": "moonlight",
+  "version": "2.0.1",
+  "description": "Moonlight es un bot multipropósito en Español para Discord con una gran variedad de comandos para usar.",
+  "main": "index.js",
+  "scripts": {
+    "initialize": "node ."
+  },
+  "engines": {
+    "node": ">=16.11.1",
+    "npm": "8.0.0"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "discord-js",
+    "discord-bot",
+    "node-js"
+  ],
+  "author": "Víctor",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1",
+    "fs": "^0.0.1-security",
+    "isgd": "^1.1.3"
+  }
+}
