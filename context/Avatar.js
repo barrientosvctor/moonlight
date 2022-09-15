@@ -1,7 +1,7 @@
-let Moonlight = require('../base/Moonlight'),
-discord = require('discord.js'),
-{ ContextMenuCommandBuilder } = require("@discordjs/builders"),
-{ ApplicationCommandType } = require('discord-api-types/v9');
+const Moonlight = require('../base/Moonlight');
+const discord = require('discord.js');
+const { ContextMenuCommandBuilder } = require("@discordjs/builders");
+const { ApplicationCommandType } = require('discord-api-types/v9');
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
