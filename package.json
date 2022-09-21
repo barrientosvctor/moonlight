@@ -14,8 +14,7 @@
     "discord",
     "bot",
     "discord-js",
-    "discord-bot",
-    "node-js"
+    "discord-bot"
   ],
   "author": "Víctor",
   "license": "ISC",
