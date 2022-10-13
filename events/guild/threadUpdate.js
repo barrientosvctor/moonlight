@@ -1,19 +1,19 @@
-let Moonlight = require('../../base/Moonlight'),
+let Event = require('../../base/models/Event'),
 discord = require('discord.js'),
 database = require('../../base/packages/database');
-module.exports = {
+module.exports = new Event({
     name: 'threadUpdate',
     /**
-    * @param {Moonlight} bot
     * @param {discord.ThreadChannel} oldThread
     * @param {discord.ThreadChannel} newThread
     */
     async run(bot, oldThread, newThread) {
         try {
-            let db = new database('./databases/logs.json');
+            const db = new database('./databases/logs.json');
             if(db.has(newThread.guild.id)) {
-                let embed = new discord.MessageEmbed();
-                embed.setColor('RANDOM')
+                let embed = new discord.EmbedBuilder();
+                embed.setColor('Random')
+		embed.setDescription('** **')
                 embed.setTimestamp()
                 if(oldThread.name !== newThread.name) {
                     embed.setTitle(`Cambio de nombre del hilo #${newThread.name}.`)
@@ -29,4 +29,4 @@ module.exports = {
             bot.err({ name: this.name, type: 'event', filename: __filename, error: err });
         } 
     }
-}
+});

@@ -1,19 +1,16 @@
-let Moonlight = require('../../base/Moonlight'),
+let Event = require('../../base/models/Event'),
 discord = require('discord.js'),
 database = require('../../base/packages/database');
-module.exports = {
+module.exports = new Event({
     name: 'channelDelete',
-    /**
-     * @param {Moonlight} bot
-     * @param {discord.GuildChannel} channel
-     */
+    /** @param {discord.GuildChannel} channel */
     async run(bot, channel) {
         try {
-            let db = new database('./databases/logs.json');
+            const db = new database('./databases/logs.json');
             if(db.has(channel.guildId)) {
-                let embed = new discord.MessageEmbed()
+                let embed = new discord.EmbedBuilder()
                     .setTitle('Canal eliminado')
-                    .setColor('RANDOM')
+                    .setColor('Random')
                     .setTimestamp()
                     .setDescription(`Acaba de ser eliminado un canal existente del servidor.\n**Nombre:** ${channel.name}`);
                 bot.channels.cache.get(await db.get(channel.guildId)).send({ embeds: [embed] });
@@ -22,4 +19,4 @@ module.exports = {
             bot.err({ name: this.name, type: 'event', filename: __filename, error: err });
         }
     }
-}
+});

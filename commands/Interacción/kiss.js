@@ -17,12 +17,14 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona a la persona que quieras besar.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]) || msg.guild.members.cache.get(args[1]),
-            data = await fetch(`https://nekos.life/api/v2/img/kiss`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]) || msg.guild.members.cache.get(args[1]);
+            const data = await fetch(`https://nekos.life/api/v2/img/kiss`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no puedes besarte a ti mismo, eso sería muy raro jeje.`);
-            embed.setColor('RANDOM')
+
+            embed.setColor('Random')
             embed.setDescription(`**${msg.author.username}** le dio un beso a **${member.user.username}**.`)
             embed.setImage(data.url);
             return msg.channel.send({ embeds: [embed] });

@@ -14,15 +14,16 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember) {
         try {
-            let data = await fetch(`https://kawaii.red/api/gif/smile/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const data = await fetch(`https://kawaii.red/api/gif/smile/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
             embed.setImage(data.response);
-            embed.setColor('RANDOM');
+            embed.setColor('Random');
             if(!args[1]) {
                 embed.setDescription(`¡**${msg.author.username}** le sonrie a todos!`);
             } else {
                 /** @type {discord.GuildMember} */
-                let member = getMember(args[1]);
+                const member = getMember(args[1]);
+
                 if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
                 if(member.user.id === msg.author.id) embed.setDescription(`**${msg.author.username}** se está sonriendo a si mismo!`);
                 else embed.setDescription(`¡**${msg.author.username}** le está sonriendo a **${member.user.username}**!`);

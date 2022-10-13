@@ -18,13 +18,13 @@ module.exports = new Command({
             if(!['decode', 'encode'].includes(args[1])) return msg.channel.send(`${bot.getEmoji('error')} Opción no válida!`);
             if(!args[2]) return msg.channel.send(`**${msg.author.username}**, escribe el texto o código que vas a encriptar o desencriptar.`);
             if(args.slice(2).join(' ').length > 1000) return msg.channel.send(`${bot.getEmoji('error')} El texto no puede tener más de 1,000 carácteres. Tu texto contiene **${args.slice(2).join(' ').length}** carácteres.`);
-            let data;
 
+            let data;
             if(args[1] === 'encode') {
-                data = await fetch(`https://some-random-api.ml/binary?text=${encodeURIComponent(args.slice(2).join(' '))}`).then(res => res.json());
+                data = await fetch(`https://some-random-api.ml/binary?text=${encodeURIComponent(args.slice(2).join(' '))}`, { method: 'GET' }).then(res => res.json());
                 return msg.reply(`${data.binary}`);
             } else {
-                data = await fetch(`https://some-random-api.ml/binary?decode=${encodeURIComponent(args[2])}`).then(res => res.json());
+                data = await fetch(`https://some-random-api.ml/binary?decode=${encodeURIComponent(args[2])}`, { method: 'GET' }).then(res => res.json());
                 return msg.reply(`${data.text}`);
             }
         } catch (err) {

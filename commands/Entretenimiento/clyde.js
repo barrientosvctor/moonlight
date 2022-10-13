@@ -15,9 +15,9 @@ module.exports = new Command({
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe algo.`);
             if(args.slice(1).join(' ').length > 72) return msg.channel.send(`**${msg.author.username}**, el texto es demasiado largo! Escribe algo menor a 73 carácteres.`);
-            let data = await fetch(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args.slice(1).join(' ').replace(' ', '%20')}`).then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
+            const data = await fetch(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args.slice(1).join(' ').replace(' ', '%20')}`).then(res => res.json());
+            const embed = new discord.EmbedBuilder()
+            embed.setColor('Random')
             embed.setImage(data.message);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

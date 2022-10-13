@@ -9,26 +9,27 @@ module.exports = new Command({
     usage: '<@miembro | ID>',
     example: '@Born#0001',
     enabled: true,
-    botPerms: ['MANAGE_ROLES'],
-    memberPerms: ['MANAGE_ROLES'],
+    botPerms: ['ManageRoles'],
+    memberPerms: ['ManageRoles'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel) {
         try {
-            let db = new database('./databases/muterole.json');
+            const db = new database('./databases/muterole.json');
             if(db.has(msg.guildId)) {
                 if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del miembro a desmutear.`);
 
                 /** @type {discord.GuildMember} */
-                let member = getMember(args[1]),
-                motivo = args.slice(2).join(' '),
-                embed = new discord.MessageEmbed();
+                const member = getMember(args[1]);
+                let motivo = args.slice(2).join(' '),
+                embed = new discord.EmbedBuilder();
+
                 if(!member) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese usuario no pertenece al servidor.`);
                 if(!motivo) motivo = 'No se dio motivo.';
                 if(motivo.length >= 511) motivo = motivo.slice(0, 508) + '...';
 
                 if(member === msg.member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no te puedes desmutear a ti mismo.`);
-                if(member === msg.guild.me) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes desmutear del servidor con mis comandos.`);
+                if(member === msg.guild.members.me) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes desmutear del servidor con mis comandos.`);
 
                 if(member.roles.highest.position >= msg.member.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} No puedo desmutear a **${member.user.tag}** debido a que tiene un rol jerárquicamente igual o superior al tuyo.`);
                 //if(member.roles.highest.position >= msg.guild.me.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} No logré mutear a **${member.user.tag}** debido a que jerárquicamente tiene un rol igual o superior al mío.`);

@@ -17,13 +17,15 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, debes mencionar a una persona para darle una bofetada.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            data = await fetch(`https://kawaii.red/api/gif/slap/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const data = await fetch(`https://kawaii.red/api/gif/slap/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿quieres hacerte daño? ¿estás loco?`);
             if(member.user.id === bot.user.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿qué te he hecho?`);
-            embed.setColor('RANDOM')
+
+            embed.setColor('Random')
             embed.setImage(data.response)
             embed.setDescription(`**${msg.author.username}** le dio una bofetada a **${member.user.username}**.`);
             return msg.channel.send({ embeds: [embed] });

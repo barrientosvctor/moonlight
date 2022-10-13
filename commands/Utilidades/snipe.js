@@ -12,9 +12,9 @@ module.exports = new Command({
     async run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel) {
         try {
             /** @type {discord.GuildChannel} */
-            let channel = getChannel(args[1]) || msg.channel,
-            message = bot.snipes.get(channel.id),
-            embed = new discord.MessageEmbed();
+            const channel = getChannel(args[1]) || msg.channel;
+            const message = bot.snipes.get(channel.id);
+            let embed = new discord.EmbedBuilder();
 
             function trim(value) {
                 return value.length > 2010 ? `${value.slice(0, 2006)}...` : value;
@@ -22,10 +22,9 @@ module.exports = new Command({
 
             if(!message) return msg.reply(`${bot.getEmoji('error')} No hay mensajes recientemente eliminados en ${channel}.`);
             else {
-                embed.setColor('RANDOM')
+                embed.setColor('Random')
                 embed.setDescription(`¡Un mensaje de ${message.author} ha sido recientemente eliminado en ${channel}!`)
-                embed.addField('Contenido', message.content ? trim(message.content) : '*mensaje desconocido*')
-                embed.addField('Fecha y hora', `<t:${Math.ceil(message.time / 1000)}> (<t:${Math.ceil(message.time / 1000)}:R>)`)
+		embed.addFields({ name: 'Contenido', value: message.content ? trim(message.content) : '*mensaje desconocido*' }, { name: 'Fecha y hora', value: `<t:${Math.ceil(message.time / 1000)}> (<t:${Math.ceil(message.time / 1000)}:R>)` })
                 if(message.image) embed.setImage(message.image);
                 msg.reply({ embeds: [embed] });
             }

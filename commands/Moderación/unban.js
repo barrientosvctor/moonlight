@@ -8,8 +8,8 @@ module.exports = new Command({
     usage: '<@usuario | ID> [motivo]',
     example: '@Ben#0001 Ban quitado',
     enabled: true,
-    botPerms: ['BAN_MEMBERS'],
-    memberPerms: ['BAN_MEMBERS'],
+    botPerms: ['BanMembers'],
+    memberPerms: ['BanMembers'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser) {
@@ -17,15 +17,16 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del usuario a desbanear.`);
             
             /** @type {discord.User} */
-            let user = await getUser(args[1]),
-            motivo = args.slice(2).join(' '),
-            embed = new discord.MessageEmbed();
+            let user = await getUser(args[1]);
+            let motivo = args.slice(2).join(' '),
+            embed = new discord.EmbedBuilder();
+
             if(!user) return msg.channel.send(`${bot.getEmoji('error')} Ese usuario no existe en Discord.`);
             if(!motivo) motivo = 'No se dio motivo';
             if(motivo.length >= 511) motivo = motivo.slice(0, 508) + '...';
 
             if(user === msg.member.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no te puedes desbanear a ti mismo.`);
-            if(user === msg.guild.me.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedo desbanear ya que no lo estoy.`);
+            if(user === msg.guild.members.me.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedo desbanear ya que no lo estoy.`);
 
             try {
                 await msg.guild.members.unban(user.id, motivo);

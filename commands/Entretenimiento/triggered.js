@@ -14,12 +14,13 @@ module.exports = new Command({
     async run(bot, msg, args, prefix, getUser) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID de un usuario de Discord.`);
-            let user = await getUser(args[1]),
-            embed = new discord.MessageEmbed();
+	    /** @type {discord.User} */
+            const user = await getUser(args[1]);
+            let embed = new discord.EmbedBuilder();
             if(!user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ese usuario no existe.`);
 
-            embed.setColor('RANDOM')
-            embed.setImage(`https://some-random-api.ml/canvas/triggered/?avatar=${user.displayAvatarURL({ size: 2048, format: 'png' })}`);
+            embed.setColor('Random')
+            embed.setImage(`https://some-random-api.ml/canvas/triggered/?avatar=${user.displayAvatarURL({ size: 2048, extension: 'png' })}`);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {
             bot.err('Hubo un error al intentar ejecutar el comando.', { name: this.name, type: 'command', filename: __filename, channel: msg.channel, error: err });

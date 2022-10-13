@@ -15,8 +15,8 @@ module.exports = new Command({
     async run(bot, msg, args) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, debes escribir algo para buscar.`);
-            let data = await fetch(`https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(args.slice(1).join(' '))}&locale=es`, { method: 'GET' }).then(res => res.json());
-            return msg.reply(`__${data.documents[0].title}__\n${data.documents[0].summary}\nFuente: <https://developer.mozilla.org${data.documents[0].mdn_url}>`);
+            const data = await fetch(`https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(args.slice(1).join(' '))}&locale=es`, { method: 'GET' }).then(res => res.json());
+            return msg.reply(`> __${data.documents[0].title}__\n${data.documents[0].summary}\nFuente: <https://developer.mozilla.org${data.documents[0].mdn_url}>`);
         } catch (err) {
             return bot.err(`Hubo un error al buscar la documentación de MDN`, { name: this.name, type: 'command', filename: __filename, channel: msg.channel, error: err });
         }

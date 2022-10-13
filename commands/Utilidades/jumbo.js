@@ -13,7 +13,8 @@ module.exports = new Command({
     async run(bot, msg, args) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, debes de poner un emoji.`);
-            let emoji = msg.guild.emojis.cache.find(e => e.name === args[1].split(':')[1]);
+
+            const emoji = msg.guild.emojis.cache.find(e => e.name === args[1].split(':')[1]);
             if(!emoji) return msg.channel.send(`**${msg.author.username}**, ese emoji no se encontró en este servidor.`);
             return msg.reply(`> Nombre: \`${emoji.name}\`\n> Emoji: ${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\n> ID: \`${emoji.id}\`\n> Identificador: \`${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\`\n> Fecha de creación: <t:${Math.ceil(emoji.createdTimestamp / 1000)}>\n> URL: ${emoji.url}`);
         } catch (err) {

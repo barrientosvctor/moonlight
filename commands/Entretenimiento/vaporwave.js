@@ -13,7 +13,7 @@ module.exports = new Command({
     async run(bot, msg, args) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe un texto para convertir.`);
-            let vaporwavefity = args.slice(1).join(' ').split('').map(char => {
+            const vaporwavefity = args.slice(1).join(' ').split('').map(char => {
                 const code = char.charCodeAt(0);
                 return code >= 33 && code <= 126 ? String.fromCharCode((code - 33) + 65281) : char
             }).join(' ');

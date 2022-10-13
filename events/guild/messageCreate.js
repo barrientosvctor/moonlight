@@ -1,21 +1,17 @@
-let Moonlight = require('../../base/Moonlight'),
+let Event = require('../../base/models/Event'),
 discord = require('discord.js'),
 Timeout = new Map();
 
-module.exports = {
+module.exports = new Event({
     name: 'messageCreate',
-    /**
-     * 
-     * @param {Moonlight} bot 
-     * @param {discord.Message} msg 
-     */
+    /** @param {discord.Message} msg */
     async run(bot, msg) {
-        try {
+	try {
             let prefix = await bot.getPrefix(msg.guildId);
             if(msg.content.match(new RegExp(`^<@!?${bot.user.id}>( |)$`))) msg.channel.send(`¡Hola ${msg.author.username}! Mi nombre es ${bot.user.username}, para conocer mis comandos escribe \`${prefix}help\``);
         
-            let args = msg.content.substring(prefix.length).split(' '),
-            cmd = bot.cmds.find(cmd => cmd.name === args[0].toLowerCase() || cmd.aliases && cmd.aliases.includes(args[0].toLowerCase()));
+            const args = msg.content.substring(prefix.length).split(' ');
+            const cmd = bot.cmds.find(cmd => cmd.name === args[0].toLowerCase() || cmd.aliases && cmd.aliases.includes(args[0].toLowerCase()));
             if(!args[0] || msg.author.bot || !msg.content.startsWith(prefix)) return;
             
             /** @param {discord.User} user */
@@ -74,8 +70,8 @@ module.exports = {
                 if(cmd.nsfwOnly && !msg.channel.nsfw) return msg.reply(`Tu busqueda puede contener contenido para adultos, dirigete a un canal marcado cómo NSFW.`);
                 if(!cmd.enabled) return msg.reply('Este comando está deshabilitado temporalmente.');
                 if(!msg.member.permissions.has(cmd.memberPerms || [])) return msg.reply(`No tienes un rol que tenga los siguientes permisos para utilizar este comando:\n- ${cmd.memberPerms.map(perm => `**${bot.utils.guild.roles.permissions[perm]}**`).join(', ')}.`);
-                if(!msg.guild.me.permissions.has(cmd.botPerms || [])) return msg.reply(`Para terminar la acción requiero de un rol que tenga los siguientes permisos:\n- ${cmd.botPerms.map(perm => `**${bot.utils.guild.roles.permissions[perm]}**`).join(', ')}.`);
-                if(!msg.guild.me.permissions.has('VIEW_CHANNEL' || 'SEND_MESSAGES' || 'EMBED_LINKS')) return msg.reply(`Para usar cualquiera de mis comandos, necesito los permisos **Ver canal**, **Enviar mensajes** y **Adjuntar links**.`);
+                if(!msg.guild.members.me.permissions.has(cmd.botPerms || [])) return msg.reply(`Para terminar la acción requiero de un rol que tenga los siguientes permisos:\n- ${cmd.botPerms.map(perm => `**${bot.utils.guild.roles.permissions[perm]}**`).join(', ')}.`);
+                if(!msg.guild.members.me.permissions.has('ViewChannel' || 'SendMessages' || 'EmbedLinks')) return msg.reply(`Para usar cualquiera de mis comandos, necesito los permisos **Ver canal**, **Enviar mensajes** y **Adjuntar links**.`);
 
                 // Cooldown system
                 if(cmd.cooldown) {
@@ -98,13 +94,13 @@ module.exports = {
 
                 try {
                     cmd.run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel);
-                    bot.channels.cache.get('958831716485701713').send(`• ──────────── ✾ ──────────── •\nâ€¢ **Comando:** ${cmd.name}\nâ€¢ **Usuario:** ${msg.author.tag} (\`${msg.author.id}\`)\nâ€¢ **Servidor:** ${msg.guild.name} (\`${msg.guildId}\`)`);
+                    bot.logs.send(`• ──────────── ✾ ──────────── •\nâ€¢ **Comando:** ${cmd.name}\nâ€¢ **Usuario:** ${msg.author.tag} (\`${msg.author.id}\`)\nâ€¢ **Servidor:** ${msg.guild.name} (\`${msg.guildId}\`)`);
                 } catch (error) {
                     console.error(error);
                 }
             } else return;
-        } catch (err) {
-            bot.err({ name: this.name, type: 'event', filename: __filename, error: err });
-        }
+	} catch (err) {
+            bot.err('Error en evento', { name: this.name, type: 'event', filename: __filename, error: err });
+	}
     }
-}
+});

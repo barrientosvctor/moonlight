@@ -1,19 +1,18 @@
-let Moonlight = require('../../base/Moonlight'),
+let Event = require('../../base/models/Event'),
 discord = require('discord.js'),
 database = require('../../base/packages/database');
-module.exports = {
+module.exports = new Event({
     name: 'channelUpdate',
     /**
-     * @param {Moonlight} bot
      * @param {discord.GuildChannel} oldChannel
      * @param {discord.GuildChannel} newChannel
      */
     async run(bot, oldChannel, newChannel) {
         try {
-            let db = new database('./databases/logs.json');
+            const db = new database('./databases/logs.json');
             if(db.has(newChannel.guildId)) {
-                let embed = new discord.MessageEmbed()
-                embed.setColor('RANDOM')
+                let embed = new discord.EmbedBuilder()
+                embed.setColor('Random')
                 embed.setFooter({ text: `ID: ${newChannel.id}` })
                 if(oldChannel.name !== newChannel.name) {
                     embed.setTitle(`El nombre ${newChannel.type === 'GUILD_CATEGORY' ? 'de la categoría' : 'del canal'} ${newChannel.name} ha cambiado su nombre.`)
@@ -21,7 +20,7 @@ module.exports = {
                 }
                 if(oldChannel.topic !== newChannel.topic) {
                     embed.setTitle(`La descripción ${newChannel.type === 'GUILD_CATEGORY' ? 'de la categoría' : 'del canal'} ${newChannel.name} ha cambiado.`)
-                    embed.addFields({ name: 'Antes', value: oldChannel.topic ? oldChannel.topic : `** **` }, { name: 'Después', value: newChannel.topic ? newChannel.topic : '** **' })
+                    embed.addFields({ name: 'Antes', value: oldChannel.topic ? oldChannel.topic : `*ninguno*` }, { name: 'Después', value: newChannel.topic ? newChannel.topic : '*ninguno*' })
                 }
                 bot.channels.cache.get(await db.get(newChannel.guildId)).send({ embeds: [embed] });
             }
@@ -29,4 +28,4 @@ module.exports = {
             bot.err({ name: this.name, type: 'event', filename: __filename, error: err });
         } 
     }
-}
+});

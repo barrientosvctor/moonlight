@@ -15,11 +15,11 @@ function runFns(bot, msg, args, prefix, getUser, getMember, getRole, getChannel)
 module.exports = class Command {
     /**
      * 
-     * @typedef {{name: string, description: string, cooldown: number, aliases: object, category: string, usage: string, example: string, ownerOnly: boolean, nsfwOnly: boolean, enabled: boolean, botPerms: object, memberPerms: object, dirname: string, filename: string, run: runFns}} CmdOpts
+     * @typedef {{name: string, description: string, cooldown: number, aliases: object, category: string, usage: string, example: string, ownerOnly: boolean, nsfwOnly: boolean, enabled: boolean, botPerms: discord.PermissionsString[], memberPerms: discord.PermissionsString[], dirname: string, filename: string, run: runFns}} CmdOpts
      * @param {CmdOpts} opts
      */
     constructor(opts) {
-        /** @type {String} */
+        /** @type {string} */
         this.name = opts.name;
         /** @type {String} */
         this.description = opts.description;
@@ -39,9 +39,9 @@ module.exports = class Command {
         this.nsfwOnly = opts.nsfwOnly;
         /** @type {Boolean} */
         this.enabled = opts.enabled;
-        /** @type {String[]} */
+        /** @type {discord.PermissionsString[]} */
         this.botPerms = opts.botPerms;
-        /** @type {String[]} */
+        /** @type {discord.PermissionsString[]} */
         this.memberPerms = opts.memberPerms;
         /** @type {String} */
         this.dirname = opts.dirname;

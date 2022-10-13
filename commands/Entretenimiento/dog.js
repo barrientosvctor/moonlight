@@ -12,9 +12,9 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg) {
         try {
-            let data = await fetch('https://api.thedogapi.com/v1/images/search').then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
+            const data = await fetch('https://api.thedogapi.com/v1/images/search', { method: 'GET' }).then(res => res.json());
+            const embed = new discord.EmbedBuilder()
+            embed.setColor('Random')
             embed.setDescription('¡Mira a este lindo perro! :dog:')
             embed.setImage(data[0].url);
             return msg.channel.send({ embeds: [embed] });

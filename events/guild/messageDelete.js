@@ -1,13 +1,9 @@
-let Moonlight = require('../../base/Moonlight'),
+let Event = require('../../base/models/Event'),
 discord = require('discord.js'),
 database = require('../../base/packages/database');
-module.exports = {
+module.exports = new Event({
     name: 'messageDelete',
-    /**
-     * 
-     * @param {Moonlight} bot
-     * @param {discord.Message} msg 
-     */
+    /** @param {discord.Message} msg */
     async run(bot, msg) {
         try {
             bot.snipes.set(msg.channel.id, {
@@ -19,8 +15,8 @@ module.exports = {
             });
 	    const db = new database('./databases/logs.json');
 	    if(db.has(msg.guild.id)) {
-		const embed = new discord.MessageEmbed()
-                    .setColor('RANDOM')
+		const embed = new discord.EmbedBuilder()
+                    .setColor('Random')
                     .setTimestamp()
                     .setTitle('Mensaje eliminado.')
                     .addFields({ name: 'Mensaje', value: msg.content }, { name: 'Autor', value: msg.author.tag });
@@ -30,4 +26,4 @@ module.exports = {
             bot.err({ name: this.name, type: 'event', filename: __filename, error: err });
         }
     }
-}
+});

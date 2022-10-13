@@ -17,15 +17,15 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona a una persona del servidor para bailar con él.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            data = await fetch(`https://kawaii.red/api/gif/dance/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const data = await fetch(`https://kawaii.red/api/gif/dance/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
             
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no puedes bailar con ti mismo, eso sería raro jeje.`);
 
             embed.setDescription(`**${msg.author.username}** está bailando con **${member.user.username}**.`)
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setImage(data.response);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

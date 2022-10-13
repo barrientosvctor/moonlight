@@ -17,14 +17,14 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona a una persona para morderla.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]);
+            const member = getMember(args[1]);
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿por qué te morderías a ti mismo?`);
             if(member.user.id === bot.user.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¡No me gusta que me muerdan, prueba con otro!`);
-            let data = await fetch(`https://kawaii.red/api/gif/bite/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const data = await fetch(`https://kawaii.red/api/gif/bite/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            const embed = new discord.EmbedBuilder()
             embed.setDescription(`**${msg.author.username}** mordió a **${member.user.username}**.`)
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setImage(data.response);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

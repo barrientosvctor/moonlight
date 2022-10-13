@@ -17,14 +17,16 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, debes mencionar a la persona que vas a golpear.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            data = await fetch(`https://kawaii.red/api/gif/punch/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const data = await fetch(`https://kawaii.red/api/gif/punch/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿te harías daño a ti mismo? ¿estás loco?`);
             if(member.user.id === bot.user.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿por qué me harías daño?`);
+
             embed.setDescription(`**${msg.author.username}** golpeó a **${member.user.username}**.`)
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setImage(data.response);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

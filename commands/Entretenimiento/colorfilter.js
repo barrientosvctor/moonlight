@@ -15,14 +15,15 @@ module.exports = new Command({
     async run(bot, msg, args, prefix, getUser) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o pon el ID de un usuario de Discord.`);
-            let user = await getUser(args[1]),
-            embed = new discord.MessageEmbed();
+	    /** @type {discord.User} */
+            const user = await getUser(args[1]);
+            let embed = new discord.EmbedBuilder();
             if(!user) return msg.channel.send(`**${msg.author.username}**, el usuario no existe.`);
             if(!args[2]) return msg.channel.send(`**${msg.author.username}**, escribe el código hexadecimal del color que quieres filtrar.`);
             if(!args[2].startsWith('#')) return msg.channel.send(`**${msg.author.username}**, el código hexadecimal debe empezar con **#**.`);
             if(args[2].slice(1).length !== 6) return msg.channel.send(`**${msg.author.username}**, el código hexadecimal debe tener 6 caracteres.`);
-            embed.setColor('RANDOM')
-            embed.setImage(`https://some-random-api.ml/canvas/color?avatar=${user.displayAvatarURL({ size: 2048, format: 'png', dynamic: true })}&color=${args[2].slice(1)}`);
+            embed.setColor('Random')
+            embed.setImage(`https://some-random-api.ml/canvas/color?avatar=${user.displayAvatarURL({ size: 2048, extension: 'png' })}&color=${args[2].slice(1)}`);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {
             bot.err('Hubo un error al intentar ejecutar el comando.', { name: this.name, type: 'command', filename: __filename, channel: msg.channel, error: err });

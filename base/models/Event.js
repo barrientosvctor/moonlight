@@ -13,9 +13,11 @@ module.exports = class Event {
     * @param {EventOptions} opts
     */
     constructor(opts) {
-	/** @type {String} */
+	/** @type {discord.ClientEvents} */
 	this.name = opts.name;
+	/** @type {boolean} */
 	this.once = opts.once;
+	/** @type {runEvent} */
 	this.run = opts.run;
     }
 }

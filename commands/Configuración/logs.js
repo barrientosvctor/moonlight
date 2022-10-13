@@ -9,9 +9,8 @@ module.exports = new Command({
     category: 'Configuración',
     usage: '<set / delete>',
     example: 'set #Logs',
-    enabled: false,
-    botPerms: ['SEND_MESSAGES', 'EMBED_LINKS'],
-    memberPerms: [],
+    enabled: true,
+    ownerOnly: true,
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel) {
@@ -26,7 +25,7 @@ module.exports = new Command({
                 /** @type {discord.GuildChannel} */
                 let channel = getChannel(args[2]);
                 if(!channel) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese canal no existe.`);
-                if(!channel.permissionsFor(msg.guild.me).has('VIEW_CHANNEL') || !channel.permissionsFor(msg.guild.me).has('SEND_MESSAGES') || !channel.permissionsFor(msg.guild.me).has('EMBED_LINKS')) return msg.channel.send(`${bot.getEmoji('warning')} Me faltan alguno de los siguientes permisos para establecer los registros en ese canal:\n**-** **Ver canal**, **Enviar mensajes**, **Enviar Links**`);
+                if(!channel.permissionsFor(msg.guild.members.me).has('ViewChannel') || !channel.permissionsFor(msg.guild.members.me).has('SendMessages') || !channel.permissionsFor(msg.guild.members.me).has('EmbedLinks')) return msg.channel.send(`${bot.getEmoji('warning')} Me faltan alguno de los siguientes permisos para establecer los registros en ese canal:\n**-** **Ver canal**, **Enviar mensajes**, **Enviar Links**`);
                 if(channel.id === await db.get(msg.guildId)) return msg.channel.send(`${bot.getEmoji('error')} No se puede establecer los registros en este canal porque ya están establecidos ahí.`);
 
                 db.set(msg.guildId, channel.id);

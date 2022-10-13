@@ -8,8 +8,8 @@ module.exports = new Command({
     usage: '<@usuario | ID> [motivo]',
     example: '@George#0001 Motivo aquí',
     enabled: true,
-    botPerms: ['BAN_MEMBERS'],
-    memberPerms: ['BAN_MEMBERS'],
+    botPerms: ['BanMembers'],
+    memberPerms: ['BanMembers'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser) {
@@ -17,15 +17,16 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID de un usuario de Discord para banearlo del servidor.`);
             
             /** @type {discord.User} */
-            let user = await getUser(args[1]),
-            motivo = args.slice(2).join(' '),
-            embed = new discord.MessageEmbed();
+            const user = await getUser(args[1]);
+            let motivo = args.slice(2).join(' '),
+            embed = new discord.EmbedBuilder();
+
             if(!user) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese usuario no existe en Discord.`);
             if(!motivo) motivo = 'No se dio motivo.';
             if(motivo.length >= 511) motivo = motivo.slice(0, 508) + '...';
 
             if(user === msg.member.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no te puedes banear a ti mismo.`);
-            if(user === msg.guild.me.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes banear del servidor con mis comandos.`);
+            if(user === msg.guild.members.me.user) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes banear del servidor con mis comandos.`);
 
             await msg.guild.members.ban(user.id, { reason: motivo }).then(() => {
                 return msg.reply(`> ${bot.getEmoji('check')} **${user.tag}** (\`${user.id}\`) ha sido forzadamente baneado del servidor.`);

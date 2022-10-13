@@ -9,8 +9,8 @@ module.exports = new Command({
     usage: '<@miembro | ID> [motivo]',
     example: '@NeonDark#0001',
     enabled: true,
-    botPerms: ['KICK_MEMBERS'],
-    memberPerms: ['KICK_MEMBERS'],
+    botPerms: ['KickMembers'],
+    memberPerms: ['KickMembers'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember) {
@@ -18,9 +18,10 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del miembro que vas a expulsar.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            motivo = args.slice(2).join(' '),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            let motivo = args.slice(2).join(' '),
+            embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} Parece que este usuario no pertenece al servidor.`);
             if(!motivo) motivo = 'No se dio motivo.';
             if(motivo.length >= 511) motivo = motivo.slice(0, 508) + '...';

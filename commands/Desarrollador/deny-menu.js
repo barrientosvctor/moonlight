@@ -14,15 +14,15 @@ module.exports = new Command({
     async run(bot, msg, args, prefix, getUser) {
         try {
             if(!args[1]) return msg.channel.send(`Escribe la ID del usuario a responder.`);
-            let user = await getUser(args[1]),
-            embed = new discord.MessageEmbed();
+            const user = await getUser(args[1]);
+            let embed = new discord.EmbedBuilder();
             if(!user) return msg.channel.send(`${bot.getEmoji('error')} Ese usuario no existe en Discord.`);
             if(!args[2] || args[2] !== '|') return msg.channel.send(`Agrega un **|** para seguir con el siguiente argumento.`);
             if(!args[3]) return msg.channel.send(`Escribe un mensaje como en respuesta a la sugerencia.`);
             if(!args[4]) return msg.channel.send(`Escribe la sugerencia del usuario ${user.tag}`);
             args = args.slice(1).join(' ').split('|');
 
-            embed.setColor('RED')
+            embed.setColor('Red')
             embed.setTimestamp()
             embed.setAuthor({ name: 'Tu sugerencia fue rechazada.', iconURL: bot.user.displayAvatarURL() })
             embed.setDescription(`**¡Oh no ${user.username}!** Lamento informarte que tu sugerencia fue rechazada, si gustas puedes sugerir otras funciones en un futuro. El staff te dejó un mensaje.\n**Staff:** ${args[1]}\n\n> Tu sugerencia fue la siguiente:\n\`\`\`\n${args[2]}\`\`\``);

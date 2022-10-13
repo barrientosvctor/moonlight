@@ -13,16 +13,17 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember) {
         try {
-            let data = await fetch(`https://kawaii.red/api/gif/run/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
+            const data = await fetch(`https://kawaii.red/api/gif/run/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+            embed.setColor('Random')
             embed.setImage(data.response);
             if(!args[1]) embed.setDescription(`**${msg.author.username}** salió corriendo del chat.`);
             else {
                 /** @type {discord.GuildMember} */
-                let member = getMember(args[1]);
+                const member = getMember(args[1]);
                 if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
                 if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ¿qué sentido tiene eso?`);
+
                 embed.setDescription(`**${msg.author.username}** salió corriendo de **${member.user.username}**.`);
             }
             return msg.channel.send({ embeds: [embed] });

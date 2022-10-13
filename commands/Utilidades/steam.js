@@ -15,11 +15,13 @@ module.exports = new Command({
     async run(bot, msg, args) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe el nombre de un juego de Steam.`);
-            let data = await fetch(`https://api.popcat.xyz/steam?q=${args.slice(1).join(' ').replace(' ', '%20')}`).then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            if(!data) return msg.channel.send(`${bot.getEmoji('error')} El juego **${args.slice(1).join(' ')}** no pudo ser encontrado en Steam.`);
+
+            const data = await fetch(`https://api.popcat.xyz/steam?q=${args.slice(1).join(' ').replace(' ', '%20')}`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+
+            if(data.error) return msg.channel.send(`${bot.getEmoji('error')} El juego **${args.slice(1).join(' ')}** no pudo ser encontrado en Steam.`);
             embed.setAuthor({ name: data.name, iconURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2048px-Steam_icon_logo.svg.png' })
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setThumbnail(data.thumbnail)
             embed.setImage(data.banner)
             embed.setDescription(`${data.description}\n\n**Tipo de producto:** ${data.type}\n**Precio:** ${data.price}\n**Página web:** ${data.website}\n**Desarrolladores:** ${data.developers.map(dev => dev).join(', ')}\n**Editores:** ${data.publishers.map(pub => pub).join(', ')}`);

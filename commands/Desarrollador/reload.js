@@ -15,7 +15,7 @@ module.exports = new Command({
     async run(bot, msg, args) {
         try {
             if(!args[1]) return msg.channel.send('Debes especificar el comando que deseas reiniciar');
-            let cmd = bot.cmds.find(cmd => cmd.name === args[1].toLowerCase() || cmd.aliases && cmd.aliases.includes(args[1].toLowerCase()));
+            const cmd = bot.cmds.find(cmd => cmd.name === args[1].toLowerCase() || cmd.aliases && cmd.aliases.includes(args[1].toLowerCase()));
             if(args[1] === '--all') {
                 bot.reloadAllCommands();
                 return msg.channel.send('Todos los comandos fueron reiniciados');

@@ -9,8 +9,8 @@ module.exports = new Command({
     usage: '<@miembro | ID> [motivo]',
     example: '@Darkness#0001 Por algún motivo',
     enabled: true,
-    botPerms: ['BAN_MEMBERS'],
-    memberPerms: ['BAN_MEMBERS'],
+    botPerms: ['BanMembers'],
+    memberPerms: ['BanMembers'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember) {
@@ -18,15 +18,16 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del miembro que vayas a banear.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            motivo = args.slice(2).join(' '),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            let motivo = args.slice(2).join(' '),
+            embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese usuario no pertenece a este servidor.`);
             if(!motivo) motivo = 'No se dio motivo.';
             if(motivo.length >= 511) motivo = motivo.slice(0, 508) + '...';
             
             if(member === msg.member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no te puedes banear a ti mismo.`);
-            if(member === msg.guild.me) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes banear del servidor con mis comandos.`);
+            if(member === msg.guild.members.me) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no me puedes banear del servidor con mis comandos.`);
             if(member.roles.highest.position >= msg.member.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} No puedo banear a **${member.user.tag}** debido a que tiene un rol jerárquicamente igual o superior al tuyo.`);
             //if(member.roles.highest.position >= msg.guild.me.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} Me resulta imposible banear a **${member.user.tag}** debido a que jerárquicamente tiene un rol igual o superior al mío.`);
             if(!member.manageable) return msg.channel.send(`${bot.getEmoji('error')} Me resulta imposible banear a **${member.user.tag}** debido a que jerárquicamente tiene un rol igual o superior al mío.`);

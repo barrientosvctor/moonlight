@@ -10,14 +10,14 @@ module.exports = new Command({
     usage: '<nuevo prefix>',
     example: '!!',
     enabled: true,
-    memberPerms: ['MANAGE_GUILD'],
+    memberPerms: ['ManageGuild'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe un nuevo prefix para el bot.`);
             if(args[1].length > 4) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, el nuevo prefix no debe ser mayor a 4 carácteres.`);
-            let db = new database('./databases/prefix.json');
+            const db = new database('./databases/prefix.json');
 
             if(args[1] === 'm!') {
                 if(db.has(`${msg.guildId}`)) {

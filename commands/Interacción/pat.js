@@ -17,14 +17,14 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona a la persona que quieras darle una palmadita.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            data = await fetch(`https://nekos.life/api/v2/img/pat`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const data = await fetch(`https://nekos.life/api/v2/img/pat`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
 
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
-            if(member.user.id === msg.author.id) embed.setDescription(`**${msg.author.username}** se dio una palmadita a si mismo.`);
+            if(member.user.id === msg.author.id) return msg.channel.send("No puedes darte una palmada a ti mismo, eso sería raro jeje.");
             else embed.setDescription(`**${msg.author.username}** le dio una palmadita a **${member.user.username}**.`)
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setImage(data.url);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

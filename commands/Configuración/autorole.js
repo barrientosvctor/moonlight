@@ -12,29 +12,28 @@ module.exports = new Command({
     ownerOnly: false,
     nsfwOnly: false,
     enabled: true,
-    botPerms: ['MANAGE_ROLES'],
-    memberPerms: ['MANAGE_GUILD'],
+    botPerms: ['ManageRoles'],
+    memberPerms: ['ManageGuild'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole) {
         try {
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe una de las siguientes opciones:\n\`set\`: Establece un nuevo rol automático en el servidor.\n\`delete\`: Elimina el rol ya establecido del servidor.\n\`list\`: Muestra los roles que han sido establecidos para cada tipo de usuario en el servidor.`);
-            let db = new database('./databases/autorole.json'),
-            embed = new discord.MessageEmbed(),
-            dbValue;
+            const db = new database('./databases/autorole.json');
+            const embed = new discord.EmbedBuilder();
+	    /** @type {string} */
+            let dbValue;
 
             if(args[2] === 'user') dbValue = `autorole_user-${msg.guildId}`;
-            else dbValue = `autorole_bot-${msg.guildId}`;
+            else if(args[2] === 'bot') dbValue = `autorole_bot-${msg.guildId}`;
 
             if(args[1] === 'set') {
                 if(!args[2]) return msg.channel.send(`**${msg.author.username}**, escribe \`user\` o \`bot\` para especificar el tipo de usuario al que se le dará algún rol.`);
                 if(!['user', 'bot'].includes(args[2])) return msg.channel.send(`${bot.getEmoji('error')} Tipo de usuario no válido.`);
 
                 if(!args[3]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del rol que le vas a asignar a los nuevos ${args[2] === 'user' ? 'usuarios' : 'bots'}.`)
-                /**
-                 * @type {discord.Role}
-                 */
-                let role = getRole(args[3]);
+		/** @type {discord.Role} */
+                const role = getRole(args[3]);
                 if(!role) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese rol no existe, prueba a usar otro.`);
                 if(role.position >= msg.guild.me.roles.highest.position) return msg.channel.send(`**${msg.author.username}**, no puedo añadir este rol debido a que jerárquicamente tiene un puesto mayor o igual al mío.`);
                 if(role.position >= msg.member.roles.highest.position) return msg.channel.send(`**${msg.author.username}**, no puedo añadir el rol ya que jerárquicamente tiene un puesto mayor o igual al tuyo!`);
@@ -54,7 +53,7 @@ module.exports = new Command({
                 }
             } else if(args[1] === 'list') {
                 embed.setAuthor({ name: msg.author.tag, iconURL: msg.author.displayAvatarURL({ dynamic: true }) })
-                embed.setColor('RANDOM')
+                embed.setColor('Random')
                 embed.setTitle('Lista de roles')
                 embed.addFields({ name: 'Usuario', value: db.has(`autorole_user-${msg.guildId}`) ? `<@&${await db.get(`autorole_user-${msg.guildId}`)}>` : 'Ninguno' }, { name: 'Bot', value: db.has(`autorole_bot-${msg.guildId}`) ? `<@&${await db.get(`autorole_bot-${msg.guildId}`)}>` : 'Ninguno' })
                 embed.setFooter({ text: msg.guild.name, iconURL: msg.guild.iconURL({ dynamic: true }) });

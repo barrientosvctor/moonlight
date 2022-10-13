@@ -3,11 +3,11 @@ fs = require('fs');
 database = require('./packages/database');
 module.exports = class bot extends discord.Client {
     constructor() {
-        super({ intents: 1999, allowedMentions: { repliedUser: false, parse: ['users'] } });
+        super({ intents: 34767, allowedMentions: { repliedUser: false, parse: ['users'] }, partials: [discord.Partials.User, discord.Partials.Channel, discord.Partials.Message, discord.Partials.GuildMember] });
         this.cmds = new discord.Collection();
         this.aliases = new discord.Collection();
         this.snipes = new discord.Collection();
-        this.bl_url = ['whatismyip.com', 'bit.ly', 'adf.ly', 'is.gd', 'tinyurl.com', 'iplogger.com', 'discords.gift', 'discord.gift', 'whatismyip.com', 'whatsmyip.org', 'whatismyipaddress.com'];
+        this.bl_url = ['whatismyip.com', 'bit.ly', 'adf.ly', 'is.gd', 'tinyurl.com', 'iplogger.com', 'discords.gift', 'discord.gift', 'whatsmyip.com', 'whatsmyip.org', 'whatismyipaddress.com'];
         this.nsfw_url = ['pornhub.com', 'nhentai.to', 'hentaila.com', 'hentaihaven.xxx', 'rule34.xxx', 'xvideos.com', 'xnxx.com', 'chochox.com', '4tube.com', 'goku.com', 'porn.com', 'nhentai.xxx', 'nhentai.io', 'nhentai.net'];
         this.logs = new discord.WebhookClient({ id: process.env.logs_id, token: process.env.logs_token });
         this.utils = require('./others/utils');
@@ -17,15 +17,16 @@ module.exports = class bot extends discord.Client {
       this.login(process.env.login);
     }
     async getPrefix(guild) {
-        let db = new database('./databases/prefix.json'),
-        prefix;
+        const db = new database('./databases/prefix.json');
+        let prefix;
         if(db.has(`${guild}`)) prefix = await db.get(guild);
         else prefix = '!!';
         return prefix;
     }
     /**
      * @param {String} message
-     * @param {Object} data
+     * @typedef {{ name: string, type: string, filename: string, channel: discord.TextChannel, error: Error }} DataOptions
+     * @param {DataOptions} data
      */
     err(message, data) {
       //bot.err('Contenido del mensaje.', { name: this.name, type: 'command', filename: __filename, channel: msg.channel, error: err });
@@ -34,7 +35,7 @@ module.exports = class bot extends discord.Client {
       if(!data.filename) throw new Error('No se puede enviar un error sin el dato "filename".');
       if(!data.error) throw new Error('No se puede enviar un error sin el dato "error".');
       if(typeof data.type !== 'string') throw new TypeError(data.filename + ': El tipo de dato "type" debe ser un string.');
-      let embed = new discord.MessageEmbed();
+      let embed = new discord.EmbedBuilder();
       embed.setDescription(`\`\`\`\n${data.error}\n\`\`\``);
       if(data.type === 'command') {
         if(!message) throw new Error('No se puede enviar un error en un comando sin el dato "message"');
@@ -83,13 +84,6 @@ module.exports = class bot extends discord.Client {
         return emoji[Math.floor(Math.random() * emoji.length)];
       } else {
         return emoji;
-      }
-    }
-    checkAttachments(point) {
-      if(point.attachments.size >= 1) {
-        return point.attachments.map(p => p.url).join('\n');
-      } else {
-        return 'No adjuntó nada.';
       }
     }
     /**

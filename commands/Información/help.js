@@ -14,7 +14,7 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel) {
         try {
-            let embed = new discord.MessageEmbed();
+            let embed = new discord.EmbedBuilder();
             if(!args[1]) {
                 let categories = [];
                 fs.readdirSync('./commands/').forEach(dir => {
@@ -31,15 +31,15 @@ module.exports = new Command({
                     };
                     categories.push(object);
                 });
-                let button = new discord.MessageActionRow().addComponents(
-                    new discord.MessageButton()
+                let button = new discord.ActionRowBuilder().addComponents(
+                    new discord.ButtonBuilder()
                     .setLabel('¡Invitame!')
-                    .setStyle('LINK')
+                    .setStyle(discord.ButtonStyle.Link)
                     .setURL(bot.application.url)
                     .setEmoji('🌝'),
-                    new discord.MessageButton()
+                    new discord.ButtonBuilder()
                     .setLabel('Top.gg')
-                    .setStyle('LINK')
+                    .setStyle(discord.ButtonStyle.Link)
                     .setURL(`https://top.gg/bot/${bot.user.id}`)
                     .setEmoji('<:topgg:968716818581712967>'));
 
@@ -48,7 +48,7 @@ module.exports = new Command({
                 embed.setTitle('Lista de comandos:')
                 embed.setDescription(`**-** Para más información de un comando, escribe \`${prefix}${this.name} comando\`\n**Prefix:** !!\n**Prefix in-server:** ${prefix}`)
                 embed.addFields(categories)
-                embed.setFooter({ text: msg.guild.name, iconURL: msg.guild.iconURL({ dynamic: true }) });
+                embed.setFooter({ text: msg.guild.name, iconURL: msg.guild.iconURL({ extension: "png" }) });
                 return msg.reply({ embeds: [embed], components: [button] });
             } else {
                 let cmd = bot.cmds.get(args[1]) || bot.cmds.get(bot.aliases.get(args[1]));

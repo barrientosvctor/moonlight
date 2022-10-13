@@ -9,8 +9,8 @@ module.exports = new Command({
     usage: '<add / remove / delete> <@miembro | ID> <@rol | ID>',
     example: 'add @Karn#0001 @Moderador',
     enabled: true,
-    botPerms: ['MANAGE_ROLES'],
-    memberPerms: ['MANAGE_ROLES'],
+    botPerms: ['ManageRoles'],
+    memberPerms: ['ManageRoles'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole) {
@@ -20,20 +20,20 @@ module.exports = new Command({
             if(!args[2]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID de un miembro del servidor.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[2]);
+            const member = getMember(args[2]);
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese usuario no pertenece al servidor.`);
             
             if(!args[3]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del rol.`);
-            /** @type {discord.Role} */
-            let role = getRole(args[3]),
-            embed = new discord.MessageEmbed();
-            if(!role) return msg.channel.send(`${bot.getEmoji('error')} Ese rol no existe en el servidor.`);
 
+            /** @type {discord.Role} */
+            const role = getRole(args[3]);
+            let embed = new discord.EmbedBuilder();
+            if(!role) return msg.channel.send(`${bot.getEmoji('error')} Ese rol no existe en el servidor.`);
 
             if(args[1] === 'add') {
                 if(!args[3]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del rol que vas a añadirle a ${member.user.tag}`);
                 if(role.position >= msg.member.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} No puedes otorgar ese rol debido a que jerárquicamente es igual o superior al tuyo.`);
-                if(role.position >= msg.guild.me.roles.highest.position) return msg.channel.send(`No puedo añadir ese rol debido a que jerárquicamente igual o superior al mío.`);
+                if(role.position >= msg.guild.members.me.roles.highest.position) return msg.channel.send(`No puedo añadir ese rol debido a que jerárquicamente igual o superior al mío.`);
                 if(role.managed) return msg.channel.send(`${bot.getEmoji('error')} No puedes otorgar un rol que está gestionado.`);
                 if(member.roles.cache.has(role.id)) return msg.reply(`> **${member.user.tag}** ya tenía ese rol.`);
 
@@ -43,7 +43,7 @@ module.exports = new Command({
             } else if(args[1] === 'remove') {
                 if(!args[3]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del rol que vas a quitarle a ${member.user.tag}`);
                 if(role.position >= msg.member.roles.highest.position) return msg.channel.send(`${bot.getEmoji('error')} No puedes quitar ese rol debido a que jerárquicamente es igual o superior al tuyo.`);
-                if(role.position >= msg.guild.me.roles.highest.position) return msg.channel.send(`No puedo quitar ese rol debido a que es jerárquicamente igual o superior al mío.`);
+                if(role.position >= msg.guild.members.me.roles.highest.position) return msg.channel.send(`No puedo quitar ese rol debido a que es jerárquicamente igual o superior al mío.`);
                 if(role.managed) return msg.channel.send(`${bot.getEmoji('error')} No puedes quitarle un rol que está gestionado.`);
                 if(!member.roles.cache.has(role.id)) return msg.reply(`> **${member.user.tag}** no tenía ese rol.`);
 

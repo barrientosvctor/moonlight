@@ -12,11 +12,11 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg) {
         try {
-            let data = await fetch(`https://kawaii.red/api/gif/scared/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
-            embed.setImage(data.response);
-            embed.setDescription(`**${msg.author.username}** se siente asustado.`);
+            const data = await fetch(`https://kawaii.red/api/gif/scared/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            const embed = new discord.EmbedBuilder()
+            .setColor('Random')
+            .setImage(data.response)
+            .setDescription(`**${msg.author.username}** se siente asustado.`);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {
             bot.err('Hubo un error al intentar ejecutar el comando.', { name: this.name, type: 'command', filename: __filename, channel: msg.channel, error: err });

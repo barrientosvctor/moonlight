@@ -12,8 +12,8 @@ module.exports = new Command({
     usage: '<@miembro | ID> <tiempo> [motivo]',
     example: '@Fernando#0001',
     enabled: false,
-    botPerms: ['MODERATE_MEMBERS'],
-    memberPerms: ['MODERATE_MEMBERS'],
+    botPerms: ['ModerateMembers'],
+    memberPerms: ['ModerateMembers'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember) {
@@ -21,12 +21,15 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona o escribe la ID del miembro que vas a aislar del servidor.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            time = args[2],
-            motivo = args.slice(3).join(' '),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const time = args[2];
+            let motivo = args.slice(3).join(' '),
+            embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} Parece que ese usuario no pertenece al servidor.`);
+	    if(!motivo) motivo = 'No especificado.'
             if(!time) return msg.channel.send(`${bot.getEmoji('error')} Escribe un tiempo válido.`);
+	    if (member === msg.guild.members.me) return msg.channel.send(`${bot.getEmoji('error')} No puedes aislarme con mis propios comandos.`);
 
             await member.timeout(ms(time), motivo).then(() => {
                 return msg.reply(`> ${bot.getEmoji('check')} **${member.user.tag}** ha sido aislado del servidor por ${humanize(ms(time))}.`);

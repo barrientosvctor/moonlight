@@ -12,9 +12,9 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg) {
         try {
-            let data = await fetch('https://randomfox.ca/floof/').then(res => res.json()),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
+            const data = await fetch('https://randomfox.ca/floof/', { method: 'GET' }).then(res => res.json());
+            const embed = new discord.EmbedBuilder()
+            embed.setColor('Random')
             embed.setDescription(`Mira este lindo zorro. :fox:`)
             embed.setImage(data.image);
             return msg.channel.send({ embeds: [embed] });

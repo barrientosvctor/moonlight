@@ -18,7 +18,7 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, escribe una URL para acortar.`);
             if(!http_validation.test(args[1])) return msg.channel.send(`${bot.getEmoji('error')} La URL que proporcionaste no es válida, asegurate de escribirlo bien o intentalo de nuevo más tarde.`);
             else {
-                if(bot.bl_url.some(url => args[1].toLowerCase().includes(url))) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, la URL que escribiste está en la lista negra del bot.`);
+                if(bot.bl_url.some(url => args[1].toLowerCase().includes(url)) || bot.nsfw_url.some(url => args[1].toLowerCase().includes(url))) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, la URL que escribiste está en la lista negra del bot.`);
                 if(!args[2]) {
                     shortener.shorten(args[1], res => {
                         if(res === 'Error: The shortened URL you picked already exists, please choose another.') return msg.channel.send(`${bot.getEmoji('error')} La URL ya existe, prueba con otra.`);

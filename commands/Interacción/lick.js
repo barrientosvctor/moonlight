@@ -17,14 +17,16 @@ module.exports = new Command({
             if(!args[1]) return msg.channel.send(`**${msg.author.username}**, menciona a la persona que quieres lamer.`);
 
             /** @type {discord.GuildMember} */
-            let member = getMember(args[1]),
-            data = await fetch(`https://kawaii.red/api/gif/lick/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json()),
-            embed = new discord.MessageEmbed();
+            const member = getMember(args[1]);
+            const data = await fetch(`https://kawaii.red/api/gif/lick/token=${process.env.kawaii_api_key}/`, { method: 'GET' }).then(res => res.json());
+            let embed = new discord.EmbedBuilder();
+
             if(!member) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no pude encontrar a esa persona en el servidor.`);
             if(member.user.id === msg.author.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, no puedes lamer a ti mismo, eso sería raro (de por si ya es raro lamer a otro).`);
             if(member.user.id === bot.user.id) return msg.channel.send(`${bot.getEmoji('error')} **${msg.author.username}**, ew no, intenta con otro.`);
+
             embed.setDescription(`¡**${msg.author.username}** está lamiendo a **${member.user.username}**!`)
-            embed.setColor('RANDOM')
+            embed.setColor('Random')
             embed.setImage(data.response);
             return msg.channel.send({ embeds: [embed] });
         } catch (err) {

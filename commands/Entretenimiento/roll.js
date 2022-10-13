@@ -11,9 +11,9 @@ module.exports = new Command({
     filename: __filename,
     async run(bot, msg) {
         try {
-            let intento = Math.floor(Math.random() * 7),
-            embed = new discord.MessageEmbed();
-            embed.setColor('RANDOM')
+            const intento = Math.floor(Math.random() * 7);
+            let embed = new discord.EmbedBuilder();
+            embed.setColor('Random')
             if(intento === 1) {
                 embed.setDescription(`${msg.author.username}, tiraste el dado, y cayó: **1**`)
                 embed.setImage('https://i.imgur.com/SVNKSUH.png');
