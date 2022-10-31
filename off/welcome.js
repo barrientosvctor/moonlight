@@ -1,5 +1,3 @@
-// COMMAND IN PROGRESS
-
 let Command = require('../../base/models/Command'),
 discord = require('discord.js'),
 database = require('../../base/packages/database');
@@ -7,13 +5,13 @@ module.exports = new Command({
     name: 'welcome',
     description: 'Establece el mensaje de bienvenidas a los nuevos usuarios en el servidor.',
     cooldown: 3,
-    aliases: ['greeting'],
+    aliases: ['greetings'],
     category: 'Configuración',
-    usage: '<set / add / edit / remove / delete> <opción>',
+    usage: '<set / delete> <Mensaje de bienvenida>',
     example: 'edit texto Hola',
     enabled: false,
-    botPerms: ['SEND_MESSAGES', 'EMBED_LINKS'],
-    memberPerms: ['MANAGE_GUILD'],
+    botPerms: ['SendMessages', 'EmbedLinks'],
+    memberPerms: ['ManageGuild'],
     dirname: __dirname,
     filename: __filename,
     async run(bot, msg, args, prefix, getUser, getMember, getRole, getChannel) {

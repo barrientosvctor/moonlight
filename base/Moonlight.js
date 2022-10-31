@@ -1,6 +1,7 @@
 let discord = require('discord.js'),
-fs = require('fs');
+fs = require('fs'),
 database = require('./packages/database');
+
 module.exports = class bot extends discord.Client {
     constructor() {
         super({ intents: 34767, allowedMentions: { repliedUser: false, parse: ['users'] }, partials: [discord.Partials.User, discord.Partials.Channel, discord.Partials.Message, discord.Partials.GuildMember] });
@@ -16,6 +17,7 @@ module.exports = class bot extends discord.Client {
       ['command', 'event', 'errors'].forEach(handler => require(`./handlers/${handler}`)(this));
       this.login(process.env.login);
     }
+
     async getPrefix(guild) {
         const db = new database('./databases/prefix.json');
         let prefix;
