@@ -1,4 +1,4 @@
-import { ChannelType, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { ChannelType, GuildTextBasedChannel } from "discord.js";
 import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
@@ -15,7 +15,7 @@ export default new CommandBuilder({
             const channel = getChannel(args[1]) || msg.channel as GuildTextBasedChannel;
             if (!channel) return msg.reply(`Ese canal no existe en el servidor.`);
 
-            const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!, {});
+            const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);
             let info: string = "";
 
             switch (channel.type) {
