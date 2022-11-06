@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { GuildBasedChannel, Message } from "discord.js";
 import { Moonlight } from "../Moonlight";
 
 interface CommandBuilderOptions {
@@ -9,7 +9,7 @@ interface CommandBuilderOptions {
     usage?: string;
     example?: string;
     ownerOnly?: boolean;
-    run: (bot: Moonlight, msg: Message, args: Array<string>, prefix: string) => void;
+    run: (bot: Moonlight, msg: Message, args: Array<string>, prefix: string, getChannel: (channel: string) => GuildBasedChannel | undefined) => void;
 }
 
 export class CommandBuilder {

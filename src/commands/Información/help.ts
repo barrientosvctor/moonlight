@@ -14,7 +14,7 @@ export default new CommandBuilder({
             if (!args[1]) {
                 embed.setTitle("Lista de comandos")
                 embed.setAuthor({ name: msg.author.tag, iconURL: msg.author.displayAvatarURL({ size: 2048, extension: "png" }) })
-                embed.setDescription(`Prefix actual: \`${prefix}\`\nPara saber más información acerca de un comando escribe \`${prefix}${this.name} ${this.usage}\`\n${bot.categories.filter(c => c.name !== "Desarrollador").map(category => `**${category.name}**\n${category.commands.map(command => `\`${command.slice(0, -3)}\``).join(", ")}`).join("\n\n")}`)
+                embed.setDescription(`Prefix actual: \`${prefix}\`\nPara saber más información acerca de un comando escribe \`${prefix}${this.name} ${this.usage}\`\n\n${bot.categories.filter(c => c.name !== "Desarrollador").map(category => `**${category.name}**\n${category.commands.map(command => `\`${command.slice(0, -3)}\``).join(", ")}`).join("\n\n")}`)
                 embed.setColor("Random")
                 embed.setFooter({ text: msg.guild!.name, iconURL: msg.guild?.iconURL({ extension: "png", size: 2048 }) || undefined });
             } else {

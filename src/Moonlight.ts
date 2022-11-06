@@ -1,6 +1,7 @@
 import { Client, Collection, DiscordAPIError, DMChannel, EmbedBuilder, GuildMember, NewsChannel, PartialDMChannel, PrivateThreadChannel, PublicThreadChannel, TextChannel, User, VoiceChannel, WebhookClient } from "discord.js";
 import { CommandHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
+import validations from "./utils/validations.json";
 
 enum Type {
     Command = 1,
@@ -14,7 +15,19 @@ interface ErrorDataOptions {
     error: Error | DiscordAPIError | unknown;
 }
 
-export class Moonlight extends Client {
+interface MoonlightClassContent {
+    commands: Collection<string, CommandBuilder>;
+    categories: Collection<string, { name: string; commands: Array<string>; }>;
+    aliases: Collection<string, string>;
+    hook: WebhookClient;
+    utils: typeof validations;
+    begin(): void;
+    error(message: string, data: ErrorDataOptions): void;
+    isOwnerCommand(commandName: string): boolean;
+    isOwner(user: GuildMember | User): boolean;
+}
+
+export class Moonlight extends Client implements MoonlightClassContent {
     public constructor() {
         super({ intents: 33743, allowedMentions: { repliedUser: false } });
     }
@@ -23,6 +36,7 @@ export class Moonlight extends Client {
     public categories: Collection<string, { name: string; commands: Array<string>; }> = new Collection();
     public aliases: Collection<string, string> = new Collection();
     public hook: WebhookClient = new WebhookClient({ id: process.env.HOOK_ID!, token: process.env.HOOK_TOKEN! });
+    public utils = validations;
 
     public begin(): void {
         CommandHandler(this);
@@ -30,7 +44,7 @@ export class Moonlight extends Client {
         this.login(process.env.BOT_TOKEN);
     }
 
-    public error(message: string, data: ErrorDataOptions) {
+    public error(message: string, data: ErrorDataOptions): void {
         const errorEmbed = new EmbedBuilder();
         errorEmbed.setDescription(`\`\`\`\n${data.error}\n\`\`\``)
         errorEmbed.setFooter({ text: "Moonlight Logs", iconURL: this.user?.displayAvatarURL() })
