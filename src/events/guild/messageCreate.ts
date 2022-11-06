@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { EventBuilder } from "../../structures/EventBuilder";
 
@@ -23,7 +24,7 @@ export default new EventBuilder({
                 }
             } else return;
         } catch (err) {
-            console.error(err);
+            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
         }
     }
 });

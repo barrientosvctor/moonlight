@@ -1,4 +1,5 @@
 import { EmbedBuilder } from "discord.js";
+import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -37,7 +38,7 @@ export default new CommandBuilder({
             }
             return msg.reply({ embeds: [embed] });
         } catch (err) {
-            console.error(err);
+            bot.error("Hubo un error al intentar obtener los comandos del bot.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
         }
     }
 });

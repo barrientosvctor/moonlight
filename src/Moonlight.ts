@@ -1,4 +1,4 @@
-import { BaseGuildTextChannel, Client, Collection, DiscordAPIError, EmbedBuilder, GuildMember, User, WebhookClient } from "discord.js";
+import { Client, Collection, DiscordAPIError, DMChannel, EmbedBuilder, GuildMember, NewsChannel, PartialDMChannel, PrivateThreadChannel, PublicThreadChannel, TextChannel, User, VoiceChannel, WebhookClient } from "discord.js";
 import { CommandHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
 
@@ -10,8 +10,8 @@ enum Type {
 interface ErrorDataOptions {
     name: string;
     type: Type;
-    channel?: BaseGuildTextChannel | WebhookClient;
-    error: Error | DiscordAPIError;
+    channel?: DMChannel | PartialDMChannel | NewsChannel | TextChannel | PrivateThreadChannel | PublicThreadChannel<true> | VoiceChannel;
+    error: Error | DiscordAPIError | unknown;
 }
 
 export class Moonlight extends Client {
@@ -47,7 +47,7 @@ export class Moonlight extends Client {
     }
 
     public isOwnerCommand(commandName: string): boolean {
-        const commandsList: Array<string> = this.categories.filter(ae => ae.name === "Desarrollador").map(ae => ae.commands.toString().slice(0, -3));
+        const commandsList: Array<string> = this.categories.filter(category => category.name === "Desarrollador").map(category => category.commands.toString().slice(0, -3));
 
         if (commandsList.includes(commandName)) return true;
         else return false;

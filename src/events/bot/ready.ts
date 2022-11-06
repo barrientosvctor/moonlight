@@ -1,4 +1,5 @@
 import { ActivityType } from "discord.js";
+import Type from "../../Moonlight";
 import { EventBuilder } from "../../structures/EventBuilder";
 
 export default new EventBuilder({
@@ -10,7 +11,7 @@ export default new EventBuilder({
             console.log(`¡${bot.user?.tag} ha iniciado a Discord!`);
             bot.user?.setPresence({ activities: [{ name: "Reprogramando a TypeScript.", type: ActivityType.Watching }], status: "dnd" });
         } catch (err) {
-            console.error(err);
+            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
         }
     }
 });
