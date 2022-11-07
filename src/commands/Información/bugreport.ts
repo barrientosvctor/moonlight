@@ -9,6 +9,7 @@ export default new CommandBuilder({
     aliases: ["report", "bug"],
     usage: "<reporte>",
     example: "Reporte de ejemplo.",
+    enabled: true,
     async run(bot, msg, args) {
         try {
             if (!args[1]) return msg.reply(`**${msg.author.username}**, escribe el reporte de algún bug que hayas encontrado en el bot aquí. Recuerda que puedes adjuntar imagenes o vídeos que aporten a evidenciar de mejor manera el bug.\n__Nota:__ Cualquier reporte o adjunto sin sentido será rechazado.`);

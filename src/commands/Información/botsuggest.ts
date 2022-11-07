@@ -9,6 +9,7 @@ export default new CommandBuilder({
     aliases: ["botsuggestion"],
     usage: "<sugerencia>",
     example: "Sugerencia de ejemplo.",
+    enabled: true,
     async run(bot, msg, args) {
         try {
             if (!args[1]) return msg.reply(`**${msg.author.username}**, escribe la sugerencia que vas a enviar al staff. Recuerda que puedes adjuntar imagenes o vídeos que aporten a la sugerencia.\n__Nota:__ Cualquier sugerencia o adjunto sin sentido será rechazado.`);

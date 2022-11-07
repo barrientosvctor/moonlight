@@ -10,6 +10,7 @@ export default new CommandBuilder({
     aliases: ["chinfo", "channelinf", "chinf"],
     usage: "[#canal | ID]",
     example: "#general",
+    enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember, getChannel) {
         try {
             const channel = getChannel(args[1]) || msg.channel as GuildTextBasedChannel;

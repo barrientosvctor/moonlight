@@ -8,6 +8,7 @@ export default new CommandBuilder({
     description: "Muestra información del servidor.",
     cooldown: 3,
     aliases: ["svinfo", "serverinf", "svinf"],
+    enabled: true,
     async run(bot, msg) {
         try {
             const data = await fetch(`https://discord.com/api/v10/guilds/${msg.guildId}`, {

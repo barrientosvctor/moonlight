@@ -8,6 +8,7 @@ export default new CommandBuilder({
     cooldown: 3,
     usage: "[comando]",
     example: "ban",
+    enabled: true,
     async run(bot, msg, args, prefix) {
         try {
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);

@@ -8,6 +8,7 @@ export default new CommandBuilder({
     cooldown: 3,
     usage: "<código>",
     example: "2+2",
+    enabled: true,
     ownerOnly: true,
     async run(bot, msg, args) {
         const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);

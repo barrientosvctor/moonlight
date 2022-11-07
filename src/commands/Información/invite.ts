@@ -8,6 +8,7 @@ export default new CommandBuilder({
     description: "Aquí está el botón para invitar al bot a su servidor.",
     cooldown: 3,
     aliases: ["iv"],
+    enabled: true,
     async run(bot, msg) {
         try {
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)

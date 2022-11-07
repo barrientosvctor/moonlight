@@ -60,6 +60,12 @@ export class Moonlight extends Client implements MoonlightClassContent {
         console.error(data.error);
     }
 
+    public replyMessage(message: string, data): string {
+	const messageContent: string = message;
+	let emojiField: string = "";
+	return "A";
+    }
+
     public isOwnerCommand(commandName: string): boolean {
         const commandsList: Array<string> = this.categories.filter(category => category.name === "Desarrollador").map(category => category.commands.toString().slice(0, -3));
 

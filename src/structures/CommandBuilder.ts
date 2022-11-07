@@ -8,6 +8,7 @@ interface CommandBuilderOptions {
     aliases?: Array<string>;
     usage?: string;
     example?: string;
+    enabled?: boolean;
     ownerOnly?: boolean;
     run: (bot: Moonlight, msg: Message, args: Array<string>, prefix: string, getUser: (user: string) => Promise<User | undefined>, getMember: (member: string) => GuildMember | undefined, getChannel: (channel: string) => GuildBasedChannel | undefined, getRole: (role: string) => Role | undefined) => void;
 }
@@ -19,6 +20,7 @@ export class CommandBuilder {
     public aliases?: CommandBuilderOptions["aliases"];
     public usage?: CommandBuilderOptions["usage"];
     public example?: CommandBuilderOptions["example"];
+    public enabled?: CommandBuilderOptions["enabled"];
     public ownerOnly?: CommandBuilderOptions["ownerOnly"];
     public run: CommandBuilderOptions["run"];
 
@@ -29,6 +31,7 @@ export class CommandBuilder {
         this.aliases = options.aliases;
         this.usage = options.usage;
         this.example = options.example;
+        this.enabled = options.enabled;
         this.ownerOnly = options.ownerOnly;
         this.run = options.run;
     }

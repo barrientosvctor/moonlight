@@ -10,6 +10,7 @@ export default new CommandBuilder({
     aliases: ["userinf", "usrinf", "usrinfo"],
     usage: "[@usuario | ID]",
     example: "Dazt#0001",
+    enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember, getChannel, getRole) {
         try {
             const user = await getUser(args[1]) || msg.member?.user;

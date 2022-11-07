@@ -9,6 +9,7 @@ export default new CommandBuilder({
     aliases: ["roleinf", "rinfo"],
     usage: "[@rol | ID]",
     example: "@Usuarios",
+    enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember, getChannel, getRole) {
         try {
             if (!args[1]) return msg.reply(`Escribe el rol`);

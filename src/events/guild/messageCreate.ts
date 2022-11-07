@@ -58,6 +58,7 @@ export default new EventBuilder({
             }
 
             if (command) {
+                if (!command.enabled && !bot.isOwner(msg.author)) return msg.reply(`Este comando está deshabilitado temporalmente. Intenta más tarde.`);
                 if (command.ownerOnly && !bot.isOwner(msg.author)) return;
                 if (!bot.isOwner(msg.author)) return msg.channel.send("Los comandos no están disponibles en este momento.");
 

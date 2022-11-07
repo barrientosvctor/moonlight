@@ -9,6 +9,7 @@ export default new CommandBuilder({
     description: "Muestra información acerca del bot.",
     cooldown: 3,
     aliases: ["bot"],
+    enabled: true,
     async run(bot, msg, args, prefix) {
         try {
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)
