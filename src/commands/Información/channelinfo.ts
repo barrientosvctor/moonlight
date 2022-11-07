@@ -10,7 +10,7 @@ export default new CommandBuilder({
     aliases: ["chinfo", "channelinf", "chinf"],
     usage: "[#canal | ID]",
     example: "#general",
-    async run(bot, msg, args, prefix, getChannel) {
+    async run(bot, msg, args, prefix, getUser, getMember, getChannel) {
         try {
             const channel = getChannel(args[1]) || msg.channel as GuildTextBasedChannel;
             if (!channel) return msg.reply(`Ese canal no existe en el servidor.`);

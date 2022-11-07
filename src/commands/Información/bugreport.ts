@@ -22,7 +22,7 @@ export default new CommandBuilder({
                 .setStyle(ButtonStyle.Danger)
                 .setLabel("No")
                 .setCustomId("no")
-            )
+            );
 
             const confirm = await msg.reply({ content: `¿Estás seguro de enviar este reporte?`, components: [row] });
             const collector = confirm.createMessageComponentCollector<ComponentType.Button>({ filter: (m: Interaction) => m.user.id === msg.author.id, max: 1, maxUsers: 1, time: 20_000 });
