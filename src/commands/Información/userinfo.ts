@@ -17,7 +17,7 @@ export default new CommandBuilder({
             const data = await fetch(`https://discord.com/api/v10/users/${user?.id}`, { method: "get", headers: { Authorization: `Bot ${process.env.BOT_TOKEN}` } }).then(res => res.json());
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);
 
-            if (!user) return msg.reply(`No se encontró el usuario.`);
+            if (!user) return msg.reply(bot.replyMessage("El usuario no fue encontrado.", { emoji: "error" }));
 
             embed.setColor(data.banner_color || "Random")
             if (!msg.guild?.members.cache.get(user.id)) {

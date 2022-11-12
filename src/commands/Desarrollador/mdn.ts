@@ -12,14 +12,14 @@ export default new CommandBuilder({
     ownerOnly: true,
     async run(bot, msg, args) {
 	try {
-	    if (!args[1]) return msg.reply(`Escribe lo que quieres buscar en la documentación.`);
+	    if (!args[1]) return msg.channel.send(bot.replyMessage("escribe lo que quieres buscar en la documentación.", { mention: msg.author.username, emoji: "noargs" }));
 
 	    const data = await fetch(`https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(args.slice(1).join(" "))}&locale=es`).then(res => res.json());
 	    let message: Array<string> = [];
 
 	    console.log(data.documents);
 	    for (let x = 0; x < data.documents.length; x++) {
-		message.push(`${x+1}. ${data.documents[x].title}`);
+			message.push(`${x+1}. ${data.documents[x].title}`);
 	    }
 	    console.log(message);
 

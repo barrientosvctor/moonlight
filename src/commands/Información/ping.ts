@@ -8,7 +8,7 @@ export default new CommandBuilder({
     enabled: true,
     async run(bot, msg) {
         try {
-            return msg.reply(`Pong! ${bot.ws.ping}ms`);
+            return msg.reply(`Pong! --- ${bot.ws.ping}ms`);
         } catch (err) {
             bot.error("Hubo un error al intentar obtener el ping del bot.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
         }

@@ -12,10 +12,10 @@ export default new CommandBuilder({
     enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember, getChannel, getRole) {
         try {
-            if (!args[1]) return msg.reply(`Escribe el rol`);
+            if (!args[1]) return msg.channel.send(bot.replyMessage("menciona o escribe la ID de un rol.", { mention: msg.author.username, emoji: "noargs" }));
             const role = getRole(args[1]);
 
-            if (!role) return msg.reply(`No existe`);
+            if (!role) return msg.reply(bot.replyMessage("Este rol no pudo ser encontrado.", { emoji: "error" }));
 
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)
             .setColor(role.hexColor || "Random")

@@ -13,7 +13,7 @@ export default new CommandBuilder({
     async run(bot, msg, args) {
         const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);
         try {
-            if (!args[1]) return msg.reply("Escribe el código a ejecutar.");
+            if (!args[1]) return msg.channel.send(bot.replyMessage("escribe el código a ejecutar.", { mention: msg.author.username, emoji: "noargs" }));
 
             let result;
             try {

@@ -15,6 +15,21 @@ interface ErrorDataOptions {
     error: Error | DiscordAPIError | unknown;
 }
 
+interface EmojiListStructure {
+    check: string | Array<string>;
+    error: string | Array<string>;
+    noargs: string | Array<string>;
+    sad: string | Array<string>;
+    tada: string | Array<string>;
+    wait: string | Array<string>;
+    warning: string | Array<string>;
+}
+
+interface ReplyMessageDataOptions {
+    mention?: string;
+    emoji?: string;
+}
+
 interface MoonlightClassContent {
     commands: Collection<string, CommandBuilder>;
     categories: Collection<string, { name: string; commands: Array<string>; }>;
@@ -23,6 +38,8 @@ interface MoonlightClassContent {
     utils: typeof validations;
     begin(): void;
     error(message: string, data: ErrorDataOptions): void;
+    getEmoji(emojiName: string) : string | Array<string> | undefined;
+    replyMessage(message: string, data: ReplyMessageDataOptions): string;
     isOwnerCommand(commandName: string): boolean;
     isOwner(user: GuildMember | User): boolean;
 }
@@ -60,10 +77,34 @@ export class Moonlight extends Client implements MoonlightClassContent {
         console.error(data.error);
     }
 
-    public replyMessage(message: string, data): string {
-	const messageContent: string = message;
+    public getEmoji(emojiName: string): Array<string> | string | undefined {
+        const emojiList: EmojiListStructure = {
+            check: ["✅"],
+            error: ["❌"],
+            noargs: ["❗"],
+            sad: ["😔", "😕", "😞", "😟", "🙁", "☹️", "😢", "😭"],
+            tada: [],
+            wait: ["<a:waiting:1019010655434571969>"],
+            warning: ["⚠️"]
+        }
+
+        const emoji: keyof EmojiListStructure = emojiName as keyof EmojiListStructure || undefined;
+
+        if (!emojiList[emoji]) return undefined
+        else if (typeof emojiList[emoji] === "object") return emojiList[emoji][Math.floor(Math.random() * emojiList[emoji].length)];
+        else if (typeof emojiList[emoji] === "string") return emojiList[emoji];
+    }
+
+    public replyMessage(message: string, data: ReplyMessageDataOptions): string {
+	let messageContent: string = "";
 	let emojiField: string = "";
-	return "A";
+        let mentionField: string = "";
+
+        if (data.emoji && this.getEmoji(data.emoji)) emojiField = `${this.getEmoji(data.emoji)} ~ ` || "";
+        if (data.mention) mentionField = `**${data.mention}**, ` || "";
+
+        messageContent = `${emojiField}${mentionField}${message}`;
+        return messageContent;
     }
 
     public isOwnerCommand(commandName: string): boolean {

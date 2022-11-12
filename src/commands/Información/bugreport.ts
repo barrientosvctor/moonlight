@@ -12,7 +12,7 @@ export default new CommandBuilder({
     enabled: true,
     async run(bot, msg, args) {
         try {
-            if (!args[1]) return msg.reply(`**${msg.author.username}**, escribe el reporte de algún bug que hayas encontrado en el bot aquí. Recuerda que puedes adjuntar imagenes o vídeos que aporten a evidenciar de mejor manera el bug.\n__Nota:__ Cualquier reporte o adjunto sin sentido será rechazado.`);
+            if (!args[1]) return msg.reply(bot.replyMessage("escribe el reporte de algún bug que hayas encontrado en el bot aquí. Recuerda que puedes adjuntar imagenes o vídeos que aporten a evidenciar de mejor manera el bug.\n__Nota:__ Cualquier reporte o adjunto sin sentido será rechazado.", { mention: msg.author.username, emoji: "noargs" }));
 
             const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
@@ -38,18 +38,18 @@ export default new CommandBuilder({
                     .setColor("Random");
 
                     bot.hook.send({ embeds: [embed] }).then(() => {
-                        confirm.edit({ content: `Tu reporte fue enviado correctamente! Asegúrate de tener activo los mensajes directos para avisarte sobre tu reporte.`, components: [] });
+                        confirm.edit({ content: bot.replyMessage("Tu reporte fue enviado correctamente! Asegúrate de tener activo los mensajes directos para avisarte sobre tu reporte.", { emoji: "check" }), components: [] });
                     }).catch(error => {
-                        confirm.edit({ content: `Ocurrió un error al intentar enviar tu reporte. Intenta más tarde.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                        confirm.edit({ content: bot.replyMessage("Ocurrió un error al intentar enviar tu reporte. Intenta más tarde.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
                         console.error(error);
                     });
-                } else confirm.edit({ content: `Tu reporte no fue enviado.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                } else confirm.edit({ content: bot.replyMessage("Tu reporte no fue enviado.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
             });
 
             collector.once("end", (collected, reason) => {
                 // console.log({ collected, reason });
                 if (reason === "limit") return;
-                if (reason === "time") confirm.edit({ content: `Tu reporte fue cancelado debido a tiempo expirado.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                if (reason === "time") confirm.edit({ content: bot.replyMessage("Tu reporte fue cancelado debido a tiempo expirado.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
             });
         } catch (err) {
             bot.error("Hubo un error al intentar efectuar este comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });

@@ -14,7 +14,7 @@ export default new CommandBuilder({
     async run(bot, msg, args, prefix, getUser, getMember, getChannel) {
         try {
             const channel = getChannel(args[1]) || msg.channel as GuildTextBasedChannel;
-            if (!channel) return msg.reply(`Ese canal no existe en el servidor.`);
+            if (!channel) return msg.reply(bot.replyMessage("Este canal no existe en el servidor.", { emoji: "error" }));
 
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);
             let info: string = "";

@@ -12,7 +12,7 @@ export default new CommandBuilder({
     enabled: true,
     async run(bot, msg, args) {
         try {
-            if (!args[1]) return msg.reply(`**${msg.author.username}**, escribe la sugerencia que vas a enviar al staff. Recuerda que puedes adjuntar imagenes o vídeos que aporten a la sugerencia.\n__Nota:__ Cualquier sugerencia o adjunto sin sentido será rechazado.`);
+            if (!args[1]) return msg.channel.send(bot.replyMessage("escribe la sugerencia que vas a enviar al staff. Recuerda que puedes adjuntar imagenes o vídeos que aporten a la sugerencia.\n__Nota:__ Cualquier sugerencia o adjunto sin sentido será rechazado.", { mention: msg.author.username, emoji: "noargs" }));
 
             const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
@@ -38,18 +38,18 @@ export default new CommandBuilder({
                     .setColor("Random");
 
                     bot.hook.send({ embeds: [embed] }).then(() => {
-                        confirm.edit({ content: `La sugerencia fue enviada correctamente! Asegúrate de tener activo los mensajes directos para avisarte sobre tu sugerencia.`, components: [] });
+                        confirm.edit({ content: bot.replyMessage("La sugerencia fue enviada correctamente! Asegúrate de tener activo los mensajes directos para avisarte sobre tu sugerencia.", { emoji: "check" }), components: [] });
                     }).catch(error => {
-                        confirm.edit({ content: `Ocurrió un error al intentar enviar tu sugerencia. Intenta más tarde.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                        confirm.edit({ content: bot.replyMessage("Ocurrió un error al intentar enviar tu sugerencia. Intenta más tarde.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
                         console.error(error);
                     });
-                } else confirm.edit({ content: `Tu sugerencia no fue enviada.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                } else confirm.edit({ content: bot.replyMessage("Tu sugerencia no fue enviada.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
             });
 
             collector.once("end", (collected, reason) => {
                 // console.log({ collected, reason });
                 if (reason === "limit") return;
-                if (reason === "time") confirm.edit({ content: `Tu sugerencia fue cancelada debido a tiempo expirado.`, components: [] }).then(message => setTimeout(() => message.delete(), 10000));
+                if (reason === "time") confirm.edit({ content: bot.replyMessage("Tu sugerencia fue cancelada debido a tiempo expirado.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
             });
         } catch (err) {
             bot.error("Hubo un error al intentar efectuar este comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });

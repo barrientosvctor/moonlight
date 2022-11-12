@@ -17,7 +17,7 @@ export default new CommandBuilder({
                 embed.setDescription(`Prefix actual: \`${prefix}\`\nPara saber más información acerca de un comando escribe \`${prefix}${this.name} ${this.usage}\`\n\n${bot.categories.filter(c => c.name !== "Desarrollador").map(category => `**${category.name}**\n${category.commands.map(command => `\`${command.slice(0, -3)}\``).join(", ")}`).join("\n\n")}`)
             } else {
                 const command: CommandBuilder | undefined = bot.commands.get(args[1]) || bot.commands.get(bot.aliases.get(args[1])!);
-                if (!command) return msg.reply(`El comando *${args[1]}* no existe. Asegúrate de escribir bien el nombre del comando que buscas.`);
+                if (!command) return msg.reply(bot.replyMessage(`El comando *${args[1]}* no existe. Asegúrate de escribir bien el nombre del comando que buscas.`, { emoji: "error" }));
 
                 if (bot.isOwnerCommand(args[1]) && !bot.isOwner(msg.author)) return;
 
