@@ -21,6 +21,7 @@ export default new CommandBuilder({
             if (!args[3]) return msg.channel.send(bot.replyMessage(`escribe la sugerencia o reporte que envió el usuario\n**Uso:** ${prefix}${this.name} ${this.usage}`, { mention: msg.author.username, emoji: "noargs" }));
 
             let embed = new EmbedBuilder();
+
             if (args[1] === "--s") {
                 args = args.slice(2).join(" ").split("|").slice(1);
                 embed.setColor("Green")

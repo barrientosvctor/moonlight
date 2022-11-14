@@ -13,6 +13,7 @@ export default new CommandBuilder({
     async run(bot, msg, args, prefix, getUser) {
 	try {
             if (!args[1]) return msg.channel.send(bot.replyMessage("escribe la ID del usuario a responder.", { mention: msg.author.username, emoji: "noargs" }));
+
             const user = await getUser(args[1]);
             if (!user) return msg.reply(bot.replyMessage("Ese usuario no existe en Discord.", { emoji: "error" }));
             if (!args[2] || args[2] !== "|") return msg.reply(bot.replyMessage("Agrega un **|** para seguir con el siguiente argumento.", { emoji: "noargs" }));
