@@ -40,6 +40,7 @@ interface MoonlightClassContent {
     error(message: string, data: ErrorDataOptions): void;
     getEmoji(emojiName: string) : string | Array<string> | undefined;
     replyMessage(message: string, data: ReplyMessageDataOptions): string;
+    rps(player1: string, player2: string): string;
     isOwnerCommand(commandName: string): boolean;
     isOwner(user: GuildMember | User): boolean;
 }
@@ -105,6 +106,44 @@ export class Moonlight extends Client implements MoonlightClassContent {
 
         messageContent = `${emojiField}${mentionField}${message}`;
         return messageContent;
+    }
+
+    public rps(player1: string, player2: string): string {
+        const vs = `${player1} vs. ${player2}\n`
+        if (player1 === player2) return vs + "**¡Empate!**";
+
+        const results = {
+            piedra: {
+                tijera: true,
+                papel: false
+            },
+            papel: {
+                piedra: true,
+                tijera: false
+            },
+            tijera: {
+                papel: true,
+                piedra: false
+            }
+        }
+
+        if (results[player1][player2]) return vs + "**¡Ganaste!**";
+        else return vs + `**¡Ganó ${this.user.username}!**`;
+    }
+
+    public shipPercent(result: number): string {
+        if (result < 0 && result > 100) throw new Error("[ShipPercent] No puedes poner un número menor a 0 ni mayor a 100.");
+        if(result >= 1 && result <= 10) return `Se llevan súper mal.\n\n🟥⬛⬛⬛⬛⬛⬛⬛⬛⬛`;
+        else if (result >= 11 && result <= 20) return `Apenas y se soportan.\n\n🟥🟥⬛⬛⬛⬛⬛⬛⬛⬛`;
+        else if (result >= 21 && result <= 30) return `Parece que no son lo suyo.\n\n🟥🟥🟥⬛⬛⬛⬛⬛⬛⬛`;
+        else if (result >= 31 && result <= 40) return `Podría no funcionar.\n\n🟥🟥🟥🟥⬛⬛⬛⬛⬛⬛`;
+        else if (result >= 41 && result <= 50) return `Hmmm.\n\n🟥🟥🟥🟥🟥⬛⬛⬛⬛⬛`;
+        else if (result >= 51 && result <= 60) return `Punto medio.\n\n🟥🟥🟥🟥🟥🟥⬛⬛⬛⬛`;
+        else if (result >= 61 && result <= 70) return `Puede haber algo entre ellos...\n\n🟥🟥🟥🟥🟥🟥🟥⬛⬛⬛`;
+        else if (result >= 71 && result <= 80) return `👀\n\n🟥🟥🟥🟥🟥🟥🟥🟥⬛⬛`;
+        else if (result >= 81 && result <= 90) return `❤️\n\n🟥🟥🟥🟥🟥🟥🟥🟥🟥⬛`;
+        else if (result >= 91 && result <= 100) return `💓\n\n🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥`;
+        else return `No hay nada que hacer.\n\n⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛`;
     }
 
     public isOwnerCommand(commandName: string): boolean {
