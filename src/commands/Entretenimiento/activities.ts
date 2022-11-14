@@ -40,9 +40,9 @@ export default new CommandBuilder({
 		bobble: "947957217959759964",
             }
 
-            if (!msg.member.voice.channel) return msg.reply(bot.replyMessage("Debes de unirte a un canal de voz para empezar a crear actividades.", { emoji: "error" }));
+            if (!msg.member?.voice.channel) return msg.reply(bot.replyMessage("Debes de unirte a un canal de voz para empezar a crear actividades.", { emoji: "error" }));
             if (!opts.includes(args[1])) return msg.reply(bot.replyMessage(`Actividad no válida.\n> **Todas las actividades:** ${new Intl.ListFormat("es-ES").format(opts)}`, { emoji: "error" }));
-            if (["bobble", "poker", "puttparty", "land", "chess", "spellcast", "lettertile", "checkers"].includes(args[1].toLowerCase()) && (msg.guild.premiumTier === GuildPremiumTier.None)) return msg.reply(bot.replyMessage(`No puedes jugar \`${args[1].toLowerCase()}\` debido a que el servidor debe ser mayor o igual a nivel 1 en boost.`, { emoji: "error" }));
+            if (["bobble", "poker", "puttparty", "land", "chess", "spellcast", "lettertile", "checkers"].includes(args[1].toLowerCase()) && (msg.guild?.premiumTier === GuildPremiumTier.None)) return msg.reply(bot.replyMessage(`No puedes jugar \`${args[1].toLowerCase()}\` debido a que el servidor debe ser mayor o igual a nivel 1 en boost.`, { emoji: "error" }));
 
             await fetch(`https://discord.com/api/v10/channels/${msg.member.voice.channel.id}/invites`, {
                 method: "post",

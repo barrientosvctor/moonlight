@@ -19,7 +19,7 @@ export default new CommandBuilder({
 
             if (!member) return msg.reply(bot.replyMessage("No pude encontrar a esa persona en el servidor.", { emoji: "error" }));
             if (member.user.id === msg.author.id) return msg.reply(bot.replyMessage("No te puedes lamer a ti mismo, eso sería raro (de por si ya es raro lamer a otro).", { emoji: "error" }));
-            if (member.user.id === bot.user.id) return msg.reply("Ew no, intenta con otro.");
+            if (member.user.id === msg.guild?.members.me?.user.id) return msg.reply("Ew no, intenta con otro.");
 
             embed.setDescription(`¡**${msg.author.username}** está lamiendo a **${member.user?.username}**!`)
             embed.setColor("Random")
