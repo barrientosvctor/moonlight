@@ -25,7 +25,7 @@ export default new CommandBuilder({
                 return msg.reply(`${data.text}`);
             }
         } catch (err) {
-            bot.error("Syntax Error. Asegurate de escribir bien la operación matemática.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+            bot.error("Hubo un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
         }
     }
 });
