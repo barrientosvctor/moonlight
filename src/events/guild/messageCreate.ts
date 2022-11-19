@@ -58,9 +58,12 @@ export default new EventBuilder({
             }
 
             if (command) {
-                if (!command.enabled && !bot.isOwner(msg.author)) return msg.reply(`Este comando está deshabilitado temporalmente. Intenta más tarde.`);
+                if (!msg.guild?.members.me?.permissions?.has(["ViewChannel", "SendMessages", "EmbedLinks", "UseExternalEmojis"])) return msg.reply(bot.replyMessage("Requiero de tener los siguientes permisos para que mis comandos puedan funcionar: `Ver canales`, `Enviar canales`, `Adjuntar links`, `Usar emojis externos`", { emoji: "warning" }));
+                if (!command.enabled && !bot.isOwner(msg.author)) return msg.reply(bot.replyMessage("Este comando está deshabilitado temporalmente. Intenta más tarde.", { emoji: "error" }));
                 if (command.ownerOnly && !bot.isOwner(msg.author)) return;
-                if (!bot.isOwner(msg.author)) return msg.channel.send("Los comandos no están disponibles en este momento.");
+                if (command.memberPerms && !msg.member.permissions?.has(command.memberPerms)) return msg.reply(bot.replyMessage(`No cuentas con los permisos requeridos para usar este comando.\n> Permisos requeridos: ${command.memberPerms.map(permission => `\`${bot.utils.guild.roles.permissions[permission]}\``).join(", ")}`, { emoji: "error" }));
+                if (command.botPerms && !msg.guild?.members.me?.permissions?.has(command.botPerms)) return msg.reply(bot.replyMessage(`No cuento con los permisos requeridos para efectuar este comando. Por favor añádeme un rol que tenga los siguientes permisos.\n> Permisos requeridos: ${command.botPerms.map(permission => `\`${bot.utils.guild.roles.permissions[permission]}\``).join(", ")}`, { emoji: "error" }));
+                if (!bot.isOwner(msg.author)) return msg.reply(bot.replyMessage("Los comandos no están disponibles en este momento.", { emoji: "error" }));
 
                 try {
                     command.run(bot, msg, args, prefix, getUser, getMember, getChannel, getRole);

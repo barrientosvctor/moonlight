@@ -1,4 +1,4 @@
-import { GuildBasedChannel, GuildMember, Message, Role, User } from "discord.js";
+import { GuildBasedChannel, GuildMember, Message, PermissionsString, Role, User } from "discord.js";
 import { Moonlight } from "../Moonlight";
 
 interface CommandBuilderOptions {
@@ -10,6 +10,8 @@ interface CommandBuilderOptions {
     example?: string;
     enabled?: boolean;
     ownerOnly?: boolean;
+    memberPerms?: Array<PermissionsString>;
+    botPerms?: Array<PermissionsString>;
     run: (bot: Moonlight, msg: Message, args: Array<string>, prefix: string, getUser: (user: string) => Promise<User | undefined>, getMember: (member: string) => GuildMember | undefined, getChannel: (channel: string) => GuildBasedChannel | undefined, getRole: (role: string) => Role | undefined) => void;
 }
 
@@ -22,6 +24,8 @@ export class CommandBuilder {
     public example?: CommandBuilderOptions["example"];
     public enabled?: CommandBuilderOptions["enabled"];
     public ownerOnly?: CommandBuilderOptions["ownerOnly"];
+    public memberPerms?: CommandBuilderOptions["memberPerms"];
+    public botPerms?: CommandBuilderOptions["botPerms"];
     public run: CommandBuilderOptions["run"];
 
     constructor(options: CommandBuilderOptions) {
@@ -33,6 +37,8 @@ export class CommandBuilder {
         this.example = options.example;
         this.enabled = options.enabled;
         this.ownerOnly = options.ownerOnly;
+        this.memberPerms = options.memberPerms;
+        this.botPerms = options.botPerms;
         this.run = options.run;
     }
 }
