@@ -26,8 +26,8 @@ interface EmojiListStructure {
 }
 
 interface ReplyMessageDataOptions {
-    mention?: string;
-    emoji?: string;
+    mention: string;
+    emoji: string;
 }
 
 interface MoonlightClassContent {
@@ -43,6 +43,7 @@ interface MoonlightClassContent {
     getEmoji(emojiName: string) : string | Array<string> | undefined;
     replyMessage(message: string, data: ReplyMessageDataOptions): string;
     rps(player1: string, player2: string): string;
+    shipPercent(result: number): string;
     isOwnerCommand(commandName: string): boolean;
     isOwner(user: GuildMember | User): boolean;
 }
@@ -83,7 +84,7 @@ export class Moonlight extends Client implements MoonlightClassContent {
     }
 
     public getEmoji(emojiName: string): Array<string> | string | undefined {
-        const emojiList: EmojiListStructure = {
+        const emojiList: Required<EmojiListStructure> = {
             check: ["✅"],
             error: ["❌"],
             noargs: ["❗"],
@@ -100,7 +101,7 @@ export class Moonlight extends Client implements MoonlightClassContent {
         else if (typeof emojiList[emoji] === "string") return emojiList[emoji];
     }
 
-    public replyMessage(message: string, data: ReplyMessageDataOptions): string {
+    public replyMessage(message: string, data: Partial<ReplyMessageDataOptions>): string {
 	let messageContent: string = "";
 	let emojiField: string = "";
         let mentionField: string = "";
