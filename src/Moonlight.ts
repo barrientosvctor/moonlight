@@ -36,6 +36,8 @@ interface MoonlightClassContent {
     aliases: Collection<string, string>;
     hook: WebhookClient;
     utils: typeof validations;
+    blacklist_url_list: Array<string>;
+    nsfw_url_list: Array<string>;
     begin(): void;
     error(message: string, data: ErrorDataOptions): void;
     getEmoji(emojiName: string) : string | Array<string> | undefined;
@@ -55,6 +57,8 @@ export class Moonlight extends Client implements MoonlightClassContent {
     public aliases: Collection<string, string> = new Collection();
     public hook: WebhookClient = new WebhookClient({ id: process.env.HOOK_ID!, token: process.env.HOOK_TOKEN! });
     public utils = validations;
+    public blacklist_url_list: Array<string> = ["whatismyip.com", "bit.ly", "adf.ly", "is.gd", "tinyurl.com", "iplogger.com", "discords.gift", "discord.gift", "whatsmyip.com", "whatsmyip.org", "whatismyipaddress.com"];
+    public nsfw_url_list: Array<string> = ["pornhub.com", "nhentai.to", "hentaila.com", "hentaihaven.xxx", "rule34.xxx", "xvideos.com", "xnxx.com", "chochox.com", "4tube.com", "goku.com", "porn.com", "nhentai.xxx", "nhentai.io", "nhentai.net"];
 
     public begin(): void {
         CommandHandler(this);
