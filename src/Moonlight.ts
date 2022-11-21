@@ -1,4 +1,5 @@
 import { Client, Collection, DiscordAPIError, DMChannel, EmbedBuilder, GuildMember, NewsChannel, PartialDMChannel, PrivateThreadChannel, PublicThreadChannel, TextChannel, User, VoiceChannel, WebhookClient } from "discord.js";
+import { MoonlightDatabase } from "./databases";
 import { CommandHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
 import validations from "./utils/validations.json";
@@ -39,6 +40,7 @@ interface MoonlightClassContent {
     blacklist_url_list: Array<string>;
     nsfw_url_list: Array<string>;
     begin(): void;
+    getPrefix(databaseKey: string): Promise<string>;
     error(message: string, data: ErrorDataOptions): void;
     getEmoji(emojiName: string) : string | Array<string> | undefined;
     replyMessage(message: string, data: ReplyMessageDataOptions): string;
@@ -65,6 +67,15 @@ export class Moonlight extends Client implements MoonlightClassContent {
         CommandHandler(this);
         EventHandler(this);
         this.login(process.env.BOT_TOKEN);
+    }
+
+    public async getPrefix(databaseKey: string): Promise<string> {
+        let prefix: string;
+        const db = new MoonlightDatabase("prefix.json");
+        if (db.has(databaseKey)) prefix = await db.get(databaseKey) as string;
+        else prefix = "!!";
+
+        return prefix;
     }
 
     public error(message: string, data: ErrorDataOptions): void {

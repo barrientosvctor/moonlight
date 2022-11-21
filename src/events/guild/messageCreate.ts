@@ -7,7 +7,7 @@ export default new EventBuilder({
     name: "messageCreate",
     async run(bot, msg: Message) {
         try {
-            const prefix: string = "!!";
+            const prefix: string = await bot.getPrefix(msg.guildId);
             const args: Array<string> = msg.content.substring(prefix.length).split(" ");
             const command: CommandBuilder | undefined = bot.commands.get(args![0]) || bot.commands.get(bot.aliases.get(args[0])!)
 
@@ -72,7 +72,7 @@ export default new EventBuilder({
                 }
             } else return;
         } catch (err) {
-            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
+            bot.error("Hubo un error en el evento.", { name: "messageCreate", type: Type.Event, error: err });
         }
     }
 });

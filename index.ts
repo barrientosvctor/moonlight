@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 import { Moonlight } from "./src/Moonlight";
 new Moonlight().begin();
 

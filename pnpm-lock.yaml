@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   discord.js: 14.6.0
   dotenv: ^16.0.3
+  easy-json-database: 1.5.0
   humanize-duration: 3.27.3
   ms-typescript: 2.0.0
   ts-node: ^10.9.1
@@ -11,6 +12,7 @@ specifiers:
 
 dependencies:
   discord.js: 14.6.0
+  easy-json-database: 1.5.0
   humanize-duration: 3.27.3
   ms-typescript: 2.0.0
 
@@ -257,6 +259,10 @@ packages:
     dependencies:
       xtend: 4.0.2
     dev: true
+
+  /easy-json-database/1.5.0:
+    resolution: {integrity: sha512-ccd5ALfo/GKfc8kRnG3Lib1dhLzEzv45/hvzjVfp7Np8RqbNsBCBTZvUGEkra5UshPR5DP1Q8FSIhqMwOIEMZQ==}
+    dev: false
 
   /fast-deep-equal/3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
