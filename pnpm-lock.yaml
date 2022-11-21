@@ -4,6 +4,7 @@ specifiers:
   discord.js: 14.6.0
   dotenv: ^16.0.3
   humanize-duration: 3.27.3
+  ms-typescript: 2.0.0
   ts-node: ^10.9.1
   ts-node-dev: ^2.0.0
   typescript: ^4.8.4
@@ -11,6 +12,7 @@ specifiers:
 dependencies:
   discord.js: 14.6.0
   humanize-duration: 3.27.3
+  ms-typescript: 2.0.0
 
 devDependencies:
   dotenv: 16.0.3
@@ -392,6 +394,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: true
+
+  /ms-typescript/2.0.0:
+    resolution: {integrity: sha512-47wAq6QgJZeFYqQ9k5PbBoyGhZsxOzwmTee2fna5+7coYuidaUFdACrKDbtOuLChFQOsSTS5dEyuplC52E5S8g==}
+    dev: false
 
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}

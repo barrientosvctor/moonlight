@@ -6,6 +6,7 @@ export default new CommandBuilder({
     name: "help",
     description: "Muestra la lista de comandos que tiene el bot y además permite saber más información de cada uno de estos.",
     cooldown: 3,
+    aliases: ["h"],
     usage: "[comando]",
     example: "ban",
     enabled: true,

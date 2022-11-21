@@ -24,7 +24,7 @@ export default new CommandBuilder({
                     console.error(err);
                     msg.channel.send(bot.replyMessage("Ocurrió un error al intentar bloquear el canal", { emoji: "warning" }));
                 });
-            }
+            } else return msg.reply(bot.replyMessage("Solo puedo hacer esta acción con canales de texto.", { emoji: "error" }));
         } catch (err) {
             bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
         }
