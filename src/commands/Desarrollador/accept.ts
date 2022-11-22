@@ -11,7 +11,7 @@ export default new CommandBuilder({
     enabled: true,
     ownerOnly: true,
     async run(bot, msg, args, prefix, getUser) {
-	try {
+	   try {
             if (!args[1]) return msg.channel.send(bot.replyMessage("escribe **--s** para sugerencias o **--r** para reportes.", { mention: msg.author.username, emoji: "noargs" }));
             if (!["--s", "--r"].includes(args[1])) return msg.reply(bot.replyMessage("Valor no válido", { emoji: "error" }));
 
@@ -40,8 +40,8 @@ export default new CommandBuilder({
                 msg.channel.send("Ocurrió un error al intentar enviar el mensaje a su mensaje privado.");
                 console.error(err);
             });
-	} catch (err) {
+	   } catch (err) {
             bot.error("Hubo un error al intentar obtener los datos de la documentación.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
-	}
+	   }
     }
 });

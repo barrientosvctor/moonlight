@@ -15,7 +15,7 @@ export default new CommandBuilder({
             if (args[1].startsWith("@")) args[1] = args[1].slice(1);
 
             const data = await fetch(`https://api.github.com/users/${args[1]}`, { method: "GET" }).then(res => res.json());
-            if(data.message) return msg.reply(bot.replyMessage(`El usuario **${args.slice(1).join(" ")}** no existe en GitHub.`, { emoji: "error" }));
+            if (data.message) return msg.reply(bot.replyMessage(`El usuario **${args.slice(1).join(" ")}** no existe en GitHub.`, { emoji: "error" }));
 
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)
             .setTitle(data.login)

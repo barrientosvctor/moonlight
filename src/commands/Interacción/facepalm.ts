@@ -8,7 +8,7 @@ export default new CommandBuilder({
     cooldown: 3,
     enabled: true,
     async run(bot, msg) {
-	try {
+	   try {
             const data = await fetch(`https://kawaii.red/api/gif/facepalm/token=${process.env.KAWAII_TOKEN}/`, { method: "GET" }).then(res => res.json());
             let embed = new EmbedBuilder();
 

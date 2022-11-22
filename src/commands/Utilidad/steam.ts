@@ -14,7 +14,7 @@ export default new CommandBuilder({
             if (!args[1]) return msg.channel.send(bot.replyMessage("escribe el nombre de un juego de Steam.", { mention: msg.author.username, emoji: "noargs" }));
 
             const data = await fetch(`https://api.popcat.xyz/steam?q=${args.slice(1).join(" ").replace(" ", "%20")}`, { method: "GET" }).then(res => res.json());
-            if(data.error) return msg.channel.send(bot.replyMessage(`El juego **${args.slice(1).join(" ")}** no pudo ser encontrado en Steam.`, { emoji: "error" }));
+            if (data.error) return msg.channel.send(bot.replyMessage(`El juego **${args.slice(1).join(" ")}** no pudo ser encontrado en Steam.`, { emoji: "error" }));
 
             const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)
             .setTitle(data.name)

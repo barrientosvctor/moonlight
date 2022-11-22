@@ -10,7 +10,7 @@ export default new CommandBuilder({
     example: "Neon#0001",
     enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember) {
-	try {
+	   try {
             if (!args[1]) return msg.channel.send(bot.replyMessage("menciona a la persona que vas a morder.", { mention: msg.author.username, emoji: "noargs" }));
             const member = getMember(args[1]);
             if (!member) return msg.reply(bot.replyMessage("Este usuario no está en el servidor.", { emoji: "error" }));

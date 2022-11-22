@@ -10,7 +10,7 @@ export default new CommandBuilder({
     example: "Neon#0001",
     enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember) {
-	try {
+	   try {
             if (!args[1]) return msg.channel.send(bot.replyMessage("menciona a la persona que quieras besar.", { mention: msg.author.username, emoji: "noargs" }));
 
             const member = getMember(args[1]) || msg.guild?.members?.cache.get(args[1]);

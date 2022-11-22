@@ -13,7 +13,7 @@ export default new CommandBuilder({
             if (!args[1]) return msg.channel.send(bot.replyMessage("debes poner un emoji", { mention: msg.author.username, emoji: "noargs" }));
 
             const emoji = msg.guild?.emojis?.cache?.find(e => e.name === args[1].split(':')[1]);
-            if(!emoji) return msg.reply(bot.replyMessage("Ese emoji no se encontró en este servidor.", { emoji: "error" }));
+            if (!emoji) return msg.reply(bot.replyMessage("Ese emoji no se encontró en este servidor.", { emoji: "error" }));
 
             return msg.reply(`> Nombre: \`${emoji.name}\`\n> Emoji: ${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\n> ID: \`${emoji.id}\`\n> Identificador: \`${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\`\n> Fecha de creación: <t:${Math.ceil(emoji.createdTimestamp / 1000)}>\n> URL: ${emoji.url}`);
         } catch (err) {

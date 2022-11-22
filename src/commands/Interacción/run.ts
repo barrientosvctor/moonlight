@@ -10,7 +10,7 @@ export default new CommandBuilder({
     example: "Neon#0001",
     enabled: true,
     async run(bot, msg, args, prefix, getUser, getMember) {
-	try {
+	   try {
             const data = await fetch(`https://kawaii.red/api/gif/run/token=${process.env.KAWAII_TOKEN}/`, { method: "GET" }).then(res => res.json());
             let embed = new EmbedBuilder();
             embed.setColor("Random")
