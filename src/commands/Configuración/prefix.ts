@@ -1,4 +1,3 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder, Interaction } from "discord.js";
 import { MoonlightDatabase } from "../../databases";
 import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";

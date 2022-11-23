@@ -100,7 +100,7 @@ export class Moonlight extends Client implements MoonlightClassContent {
             error: ["❌"],
             noargs: ["❗"],
             sad: ["😔", "😕", "😞", "😟", "🙁", "☹️", "😢", "😭"],
-            tada: [],
+            tada: ["🎉"],
             wait: ["<a:waiting:1019010655434571969>"],
             warning: ["⚠️"]
         }

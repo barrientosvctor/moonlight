@@ -39,7 +39,7 @@ export default new EventBuilder({
                 if (!channel) return;
                 else {
                     if (channel.startsWith("\\")) channel = channel.slice(1);
-                    if (channel.startsWith("<@") && channel.endsWith(">")) channel = channel.slice(2, -1);
+                    if (channel.startsWith("<#") && channel.endsWith(">")) channel = channel.slice(2, -1);
                     if (!Number(channel) && channel.length !== 18) return;
                 }
 
