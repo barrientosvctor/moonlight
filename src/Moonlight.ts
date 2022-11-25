@@ -25,6 +25,7 @@ interface EmojiListStructure {
     tada: string | Array<string>;
     wait: string | Array<string>;
     warning: string | Array<string>;
+    love: string | Array<string>;
 }
 
 interface ReplyMessageDataOptions {
@@ -37,7 +38,6 @@ interface MoonlightClassContent {
     slash: Collection<string, ContextMenuBuilder>;
     categories: Collection<string, { name: string; commands: Array<string>; }>;
     aliases: Collection<string, string>;
-    snipes: Collection<string, { content: string | null; channel: TextChannel; image: string | null; msgAuthor: string; time: number; }>;
     hook: WebhookClient;
     utils: typeof validations;
     blacklist_url_list: Array<string>;
@@ -62,7 +62,6 @@ export class Moonlight extends Client implements MoonlightClassContent {
     public slash: Collection<string, ContextMenuBuilder> = new Collection();
     public categories: Collection<string, { name: string; commands: Array<string>; }> = new Collection();
     public aliases: Collection<string, string> = new Collection();
-    public snipes: Collection<string, { content: string; channel: TextChannel; image: string; msgAuthor: string; time: number; }> = new Collection();
     public hook: WebhookClient = new WebhookClient({ id: process.env.HOOK_ID!, token: process.env.HOOK_TOKEN! });
     public utils = validations;
     public blacklist_url_list: Array<string> = ["whatismyip.com", "bit.ly", "adf.ly", "is.gd", "tinyurl.com", "iplogger.com", "discords.gift", "discord.gift", "whatsmyip.com", "whatsmyip.org", "whatismyipaddress.com"];
@@ -108,7 +107,8 @@ export class Moonlight extends Client implements MoonlightClassContent {
             sad: ["😔", "😕", "😞", "😟", "🙁", "☹️", "😢", "😭"],
             tada: ["🎉"],
             wait: ["<a:waiting:1019010655434571969>"],
-            warning: ["⚠️"]
+            warning: ["⚠️"],
+            love: ["❤️"]
         }
 
         const emoji: keyof EmojiListStructure = emojiName as keyof EmojiListStructure || undefined;

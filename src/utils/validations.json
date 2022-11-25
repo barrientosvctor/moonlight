@@ -8,12 +8,12 @@
         "presence": {
             "activities": {
                 "type": {
-                    "Playing": "Jugando",
-                    "Listening": "Escuchando",
-                    "Watching": "Viendo",
-                    "Streaming": "En directo",
-                    "Competing": "Compitiendo",
-                    "Custom": "Personalizado"
+                    "0": "Jugando a",
+                    "1": "En directo",
+                    "2": "Escuchando",
+                    "3": "Viendo",
+                    "4": "Personalizado",
+                    "5": "Compitiendo"
                 }
             },
             "status": {

@@ -10,7 +10,7 @@ export default new CommandBuilder({
     cooldown: 3,
     usage: "<set / delete> <#canal | ID>",
     example: "set @Logs",
-    enabled: true,
+    enabled: false,
     memberPerms: ["ManageGuild"],
     async run(bot, msg, args, prefix, getUser, getMember, getChannel) {
         try {
