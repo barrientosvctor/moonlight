@@ -1,7 +1,8 @@
 import { Client, Collection, DiscordAPIError, DMChannel, EmbedBuilder, GuildMember, NewsChannel, PartialDMChannel, PrivateThreadChannel, PublicThreadChannel, TextChannel, User, VoiceChannel, WebhookClient } from "discord.js";
 import { MoonlightDatabase } from "./databases";
-import { CommandHandler, EventHandler } from "./handlers";
+import { CommandHandler, ContextMenuHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
+import { ContextMenuBuilder } from "./structures/ContextMenuBuilder";
 import validations from "./utils/validations.json";
 
 enum Type {
@@ -33,8 +34,10 @@ interface ReplyMessageDataOptions {
 
 interface MoonlightClassContent {
     commands: Collection<string, CommandBuilder>;
+    slash: Collection<string, ContextMenuBuilder>;
     categories: Collection<string, { name: string; commands: Array<string>; }>;
     aliases: Collection<string, string>;
+    snipes: Collection<string, { content: string | null; channel: TextChannel; image: string | null; msgAuthor: string; time: number; }>;
     hook: WebhookClient;
     utils: typeof validations;
     blacklist_url_list: Array<string>;
@@ -56,8 +59,10 @@ export class Moonlight extends Client implements MoonlightClassContent {
     }
 
     public commands: Collection<string, CommandBuilder> = new Collection();
+    public slash: Collection<string, ContextMenuBuilder> = new Collection();
     public categories: Collection<string, { name: string; commands: Array<string>; }> = new Collection();
     public aliases: Collection<string, string> = new Collection();
+    public snipes: Collection<string, { content: string; channel: TextChannel; image: string; msgAuthor: string; time: number; }> = new Collection();
     public hook: WebhookClient = new WebhookClient({ id: process.env.HOOK_ID!, token: process.env.HOOK_TOKEN! });
     public utils = validations;
     public blacklist_url_list: Array<string> = ["whatismyip.com", "bit.ly", "adf.ly", "is.gd", "tinyurl.com", "iplogger.com", "discords.gift", "discord.gift", "whatsmyip.com", "whatsmyip.org", "whatismyipaddress.com"];
@@ -66,6 +71,7 @@ export class Moonlight extends Client implements MoonlightClassContent {
     public begin(): void {
         CommandHandler(this);
         EventHandler(this);
+        ContextMenuHandler(this);
         this.login(process.env.BOT_TOKEN);
     }
 

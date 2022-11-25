@@ -8,7 +8,7 @@ export default new EventBuilder({
             console.log(`Shard: ${shardId} encontró un error: ${error}`);
             console.error(error);
         } catch (err) {
-            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
+            bot.error("Hubo un error en el evento.", { name: "shardError", type: Type.Event, error: err });
         }
     }
 });

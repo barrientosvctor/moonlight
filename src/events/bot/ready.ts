@@ -8,10 +8,11 @@ export default new EventBuilder({
     async run(bot) {
         try {
             await bot.application?.fetch();
+            await bot.guilds.cache.get("744764718543011902").commands.set(bot.slash.map(slash => slash.toJSON())).catch(err => console.error(err));
             console.log(`¡${bot.user?.tag} ha iniciado a Discord!`);
-            bot.user?.setPresence({ activities: [{ name: "Reprogramando a TypeScript.", type: ActivityType.Watching }], status: "dnd" });
+            bot.user?.setPresence({ activities: [{ name: "Hola! Soy Moonlight. | !!help", type: ActivityType.Playing }], status: "online" });
         } catch (err) {
-            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
+            bot.error("Hubo un error en el evento.", { name: "ready", type: Type.Event, error: err });
         }
     }
 });

@@ -7,7 +7,7 @@ export default new EventBuilder({
         try {
             console.log(`Shard: ${id} se reconectó correctamente! Número de intentos: ${replayedEvents}`);
         } catch (err) {
-            bot.error("Hubo un error en el evento.", { name: this.name, type: Type.Event, error: err });
+            bot.error("Hubo un error en el evento.", { name: "shardResume", type: Type.Event, error: err });
         }
     }
 });
