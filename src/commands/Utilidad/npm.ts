@@ -11,7 +11,7 @@ export default new CommandBuilder({
     enabled: true,
     async run(bot, msg, args) {
         try {
-            if (!args[1]) return msg.channel.send(bot.replyMessage("escribe el nombre de algún paquete que esté en la página de npmjs.org.", { mention: msg.author.username, emoji: "noargs" }));
+            if (!args[1]) return msg.channel.send(bot.replyMessage("escribe el nombre de algún paquete que esté en la página de npmjs.com.", { mention: msg.author.username, emoji: "noargs" }));
 
             const data = await fetch(`https://registry.npmjs.org/${args[1]}`, { method: 'GET' }).then(res => res.json());
             if(data.error) return msg.channel.send(bot.replyMessage(`El paquete **${args[1]}** no pudo ser encontrado en npmjs.org.`, { emoji: "error" }));
