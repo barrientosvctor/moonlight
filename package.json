@@ -1,6 +1,6 @@
 {
   "name": "moonlight",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "Moonlight es un bot de Discord multipropósito en Español.",
   "main": "index.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "npx ts-node-dev ."
   },
   "keywords": [],
-  "author": "uShawnTS",
+  "author": "Victor",
   "license": "ISC",
   "dependencies": {
     "discord.js": "14.7.0",
