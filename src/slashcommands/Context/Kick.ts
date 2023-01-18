@@ -15,7 +15,7 @@ export default new ContextMenuBuilder()
         if (!member.kickable) return interaction.reply({ content: bot.replyMessage("No puedo expulsar a este usuario.", { emoji: "error" }), ephemeral: true });
 
         await member.kick(`Usuario expulsado por: ${interaction.user.tag}`).then(async () => {
-            await member.user.send(`> ${bot.getEmoji("warning")} Has sido expulsado de **${interaction.guild.name}** por **${interaction.user.tag}**!`).catch(console.error);
+            await member.user.send(`> ${bot.getEmoji("warning")} Has sido expulsado de **${interaction.guild.name}** por **${interaction.user.tag}**!`).catch(() => {});
             return interaction.reply(bot.replyMessage(`**${member.user.tag}** (\`${member.user.id}\`) ha sido expulsado del servidor.`, { emoji: "check" }));
         }).catch(err => {
             console.error(err);
