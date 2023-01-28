@@ -78,9 +78,8 @@ export class Moonlight extends Client implements MoonlightClassContent {
         let prefix: string;
         const db = new MoonlightDatabase("prefix.json");
         if (db.has(databaseKey)) prefix = await db.get(databaseKey) as string;
-        else prefix = "!!";
 
-        return prefix;
+        return prefix || "!!";
     }
 
     public error(message: string, data: ErrorDataOptions): void {
@@ -88,11 +87,8 @@ export class Moonlight extends Client implements MoonlightClassContent {
         errorEmbed.setDescription(`\`\`\`\n${data.error}\n\`\`\``)
         errorEmbed.setFooter({ text: "Moonlight Logs", iconURL: this.user?.displayAvatarURL() })
 
-        if (data.type === Type.Command) {
-            errorEmbed.setTitle(`Comando: ${data.name}`);
-        } else {
-            errorEmbed.setTitle(`Evento: ${data.name}`);
-        }
+        if (data.type === Type.Command) errorEmbed.setTitle(`Comando: ${data.name}`);
+        else errorEmbed.setTitle(`Evento: ${data.name}`);
 
         this.hook.send({ embeds: [errorEmbed] });
         if (data.channel) data.channel.send(`❌ ${message}`);
@@ -113,21 +109,19 @@ export class Moonlight extends Client implements MoonlightClassContent {
 
         const emoji: keyof EmojiListStructure = emojiName as keyof EmojiListStructure || undefined;
 
-        if (!emojiList[emoji]) return undefined
+        if (!emojiList[emoji]) return undefined;
         else if (typeof emojiList[emoji] === "object") return emojiList[emoji][Math.floor(Math.random() * emojiList[emoji].length)];
         else if (typeof emojiList[emoji] === "string") return emojiList[emoji];
     }
 
     public replyMessage(message: string, data: Partial<ReplyMessageDataOptions>): string {
-	let messageContent: string = "";
 	let emojiField: string = "";
         let mentionField: string = "";
 
         if (data.emoji && this.getEmoji(data.emoji)) emojiField = `${this.getEmoji(data.emoji)} ~ ` || "";
         if (data.mention) mentionField = `**${data.mention}**, ` || "";
 
-        messageContent = `${emojiField}${mentionField}${message}`;
-        return messageContent;
+        return `${emojiField}${mentionField}${message}`;
     }
 
     public rps(player1: string, player2: string): string {
