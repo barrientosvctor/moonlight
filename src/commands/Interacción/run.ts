@@ -3,30 +3,30 @@ import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
-    name: "run",
-    description: "Sal corriendo de una persona o del chat.",
-    cooldown: 3,
-    usage: "[@miembro | ID]",
-    example: "Neon#0001",
-    enabled: true,
-    async run(bot, msg, args, prefix, getUser, getMember) {
-	   try {
-            const data = await fetch(`https://kawaii.red/api/gif/run/token=${process.env.KAWAII_TOKEN}/`, { method: "GET" }).then(res => res.json());
-            let embed = new EmbedBuilder();
-            embed.setColor("Random")
-            embed.setImage(data.response);
+  name: "run",
+  description: "Sal corriendo de una persona o del chat.",
+  cooldown: 3,
+  usage: "[@miembro | ID]",
+  example: "Neon#0001",
+  enabled: true,
+  async run(bot, msg, args, prefix, getUser, getMember) {
+    try {
+      const data = await fetch(`https://kawaii.red/api/gif/run/token=${process.env.KAWAII_TOKEN}/`, { method: "GET" }).then(res => res.json());
+      let embed = new EmbedBuilder();
+      embed.setColor("Random")
+      embed.setImage(data.response);
 
-            if (!args[1]) embed.setDescription(`¡**${msg.author.username}** salió corriendo del chat!`);
-            else {
-                const member = getMember(args[1]);
-                if (!member) return msg.reply(bot.replyMessage("No pude encontrar a esa persona en el servidor.", { emoji: "error" }));
-                if (member.user.id === msg.author.id) return msg.reply("¿Qué sentido tiene eso?");
+      if (!args[1]) embed.setDescription(`¡**${msg.author.username}** salió corriendo del chat!`);
+      else {
+        const member = getMember(args[1]);
+        if (!member) return msg.reply(bot.replyMessage("No pude encontrar a esa persona en el servidor.", { emoji: "error" }));
+        if (member.user.id === msg.author.id) return msg.reply("¿Qué sentido tiene eso?");
 
-                embed.setDescription(`¡**${msg.author.username}** salió corriendo de **${member.user.username}**!`);
-            }
-            return msg.channel.send({ embeds: [embed] });
-        } catch (err) {
-            bot.error("Hubo un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
-        }
+        embed.setDescription(`¡**${msg.author.username}** salió corriendo de **${member.user.username}**!`);
+      }
+      return msg.channel.send({ embeds: [embed] });
+    } catch (err) {
+      bot.error("Hubo un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
     }
+  }
 });

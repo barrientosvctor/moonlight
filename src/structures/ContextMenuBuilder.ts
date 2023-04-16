@@ -2,12 +2,15 @@ import { ContextMenuCommandBuilder, ContextMenuCommandInteraction } from "discor
 import { Moonlight } from "../Moonlight";
 
 export class ContextMenuBuilder extends ContextMenuCommandBuilder {
-    public callback!: ContextMenuFunction;
+  public callback!: ContextMenuFunction;
 
-    public setCallback(fn: ContextMenuFunction) {
-        this.callback = fn;
-        return this;
-    }
+  public setCallback(fn: ContextMenuFunction) {
+    this.callback = fn;
+    return this;
+  }
 }
 
-type ContextMenuFunction = (idk: { bot: Moonlight, interaction: ContextMenuCommandInteraction<"cached"> }) => unknown;
+type ContextMenuFunction = (idk: {
+  bot: Moonlight,
+  interaction: ContextMenuCommandInteraction<"cached">
+}) => unknown;
