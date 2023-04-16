@@ -16,7 +16,7 @@
   "author": "Victor",
   "license": "MPL-2.0",
   "dependencies": {
-    "discord.js": "14.7.0",
+    "discord.js": "14.9.0",
     "easy-json-database": "1.5.0",
     "humanize-duration": "3.27.3",
     "ms-typescript": "2.0.0"
