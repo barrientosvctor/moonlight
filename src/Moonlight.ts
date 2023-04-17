@@ -1,21 +1,10 @@
-import { Client, Collection, DiscordAPIError, DMChannel, EmbedBuilder, GuildMember, NewsChannel, PartialDMChannel, PrivateThreadChannel, PublicThreadChannel, TextChannel, User, VoiceChannel, WebhookClient } from "discord.js";
+import { Client, Collection, GuildMember, Message, TextChannel, User, WebhookClient } from "discord.js";
 import { MoonlightDatabase } from "./databases";
 import { CommandHandler, ContextMenuHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
 import { ContextMenuBuilder } from "./structures/ContextMenuBuilder";
+import { Logger } from "./structures/Logger";
 import validations from "./utils/validations.json";
-
-enum Type {
-  Command = 1,
-  Event = 2
-}
-
-interface ErrorDataOptions {
-  name: string;
-  type: Type;
-  channel?: DMChannel | PartialDMChannel | NewsChannel | TextChannel | PrivateThreadChannel | PublicThreadChannel<true> | VoiceChannel;
-  error: Error | DiscordAPIError | unknown;
-}
 
 interface EmojiListStructure {
   check: string | Array<string>;
@@ -40,17 +29,18 @@ interface MoonlightClassContent {
   aliases: Collection<string, string>;
   hook: WebhookClient;
   utils: typeof validations;
+  logger: Logger;
   blacklist_url_list: Array<string>;
   nsfw_url_list: Array<string>;
   begin(): void;
   getPrefix(databaseKey: string): Promise<string>;
-  error(message: string, data: ErrorDataOptions): void;
   getEmoji(emojiName: string) : string | Array<string> | undefined;
   replyMessage(message: string, data: ReplyMessageDataOptions): string;
   rps(player1: string, player2: string): string;
   shipPercent(result: number): string;
   isOwnerCommand(commandName: string): boolean;
   isOwner(user: GuildMember | User): boolean;
+  sendErrorMessage(fn: any): Promise<Message<true>>;
 }
 
 export class Moonlight extends Client implements MoonlightClassContent {
@@ -64,10 +54,12 @@ export class Moonlight extends Client implements MoonlightClassContent {
   public aliases: Collection<string, string> = new Collection();
   public hook: WebhookClient = new WebhookClient({ id: process.env.HOOK_ID!, token: process.env.HOOK_TOKEN! });
   public utils = validations;
+  public logger: Logger = Logger.getInstance();
   public blacklist_url_list: Array<string> = ["whatismyip.com", "bit.ly", "adf.ly", "is.gd", "tinyurl.com", "iplogger.com", "discords.gift", "discord.gift", "whatsmyip.com", "whatsmyip.org", "whatismyipaddress.com"];
   public nsfw_url_list: Array<string> = ["pornhub.com", "nhentai.to", "hentaila.com", "hentaihaven.xxx", "rule34.xxx", "xvideos.com", "xnxx.com", "chochox.com", "4tube.com", "goku.com", "porn.com", "nhentai.xxx", "nhentai.io", "nhentai.net"];
 
   public begin(): void {
+    this.logger.createDirectory();
     CommandHandler(this);
     EventHandler(this);
     ContextMenuHandler(this);
@@ -80,19 +72,6 @@ export class Moonlight extends Client implements MoonlightClassContent {
     if (db.has(databaseKey)) prefix = await db.get(databaseKey) as string;
 
     return prefix || "!!";
-  }
-
-  public error(message: string, data: ErrorDataOptions): void {
-    const errorEmbed = new EmbedBuilder();
-    errorEmbed.setDescription(`\`\`\`\n${data.error}\n\`\`\``)
-    errorEmbed.setFooter({ text: "Moonlight Logs", iconURL: this.user?.displayAvatarURL() })
-
-    if (data.type === Type.Command) errorEmbed.setTitle(`Comando: ${data.name}`);
-    else errorEmbed.setTitle(`Evento: ${data.name}`);
-
-    this.hook.send({ embeds: [errorEmbed] });
-    if (data.channel) data.channel.send(`❌ ${message}`);
-    console.error(data.error);
   }
 
   public getEmoji(emojiName: string): Array<string> | string | undefined {
@@ -173,6 +152,10 @@ export class Moonlight extends Client implements MoonlightClassContent {
     if ([this.application?.owner?.id].includes(user.id)) return true;
     else return false;
   }
-}
 
-export default Type
+  public sendErrorMessage(fn: any) {
+    if (!(fn instanceof TextChannel)) return;
+
+    return fn.send(`:x: Hubo un error al intentar ejecutar el comando.`);
+  }
+}
