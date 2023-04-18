@@ -22,6 +22,6 @@ export default new ContextMenuBuilder()
       if (!interaction.replied) interaction.reply(bot.replyMessage("Hubo un error al intentar expulsar a este usuario.", { emoji: "warning" }));
     });
   } catch (err) {
-    console.error(err);
+    bot.logger.writeError(err);
   }
 });
