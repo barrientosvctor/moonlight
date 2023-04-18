@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { EventBuilder } from "../../structures/EventBuilder";
 
 export default new EventBuilder({
@@ -7,7 +6,7 @@ export default new EventBuilder({
     try {
       console.log(`Shard: ${id} está listo para funcionar.`);
     } catch (err) {
-      bot.error("Hubo un error en el evento.", { name: "shardReady", type: Type.Event, error: err });
+      bot.logger.writeError(err);
     }
   }
 });

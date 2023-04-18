@@ -1,5 +1,4 @@
 import { EmbedBuilder, Guild } from "discord.js";
-import Type from "../../Moonlight";
 import { EventBuilder } from "../../structures/EventBuilder";
 
 export default new EventBuilder({
@@ -17,7 +16,7 @@ export default new EventBuilder({
       .setTimestamp();
       bot.hook.send({ embeds: [embed] });
     } catch (err) {
-      bot.error("Error en evento.", { name: "guildCreate", type: Type.Event, error: err });
+      bot.logger.writeError(err);
     }
   }
 });
