@@ -1,5 +1,4 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder, Interaction } from "discord.js";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -52,7 +51,8 @@ export default new CommandBuilder({
         if (reason === "time") confirm.edit({ content: bot.replyMessage("Tu reporte fue cancelado debido a tiempo expirado.", { emoji: "error" }), components: [] }).then(message => setTimeout(() => message.delete(), 10000));
       });
     } catch (err) {
-      bot.error("Hubo un error al intentar efectuar este comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });
