@@ -1,5 +1,4 @@
 import { MoonlightDatabase } from "../../databases";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import humanize from "humanize-duration";
 import { toMs } from "ms-typescript";
@@ -58,7 +57,8 @@ export default new CommandBuilder({
         });
       } else return msg.reply(bot.replyMessage(`Todavía no puedes mutear a nadie en este momento debido a que no has configurado un rol para mutear en el servidor. Para ello haz uso del comando \`${prefix}muterole set\`.`, { emoji: "error" }));
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

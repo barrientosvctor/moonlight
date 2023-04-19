@@ -1,5 +1,4 @@
 import { GuildMember } from "discord.js";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -52,7 +51,8 @@ export default new CommandBuilder({
         });
       }
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

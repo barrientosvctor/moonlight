@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -24,7 +23,8 @@ export default new CommandBuilder({
         return msg.reply(bot.replyMessage(`**${user.tag}** (\`${user.id}\`) acaba de ser quitado de la lista de baneos del servidor.`, { emoji: "check" }));
       }).catch(() => msg.reply(bot.replyMessage("Este usuario no ha sido baneado anteriormente.", { emoji: "error" })));
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });
