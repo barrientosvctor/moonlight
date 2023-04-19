@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 
@@ -33,7 +32,8 @@ export default new CommandBuilder({
       .setThumbnail(data[0].current.imageUrl);
       return msg.reply({ embeds: [embed] });
     } catch (err) {
-      bot.error("No se encontró esta ubicación. Prueba con otro.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

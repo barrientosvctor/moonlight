@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -17,7 +16,8 @@ export default new CommandBuilder({
 
       return msg.reply(`> Nombre: \`${emoji.name}\`\n> Emoji: ${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\n> ID: \`${emoji.id}\`\n> Identificador: \`${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`}\`\n> Fecha de creación: <t:${Math.ceil(emoji.createdTimestamp / 1000)}>\n> URL: ${emoji.url}`);
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

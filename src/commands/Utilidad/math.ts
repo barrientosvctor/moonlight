@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -15,7 +14,8 @@ export default new CommandBuilder({
       const data = await fetch(`https://api.mathjs.org/v4/?expr=${args.slice(1).join(" ").replace(`+`, `%2B`).replace(`^`, `%5E`).replace(`/`, `%2F`)}`).then(res => res.json());
       return msg.reply(`**Resultado:** ${data}`);
     } catch (err) {
-      bot.error("Syntax Error. Asegurate de escribir bien la operación matemática.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

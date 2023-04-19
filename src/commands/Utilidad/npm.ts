@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 
@@ -21,7 +20,8 @@ export default new CommandBuilder({
       .setDescription(`> __Información general__\n**Nombre del paquete:** ${data.name}\n**Descripción:** ${data.description}\n**Autor:** ${data.author ? data.author.name : 'Desconocido'}\n**Colaboradores:** ${data.maintainers.map(m => m.name).join(', ')}\n**Licencia** ${data.license}\n**Palabras claves:** ${data.keywords.map(k => k).join(', ')}\n**Instalación:** \`npm i ${data.name}\`\n**Última versión:** ${data['dist-tags'].latest}\n\n> __Links__\n${data.homepage ? `[Homepage](${data.homepage})` : 'Homepage: Ninguno'}\n${data.bugs ? `[Bugs](${data.bugs.url})` : 'Bugs: Ninguno'}`);
       return msg.reply({ embeds: [embed] });
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });
