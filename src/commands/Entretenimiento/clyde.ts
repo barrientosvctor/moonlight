@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 
@@ -22,7 +21,8 @@ export default new CommandBuilder({
       .setImage(data.message);
       return msg.reply({ embeds: [embed] });
     } catch (err) {
-      bot.error("Hubo un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });
