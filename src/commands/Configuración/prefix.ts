@@ -1,5 +1,4 @@
 import { MoonlightDatabase } from "../../databases";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -27,7 +26,8 @@ export default new CommandBuilder({
         return msg.reply(bot.replyMessage(`Mi prefix ha sido establecido a **${args[1]}**`, { emoji: "check" }));
       }
     } catch (err) {
-      bot.error("Hubo un error al intentar efectuar este comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

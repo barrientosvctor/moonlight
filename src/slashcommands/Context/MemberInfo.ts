@@ -40,7 +40,7 @@ export default new ContextMenuBuilder()
     embed.setDescription(`
 **${member?.user.bot ? 'Bot' : 'Miembro'}:** ${member?.user.tag}
 **ID:** ${member?.user.id}
-**Avatar:** [Avatar de ${member?.user.username}](${member?.displayAvatarURL({ size: 2048, extension: "png" })})
+**Avatar:** [Click aquí](${member?.displayAvatarURL({ size: 2048, extension: "png" })})
 **Banner:** ${data.banner ? `[Banner de ${member?.user.username}](https://cdn.discordapp.com/banners/${member?.user.id}/${data.banner}.${data.banner.startsWith('a_') ? 'gif' : 'png'}?size=2048)` : data.banner_color ? `\`${data.banner_color}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(member?.user.createdTimestamp! / 1000)}>
 **Insignias:** ${member?.user.flags?.toArray().map(flag => `${bot.utils.user.flags[flag]}`).join(', ') || "No tiene insignias"}
@@ -51,6 +51,6 @@ ${status}`)
     embed.addFields({ name: `Roles (${member?.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).length})`, value: member?.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).join(', ') || 'No tiene roles.' });
     return interaction.reply({ embeds: [embed] });
   } catch (err) {
-    console.error(err);
+    bot.logger.writeError(err);
   }
 });

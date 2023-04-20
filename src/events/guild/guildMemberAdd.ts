@@ -1,6 +1,5 @@
 import { GuildMember } from "discord.js";
 import { MoonlightDatabase } from "../../databases";
-import Type from "../../Moonlight";
 import { EventBuilder } from "../../structures/EventBuilder";
 
 export default new EventBuilder({
@@ -13,7 +12,7 @@ export default new EventBuilder({
         else await member.roles?.add(await autorole_db.get(`autorole_user-${member.guild.id}`) as string).catch(() => {});
       }
     } catch (err) {
-      bot.error("Hubo un error en el evento.", { name: "ready", type: Type.Event, error: err });
+      bot.logger.writeError(err);
     }
   }
 });

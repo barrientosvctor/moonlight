@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { toMs } from "ms-typescript";
 import humanize from "humanize-duration";
@@ -45,7 +44,8 @@ export default new CommandBuilder({
         msg.channel.send(bot.replyMessage("Hubo un error al intentar banear al usuario del servidor.", { emoji: "warning" }));
       });
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

@@ -1,5 +1,4 @@
-import { ChannelType, TextChannel } from "discord.js";
-import Type from "../../Moonlight";
+import { TextChannel } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 const HTTP_Regex = /^(http|https):///g
@@ -25,7 +24,8 @@ export default new CommandBuilder({
       .setImage(`https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${args[1]}`);
       return msg.reply({ embeds: [embed] });
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

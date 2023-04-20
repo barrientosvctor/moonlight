@@ -1,6 +1,5 @@
 import { TextChannel } from "discord.js";
 import { MoonlightDatabase } from "../../databases";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 
@@ -38,7 +37,8 @@ export default new CommandBuilder({
         } else return msg.reply(bot.replyMessage(`No se han establecido registros en el servidor. Para establecer uno haz uso del comando \`${prefix}logs set\``, { emoji: "error" }));
       }
     } catch (err) {
-      bot.error("Hubo un error al intentar efectuar este comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

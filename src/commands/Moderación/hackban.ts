@@ -1,4 +1,3 @@
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 
 export default new CommandBuilder({
@@ -35,7 +34,8 @@ export default new CommandBuilder({
         msg.channel.send(bot.replyMessage("No se pudo enviar un aviso al mensaje privado de este usuario, tal vez tenga los mensajes privados desactivados.", { emoji: "warning" }));
       });
     } catch (err) {
-      bot.error("Ocurrió un error al intentar ejecutar el comando.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });

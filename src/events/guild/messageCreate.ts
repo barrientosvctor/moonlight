@@ -1,5 +1,4 @@
 import { GuildBasedChannel, GuildMember, Message, Role, User } from "discord.js";
-import Type from "../../Moonlight";
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { EventBuilder } from "../../structures/EventBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
@@ -75,7 +74,7 @@ export default new EventBuilder({
         }
       } else return;
     } catch (err) {
-      bot.error("Hubo un error en el evento.", { name: "messageCreate", type: Type.Event, error: err });
+      bot.logger.writeError(err);
     }
   }
 });

@@ -1,7 +1,6 @@
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { readdirSync } from "node:fs";
 import info from "../../../package.json";
-import Type from "../../Moonlight";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
 
 export default new CommandBuilder({
@@ -18,7 +17,8 @@ export default new CommandBuilder({
 
       return msg.reply({ embeds: [embed] });
     } catch (err) {
-      bot.error("Hubo un error al intentar obtener los datos del bot.", { name: this.name, type: Type.Command, channel: msg.channel, error: err });
+      bot.logger.writeError(err);
+      bot.sendErrorMessage(msg.channel);
     }
   }
 });
