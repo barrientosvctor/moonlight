@@ -1,49 +1,13 @@
-import { Client, Collection, GuildMember, Message, TextChannel, User, WebhookClient } from "discord.js";
+import { Client, Collection, GuildMember, TextChannel, User, WebhookClient } from "discord.js";
 import { MoonlightDatabase } from "./databases";
 import { CommandHandler, ContextMenuHandler, EventHandler } from "./handlers";
 import { CommandBuilder } from "./structures/CommandBuilder";
 import { ContextMenuBuilder } from "./structures/ContextMenuBuilder";
 import { Logger } from "./structures/Logger";
+import { IEmojiListStructure, IMoonlightClassContent, IReplyMessageDataOptions } from "./types/bot";
 import validations from "./utils/validations.json";
 
-interface EmojiListStructure {
-  check: string | Array<string>;
-  error: string | Array<string>;
-  noargs: string | Array<string>;
-  sad: string | Array<string>;
-  tada: string | Array<string>;
-  wait: string | Array<string>;
-  warning: string | Array<string>;
-  love: string | Array<string>;
-}
-
-interface ReplyMessageDataOptions {
-  mention: string;
-  emoji: string;
-}
-
-interface MoonlightClassContent {
-  commands: Collection<string, CommandBuilder>;
-  slash: Collection<string, ContextMenuBuilder>;
-  categories: Collection<string, { name: string; commands: Array<string>; }>;
-  aliases: Collection<string, string>;
-  hook: WebhookClient;
-  utils: typeof validations;
-  logger: Logger;
-  blacklist_url_list: Array<string>;
-  nsfw_url_list: Array<string>;
-  begin(): void;
-  getPrefix(databaseKey: string): Promise<string>;
-  getEmoji(emojiName: string) : string | Array<string> | undefined;
-  replyMessage(message: string, data: ReplyMessageDataOptions): string;
-  rps(player1: string, player2: string): string;
-  shipPercent(result: number): string;
-  isOwnerCommand(commandName: string): boolean;
-  isOwner(user: GuildMember | User): boolean;
-  sendErrorMessage(fn: any): Promise<Message<true>>;
-}
-
-export class Moonlight extends Client implements MoonlightClassContent {
+export class Moonlight extends Client implements IMoonlightClassContent {
   public constructor() {
     super({ intents: 33743, allowedMentions: { repliedUser: false } });
   }
@@ -75,7 +39,7 @@ export class Moonlight extends Client implements MoonlightClassContent {
   }
 
   public getEmoji(emojiName: string): Array<string> | string | undefined {
-    const emojiList: Required<EmojiListStructure> = {
+    const emojiList: Required<IEmojiListStructure> = {
       check: ["✅"],
       error: ["❌"],
       noargs: ["❗"],
@@ -86,14 +50,14 @@ export class Moonlight extends Client implements MoonlightClassContent {
       love: ["❤️"]
     }
 
-    const emoji: keyof EmojiListStructure = emojiName as keyof EmojiListStructure || undefined;
+    const emoji: keyof IEmojiListStructure = emojiName as keyof IEmojiListStructure || undefined;
 
     if (!emojiList[emoji]) return undefined;
     else if (typeof emojiList[emoji] === "object") return emojiList[emoji][Math.floor(Math.random() * emojiList[emoji].length)];
     else if (typeof emojiList[emoji] === "string") return emojiList[emoji];
   }
 
-  public replyMessage(message: string, data: Partial<ReplyMessageDataOptions>): string {
+  public replyMessage(message: string, data: Partial<IReplyMessageDataOptions>): string {
     let emojiField: string = "";
     let mentionField: string = "";
 
