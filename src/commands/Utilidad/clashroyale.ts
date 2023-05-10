@@ -1,6 +1,7 @@
 import { CommandBuilder } from "../../structures/CommandBuilder";
 import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
-import { ClashRoyaleDeckData } from "../../types/clashRoyale";
+import { IClashRoyaleDeckData, IClashRoyalePlayerUpcomingChests } from "../../types/clashRoyale";
+import { FetchClashRoyale } from "../../utils/functions/clashRoyale";
 
 export default new CommandBuilder({
   name: "clashroyale",
@@ -44,26 +45,22 @@ export default new CommandBuilder({
             )
           );
 
-        data = await fetch(
-          `https://api.clashroyale.com/v1/players/${encodeURIComponent(
-            args[2]
-          )}`,
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${process.env.CLASH_ROYALE_API_KEY}`
-            }
-          }
-        ).then(res => res.json());
+        data = await FetchClashRoyale(`https://api.clashroyale.com/v1/players/${encodeURIComponent(args[2])}`);
 
-        if (!data || data.reason === "notFound") return msg.reply(bot.replyMessage("No se encontró resultados.", { emoji: "error" }))
+        if (!data || data.reason === "notFound") return msg.reply(bot.replyMessage("No se encontró resultados.", { emoji: "error" }));
+
+        const upcomingChestsData = await FetchClashRoyale(`https://api.clashroyale.com/v1/players/${encodeURIComponent(args[2])}/upcomingchests`);
 
         function getPlayerCurrentDeck() {
-          const deckResult: string[] = data.currentDeck.map((card: ClashRoyaleDeckData) => {
+          const deckResult: string[] = data.currentDeck.map((card: IClashRoyaleDeckData) => {
             return `[${card.name}](${card.iconUrls.medium})`;
           });
 
           return deckResult;
+        }
+
+        function getPlayerUpcomingChests() {
+          return Array.from(upcomingChestsData.items, (chest: IClashRoyalePlayerUpcomingChests) => chest.name);
         }
 
         embed.setTitle(`Clash Royale: ${data.name}`)
@@ -77,6 +74,7 @@ export default new CommandBuilder({
 **Insignias:** ${data.badges.length}
 **Logros:** ${data.achievements.length}
 **Mazo actual:** ${getPlayerCurrentDeck().join(", ") || "No disponible"}
+**Próximos cofres:** ${getPlayerUpcomingChests().join(" -> ") || "No disponible"}
 
 > __Estadisticas__
 **Victorias:** ${data.wins ?? 0}
@@ -91,7 +89,6 @@ export default new CommandBuilder({
 **Donaciones recibidas:** ${data.donationsReceived || 0}
 **Donaciones en total:** ${data.totalDonations || 0}
 
-> __Ligas__
 **Copas en la temporada actual:** ${data.leagueStatistics.currentSeason.trophies}
 **Copas en la temporada anterior:** ${data.leagueStatistics.previousSeason.trophies}
 **Rango en la temporada anterior:** ${data.leagueStatistics.previousSeason.rank}

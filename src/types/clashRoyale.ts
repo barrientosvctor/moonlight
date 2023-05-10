@@ -1,4 +1,4 @@
-export interface ClashRoyaleDeckData {
+export interface IClashRoyaleDeckData {
   name: string;
   id: number;
   level: number;
@@ -6,4 +6,9 @@ export interface ClashRoyaleDeckData {
   maxLevel: number;
   count: number;
   iconUrls: { medium: string; };
+}
+
+export interface IClashRoyalePlayerUpcomingChests {
+  index: number;
+  name: string;
 }
