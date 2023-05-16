@@ -11,7 +11,6 @@ export default new CommandBuilder({
   usage: "??",
   example: "??",
   enabled: true,
-  ownerOnly: true,
   async run(bot, msg, args) {
     function dateFixed(date: string) {
       const tmp = [...date];
