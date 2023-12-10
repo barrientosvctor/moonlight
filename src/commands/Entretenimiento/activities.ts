@@ -54,7 +54,7 @@ export default new CommandBuilder({
           validate: null,
         }),
         headers: {
-          Authorization: `Bot ${process.env.BOT_TOKEN}`,
+          Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
           "Content-Type": "application/json"
         }
       }).then(res => res.json()).then(invite => {

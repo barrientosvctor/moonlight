@@ -13,14 +13,14 @@ export default new CommandBuilder({
       const data = await fetch(`https://discord.com/api/v10/guilds/${msg.guildId}`, {
         method: "get",
         headers: {
-          Authorization: `Bot ${process.env.BOT_TOKEN}`
+          Authorization: `Bot ${process.env.DISCORD_TOKEN}`
         }
       }).then(res => res.json());
 
       const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!)
-      .setThumbnail(msg.guild?.iconURL({ size: 2048, extension: "png" }) || null)
-      .setTitle(`Información de ${msg.guild?.name}`)
-      .setDescription(`
+        .setThumbnail(msg.guild?.iconURL({ size: 2048, extension: "png" }) || null)
+        .setTitle(`Información de ${msg.guild?.name}`)
+        .setDescription(`
 **Nombre:** ${msg.guild?.name}
 **Descripción:** ${msg.guild?.description || "Ninguno"}
 **ID:** ${msg.guildId}

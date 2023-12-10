@@ -13,7 +13,7 @@ export default new CommandBuilder({
   async run(bot, msg, args, prefix, getUser, getMember, getChannel, getRole) {
     try {
       const user = await getUser(args[1]) || msg.member?.user;
-      const data = await fetch(`https://discord.com/api/v10/users/${user?.id}`, { method: "get", headers: { Authorization: `Bot ${process.env.BOT_TOKEN}` } }).then(res => res.json());
+      const data = await fetch(`https://discord.com/api/v10/users/${user?.id}`, { method: "get", headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` } }).then(res => res.json());
       const embed = new MoonlightEmbedBuilder(msg.author, msg.guild!);
 
       if (!user) return msg.reply(bot.replyMessage("El usuario no fue encontrado.", { emoji: "error" }));
@@ -25,7 +25,7 @@ export default new CommandBuilder({
         embed.setDescription(`
 **${user.bot ? 'Bot' : 'Usuario'}:** \`${user.tag}\`
 **ID:** \`${user.id}\`
-**Avatar:** [Avatar de ${user.username}](${data.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${data.avatar}.${data.avatar.startsWith('a_') ? 'gif' : 'png'}?size=2048` : user.displayAvatarURL({ size: 2048, extension: "png" }) })
+**Avatar:** [Avatar de ${user.username}](${data.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${data.avatar}.${data.avatar.startsWith('a_') ? 'gif' : 'png'}?size=2048` : user.displayAvatarURL({ size: 2048, extension: "png" })})
 **Banner:** ${data.banner ? `[Banner de ${user.username}](https://cdn.discordapp.com/banners/${user.id}/${data.banner}.${data.banner.startsWith('a_') ? 'gif' : 'png'}?size=2048)` : data.banner_color ? `\`${data.banner_color}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(user.createdTimestamp / 1000)}>
 **Insignias:** ${user.flags?.toArray().map(flag => `${bot.utils.user.flags[flag]}`).join(', ') || 'No tiene insignias'}`)

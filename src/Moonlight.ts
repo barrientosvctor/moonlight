@@ -27,7 +27,7 @@ export class Moonlight extends Client implements IMoonlightClassContent {
     CommandHandler(this);
     EventHandler(this);
     ContextMenuHandler(this);
-    this.login(process.env.BOT_TOKEN);
+    this.login();
   }
 
   public async getPrefix(databaseKey: string): Promise<string> {
