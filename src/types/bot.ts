@@ -1,8 +1,8 @@
 import { Collection, GuildMember, Message, User, WebhookClient } from "discord.js";
-import { CommandBuilder } from "../structures/CommandBuilder";
-import { ContextMenuBuilder } from "../structures/ContextMenuBuilder";
+import { CommandBuilder } from "../structures/CommandBuilder.js";
+import { ContextMenuBuilder } from "../structures/ContextMenuBuilder.js";
 import validations from "../utils/validations.json";
-import { Logger } from "../structures/Logger";
+import { Logger } from "../structures/Logger.js";
 
 export interface IEmojiListStructure {
   check: string | Array<string>;
