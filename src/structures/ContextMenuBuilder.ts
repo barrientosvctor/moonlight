@@ -1,5 +1,5 @@
 import { ContextMenuCommandBuilder, ContextMenuCommandInteraction } from "discord.js";
-import { Moonlight } from "../Moonlight";
+import { Moonlight } from "../Moonlight.js";
 
 export class ContextMenuBuilder extends ContextMenuCommandBuilder {
   public callback!: ContextMenuFunction;

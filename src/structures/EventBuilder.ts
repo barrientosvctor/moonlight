@@ -1,5 +1,5 @@
 import { ClientEvents } from "discord.js";
-import { Moonlight } from "../Moonlight";
+import { Moonlight } from "../Moonlight.js";
 
 interface EventBuilderOptions {
   name: keyof ClientEvents;

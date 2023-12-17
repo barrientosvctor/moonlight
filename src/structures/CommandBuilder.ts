@@ -1,5 +1,5 @@
 import { GuildBasedChannel, GuildMember, Message, PermissionsString, Role, User } from "discord.js";
-import { Moonlight } from "../Moonlight";
+import { Moonlight } from "../Moonlight.js";
 
 interface CommandBuilderOptions {
   name: string;
