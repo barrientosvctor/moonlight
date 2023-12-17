@@ -1,6 +1,6 @@
-import { Moonlight } from "../Moonlight";
+import { Moonlight } from "../Moonlight.js";
 import { readdirSync } from "node:fs";
-import { ContextMenuBuilder } from "../structures/ContextMenuBuilder";
+import { ContextMenuBuilder } from "../structures/ContextMenuBuilder.js";
 
 export const ContextMenuHandler = (bot: Moonlight) => {
   readdirSync("./src/slashcommands/Context").filter(f => f.endsWith(".ts")).forEach(async file => {

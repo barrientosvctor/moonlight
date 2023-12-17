@@ -1,3 +1,3 @@
-export * from "./command";
-export * from "./event";
-export * from "./context";
+export * from "./command.js";
+export * from "./event.js";
+export * from "./context.js";

@@ -1,6 +1,6 @@
 import { readdirSync } from "node:fs";
-import { Moonlight } from "../Moonlight";
-import { CommandBuilder } from "../structures/CommandBuilder";
+import { Moonlight } from "../Moonlight.js";
+import { CommandBuilder } from "../structures/CommandBuilder.js";
 
 export const CommandHandler = (bot: Moonlight): void => {
   readdirSync("./src/commands").forEach(folder => {

@@ -1,6 +1,6 @@
 import { readdirSync } from "node:fs";
-import { Moonlight } from "../Moonlight";
-import { EventBuilder } from "../structures/EventBuilder";
+import { Moonlight } from "../Moonlight.js";
+import { EventBuilder } from "../structures/EventBuilder.js";
 
 export const EventHandler = (bot: Moonlight): void => {
   readdirSync("./src/events").forEach(folder => {
