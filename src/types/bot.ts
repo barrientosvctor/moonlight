@@ -38,5 +38,5 @@ export interface IMoonlightClassContent {
   shipPercent(result: number): string;
   isOwnerCommand(commandName: string): boolean;
   isOwner(user: GuildMember | User): boolean;
-  sendErrorMessage(fn: any): Promise<Message<true>>;
+  sendErrorMessage(fn: any): Promise<Message<true>> | undefined;
 }

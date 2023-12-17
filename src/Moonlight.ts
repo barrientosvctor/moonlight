@@ -1,11 +1,11 @@
 import { Client, Collection, GuildMember, TextChannel, User, WebhookClient } from "discord.js";
-import { MoonlightDatabase } from "./databases";
-import { CommandHandler, ContextMenuHandler, EventHandler } from "./handlers";
-import { CommandBuilder } from "./structures/CommandBuilder";
-import { ContextMenuBuilder } from "./structures/ContextMenuBuilder";
-import { Logger } from "./structures/Logger";
-import { IEmojiListStructure, IMoonlightClassContent, IReplyMessageDataOptions } from "./types/bot";
-import validations from "./utils/validations.json";
+import { MoonlightDatabase } from "./databases/index.js";
+import { CommandHandler, ContextMenuHandler, EventHandler } from "./handlers/index.js";
+import { CommandBuilder } from "./structures/CommandBuilder.js";
+import { ContextMenuBuilder } from "./structures/ContextMenuBuilder.js";
+import { Logger } from "./structures/Logger.js";
+import { IEmojiListStructure, IMoonlightClassContent, IReplyMessageDataOptions } from "./types/bot.js";
+import validations from "./utils/validations.json" with { type: "json" };
 
 export class Moonlight extends Client implements IMoonlightClassContent {
   public constructor() {
@@ -31,7 +31,7 @@ export class Moonlight extends Client implements IMoonlightClassContent {
   }
 
   public async getPrefix(databaseKey: string): Promise<string> {
-    let prefix: string;
+    let prefix: string = "";
     const db = new MoonlightDatabase("prefix.json");
     if (db.has(databaseKey)) prefix = await db.get(databaseKey) as string;
 
@@ -69,9 +69,8 @@ export class Moonlight extends Client implements IMoonlightClassContent {
 
   public rps(player1: string, player2: string): string {
     const vs = `${player1} vs. ${player2}\n`
-    if (player1 === player2) return vs + "**¡Empate!**";
 
-    const results = {
+    const results: { [index: string]: { [index: string]: boolean } } = {
       piedra: {
         tijera: true,
         papel: false
@@ -86,13 +85,18 @@ export class Moonlight extends Client implements IMoonlightClassContent {
       }
     }
 
-    if (results[player1][player2]) return vs + "**¡Ganaste!**";
-    else return vs + `**¡Ganó ${this.user.username}!**`;
+    if (player1 === player2) return vs + "**¡Empate!**";
+    if (results[player1]![player2]) return vs + "**¡Ganaste!**";
+
+    if (!this.user)
+      return "**¡Ganó el bot!**";
+
+    return vs + `**¡Ganó ${this.user.username}!**`;
   }
 
   public shipPercent(result: number): string {
     if (result < 0 && result > 100) throw new Error("[ShipPercent] No puedes poner un número menor a 0 ni mayor a 100.");
-    if(result >= 1 && result <= 10) return `Se llevan súper mal.\n\n🟥⬛⬛⬛⬛⬛⬛⬛⬛⬛`;
+    if (result >= 1 && result <= 10) return `Se llevan súper mal.\n\n🟥⬛⬛⬛⬛⬛⬛⬛⬛⬛`;
     else if (result >= 11 && result <= 20) return `Apenas y se soportan.\n\n🟥🟥⬛⬛⬛⬛⬛⬛⬛⬛`;
     else if (result >= 21 && result <= 30) return `Parece que no son lo suyo.\n\n🟥🟥🟥⬛⬛⬛⬛⬛⬛⬛`;
     else if (result >= 31 && result <= 40) return `Podría no funcionar.\n\n🟥🟥🟥🟥⬛⬛⬛⬛⬛⬛`;
