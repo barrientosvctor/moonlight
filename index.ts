@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Moonlight } from "./src/Moonlight";
+import { Moonlight } from "./src/Moonlight.js";
 new Moonlight().begin();
 
 process.on("uncaughtException", err => console.error(err));
