@@ -4,13 +4,15 @@
   "description": "Moonlight es un bot de Discord multipropósito en Español.",
   "main": "index.ts",
   "engineStrict": true,
+  "type": "module",
   "scripts": {
-    "start": "npx ts-node .",
-    "dev": "npx ts-node-dev ."
+    "start": "node dist/index.js",
+    "dev": "npx ts-node-dev .",
+    "build": "npx tsc --build"
   },
   "engines": {
-    "node": ">=16.9.0",
-    "npm": ">=8.19.2"
+    "node": ">=20.10.0",
+    "npm": ">=10.2.3"
   },
   "keywords": [],
   "author": "Victor",
