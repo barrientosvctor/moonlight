@@ -1,5 +1,5 @@
 import { ActivityType } from "discord.js";
-import { EventBuilder } from "../../structures/EventBuilder";
+import { EventBuilder } from "../../structures/EventBuilder.js";
 
 export default new EventBuilder({
   name: "ready",
@@ -7,7 +7,7 @@ export default new EventBuilder({
   async run(bot) {
     try {
       await bot.application?.fetch();
-      await bot.guilds.cache.get("744764718543011902").commands.set(bot.slash.map(slash => slash.toJSON())).catch(err => console.error(err));
+      await bot.guilds.cache.get("744764718543011902")?.commands.set(bot.slash.map(slash => slash.toJSON())).catch(err => console.error(err));
       // await bot.application.commands
       // .set(bot.slash.map(slash => slash.toJSON()))
       // .catch(err => console.error(err));
@@ -22,7 +22,8 @@ export default new EventBuilder({
         status: "online"
       });
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });

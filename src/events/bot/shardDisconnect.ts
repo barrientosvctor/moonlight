@@ -1,4 +1,4 @@
-import { EventBuilder } from "../../structures/EventBuilder";
+import { EventBuilder } from "../../structures/EventBuilder.js";
 
 export default new EventBuilder({
   name: "shardDisconnect",
@@ -6,7 +6,8 @@ export default new EventBuilder({
     try {
       console.log(`Shard: ${id} se desconectó. Razón: ${event.reason}`);
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });

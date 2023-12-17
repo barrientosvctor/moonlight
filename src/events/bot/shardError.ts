@@ -1,4 +1,4 @@
-import { EventBuilder } from "../../structures/EventBuilder";
+import { EventBuilder } from "../../structures/EventBuilder.js";
 
 export default new EventBuilder({
   name: "shardError",
@@ -7,7 +7,8 @@ export default new EventBuilder({
       console.log(`Shard: ${shardId} encontró un error: ${error}`);
       console.error(error);
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });
