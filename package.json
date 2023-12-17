@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "npx ts-node-dev .",
-    "build": "npx tsc --build"
+    "build": "rimraf dist && npx tsc --build"
   },
   "engines": {
     "node": ">=20.10.0",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "dotenv": "16.0.3",
+    "rimraf": "5.0.5",
     "ts-node-dev": "2.0.0",
     "typescript": "5.3.3"
   }
