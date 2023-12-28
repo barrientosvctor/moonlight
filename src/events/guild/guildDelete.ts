@@ -1,5 +1,5 @@
 import { EmbedBuilder, Guild } from "discord.js";
-import { EventBuilder } from "../../structures/EventBuilder";
+import { EventBuilder } from "../../structures/EventBuilder.js";
 
 export default new EventBuilder({
   name: "guildDelete",
@@ -16,7 +16,8 @@ export default new EventBuilder({
       .setTimestamp();
       bot.hook.send({ embeds: [embed] });
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });

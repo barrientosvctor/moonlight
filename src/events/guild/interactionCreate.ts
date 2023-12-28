@@ -1,12 +1,11 @@
-import { ChatInputCommandInteraction, ContextMenuCommandInteraction, GuildBasedChannel, GuildMember, Interaction, Message, Role, User } from "discord.js";
-import { ContextMenuBuilder } from "../../structures/ContextMenuBuilder";
-import { EventBuilder } from "../../structures/EventBuilder";
+import { ContextMenuCommandInteraction } from "discord.js";
+import { EventBuilder } from "../../structures/EventBuilder.js";
 
 export default new EventBuilder({
   name: "interactionCreate",
   async run(bot, interaction: ContextMenuCommandInteraction<"cached">) {
     try {
-      const command: ContextMenuBuilder = bot.slash.get(interaction.commandName);
+      const command = bot.slash.get(interaction.commandName);
       if (!command) return;
 
       try {
@@ -15,7 +14,8 @@ export default new EventBuilder({
         console.error(error);
       }
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });

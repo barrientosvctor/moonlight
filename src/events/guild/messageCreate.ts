@@ -1,17 +1,21 @@
 import { GuildBasedChannel, GuildMember, Message, Role, User } from "discord.js";
-import { CommandBuilder } from "../../structures/CommandBuilder";
-import { EventBuilder } from "../../structures/EventBuilder";
-import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder";
+import { EventBuilder } from "../../structures/EventBuilder.js";
+import { MoonlightEmbedBuilder } from "../../structures/MoonlightEmbedBuilder.js";
 
 export default new EventBuilder({
   name: "messageCreate",
   async run(bot, msg: Message) {
     try {
-      const prefix: string = await bot.getPrefix(msg.guildId);
+      const prefix: string = await bot.getPrefix(msg.guildId!);
       const args: Array<string> = msg.content.substring(prefix.length).split(" ");
-      const command: CommandBuilder | undefined = bot.commands.get(args![0]) || bot.commands.get(bot.aliases.get(args[0])!)
+      if (!args[0]) return;
 
-      if (msg.content.match(new RegExp(`^<@!?${bot.user.id}>( |)$`))) msg.reply({ embeds: [new MoonlightEmbedBuilder(msg.author, msg.guild!).setTitle("Hola!").setDescription(`> **Soy ${bot.user.username}**, un bot multipropósito en Español para su servidor de Discord.\n\n> Cuento con varios comandos de prefix (\`${prefix}\`) y de barra (\`/\`) para utilizar en su servidor.\n\n> Para empezar a usar mis comandos, puedes revisar la lista de comandos con \`${prefix}help\`\n\n> *・ ¡Muchas gracias por leer!* ${bot.getEmoji("love")}`)] });
+      let command = bot.commands.get(args[0]);
+
+      if (Boolean(bot.aliases.get(args[0])) === true)
+        command = bot.commands.get(bot.aliases.get(args[0])!)
+
+      if (msg.content.match(new RegExp(`^<@!?${bot.user?.id}>( |)$`))) msg.reply({ embeds: [new MoonlightEmbedBuilder(msg.author, msg.guild!).setTitle("Hola!").setDescription(`> **Soy ${bot.user?.username}**, un bot multipropósito en Español para su servidor de Discord.\n\n> Cuento con varios comandos de prefix (\`${prefix}\`) y de barra (\`/\`) para utilizar en su servidor.\n\n> Para empezar a usar mis comandos, puedes revisar la lista de comandos con \`${prefix}help\`\n\n> *・ ¡Muchas gracias por leer!* ${bot.getEmoji("love")}`)] });
 
       if (!args[0] || !msg.guild || msg.author.bot || !msg.content.startsWith(prefix)) return;
 
@@ -63,7 +67,7 @@ export default new EventBuilder({
         if (!msg.guild?.members.me?.permissions?.has(["ViewChannel", "SendMessages", "EmbedLinks", "UseExternalEmojis"])) return msg.reply(bot.replyMessage("Requiero de tener los siguientes permisos para que mis comandos puedan funcionar: `Ver canales`, `Enviar canales`, `Adjuntar links`, `Usar emojis externos`", { emoji: "warning" }));
         if (!command.enabled && !bot.isOwner(msg.author)) return msg.reply(bot.replyMessage("Este comando está deshabilitado temporalmente. Intenta más tarde.", { emoji: "error" }));
         if (command.ownerOnly && !bot.isOwner(msg.author)) return;
-        if (command.memberPerms && !msg.member.permissions?.has(command.memberPerms)) return msg.reply(bot.replyMessage(`No cuentas con los permisos requeridos para usar este comando.\n> Permisos requeridos: ${command.memberPerms.map(permission => `\`${bot.utils.guild.roles.permissions[permission]}\``).join(", ")}`, { emoji: "error" }));
+        if (command.memberPerms && !msg.member?.permissions?.has(command.memberPerms)) return msg.reply(bot.replyMessage(`No cuentas con los permisos requeridos para usar este comando.\n> Permisos requeridos: ${command.memberPerms.map(permission => `\`${bot.utils.guild.roles.permissions[permission]}\``).join(", ")}`, { emoji: "error" }));
         if (command.botPerms && !msg.guild?.members.me?.permissions?.has(command.botPerms)) return msg.reply(bot.replyMessage(`No cuento con los permisos requeridos para efectuar este comando. Por favor añádeme un rol que tenga los siguientes permisos.\n> Permisos requeridos: ${command.botPerms.map(permission => `\`${bot.utils.guild.roles.permissions[permission]}\``).join(", ")}`, { emoji: "error" }));
         // if (!bot.isOwner(msg.author)) return msg.reply(bot.replyMessage("Los comandos no están disponibles en este momento.", { emoji: "error" }));
 
@@ -74,7 +78,8 @@ export default new EventBuilder({
         }
       } else return;
     } catch (err) {
-      bot.logger.writeError(err);
+      if (err instanceof Error)
+        bot.logger.writeError(err);
     }
   }
 });
