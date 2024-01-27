@@ -5,28 +5,12 @@
   "main": "index.ts",
   "engineStrict": true,
   "type": "module",
-  "scripts": {
-    "start": "node dist/index.js",
-    "dev": "npx ts-node-dev .",
-    "build": "rimraf dist && npx tsc --build"
-  },
+  "scripts": {},
   "engines": {
     "node": ">=20.10.0",
     "npm": ">=10.2.3"
   },
   "keywords": [],
   "author": "Victor",
-  "license": "MPL-2.0",
-  "dependencies": {
-    "discord.js": "14.14.1",
-    "easy-json-database": "1.5.0",
-    "humanize-duration": "3.27.3",
-    "ms-typescript": "2.0.0"
-  },
-  "devDependencies": {
-    "dotenv": "16.0.3",
-    "rimraf": "5.0.5",
-    "ts-node-dev": "2.0.0",
-    "typescript": "5.3.3"
-  }
+  "license": "MPL-2.0"
 }
