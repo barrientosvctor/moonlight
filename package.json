@@ -10,5 +10,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "14.14.1"
+  },
+  "devDependencies": {
+    "dotenv": "16.4.1",
+    "tsx": "4.7.0",
+    "typescript": "5.3.3"
+  }
 }
