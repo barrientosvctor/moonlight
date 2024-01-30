@@ -15,7 +15,7 @@ export class MoonlightClient extends Client {
         presence: {
           status: "dnd",
           activities: [{
-            name: "hola Reconstrucción...",
+            name: "Reconstrucción...",
             type: ActivityType.Watching
           }]
         },
