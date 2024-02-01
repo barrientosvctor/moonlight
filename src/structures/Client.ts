@@ -1,8 +1,10 @@
 import { ActivityType, Client } from "discord.js";
 import type { ClientOptions } from "discord.js";
+import { ClientHandler } from "./ClientHandler.js";
 
 export class MoonlightClient extends Client {
   private static __instance: MoonlightClient;
+  private readonly __handler = new ClientHandler(this);
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -26,6 +28,9 @@ export class MoonlightClient extends Client {
   }
 
   public override async login(token?: string | undefined): Promise<string> {
+    const eventHandler = this.__handler.events();
+
+    await eventHandler;
     return await super.login(token);
   }
 }
