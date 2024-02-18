@@ -7,10 +7,7 @@ import type { EventBuilder } from "./EventBuilder.js";
 export class ClientHandler implements ClientHandlerPieces {
   private readonly __path = new PathCreator();
 
-  constructor(private readonly __client: MoonlightClient) {
-    this.__path.setDev(false);
-    this.__path.setFileExtension(".js");
-  }
+  constructor(private readonly __client: MoonlightClient) { }
 
   async events() {
     const eventsFolder = readdir(this.__path.joinPaths("events"), {

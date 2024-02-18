@@ -1,29 +1,30 @@
 import { join } from "node:path";
 
 type FileExtensions = ".ts" | ".js";
+type SourceFolder = "src" | "dist";
 
 export class PathCreator {
   private __dev = false;
   private __extension: FileExtensions = ".js";
+  private __source: SourceFolder = "dist";
 
-  constructor() { }
+  constructor(protected readonly devMode: boolean = false) {
+    this.__dev = devMode;
+
+    if (this.__dev) {
+      this.__extension = ".ts";
+      this.__source = "src";
+    } else {
+      this.__extension = ".js";
+      this.__source = "dist";
+    }
+  }
 
   get extension(): FileExtensions {
     return this.__extension;
   }
 
-  setDev(value: boolean) {
-    this.__dev = value;
-  }
-
-  setFileExtension(extension: FileExtensions) {
-    this.__extension = extension;
-  }
-
   joinPaths(...paths: string[]) {
-    if (this.__dev)
-      return join(process.cwd(), "src", ...paths);
-    else
-      return join(process.cwd(), "dist", ...paths);
+    return join(process.cwd(), this.__source, ...paths);
   }
 }
