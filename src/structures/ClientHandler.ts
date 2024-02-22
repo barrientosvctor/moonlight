@@ -3,9 +3,10 @@ import type { MoonlightClient } from "./Client.js";
 import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
+import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
 
 export class ClientHandler implements ClientHandlerPieces {
-  private readonly __path = new PathCreator();
+  private readonly __path = new PathCreator(PATH_CREATOR_DEV_MODE);
 
   constructor(private readonly __client: MoonlightClient) { }
 
