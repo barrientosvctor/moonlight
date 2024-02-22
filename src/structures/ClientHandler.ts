@@ -1,4 +1,4 @@
-import type { ClientHandlerPieces } from "../types/handler.js";
+import type { ClientHandlerPieces } from "../types/handler.types.js";
 import type { MoonlightClient } from "./Client.js";
 import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
