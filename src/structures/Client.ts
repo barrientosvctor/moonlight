@@ -1,10 +1,14 @@
-import { ActivityType, Client } from "discord.js";
-import type { ClientOptions } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  type ClientOptions
+} from "discord.js";
+
 import { ClientHandler } from "./ClientHandler.js";
 
-export class MoonlightClient extends Client {
+export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> {
   private static __instance: MoonlightClient;
-  private readonly __handler = new ClientHandler(this);
+  private readonly __handler: ClientHandler = new ClientHandler(this);
 
   private constructor(options: ClientOptions) {
     super(options);
