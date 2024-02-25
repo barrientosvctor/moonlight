@@ -8,39 +8,39 @@ import {
   CommandBuilderPieces
 } from "../types/command.types.js";
 import type {
-	ApplicationCommandOptionData,
-	PermissionResolvable,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	APIApplicationCommandOption,
-	ApplicationCommandType
+  ApplicationCommandOptionData,
+  PermissionResolvable,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
+  APIApplicationCommandOption,
+  ApplicationCommandType
 } from "discord.js";
 
 export class CommandBuilder<Command extends CommandType = CommandType> implements CommandBuilderPieces<Command> {
   private data: CommandOptions<Command>;
   public name: string;
-	public type: CommandType;
+  public type: CommandType;
   public category: CommandCategory
-	public guildIds: string[] = [];
-	public runInDM?: boolean = false;
+  public guildIds: string[] = [];
+  public runInDM?: boolean = false;
 
   // All properties of every command type
-	public description?: string;
-	public ownerOnly?: boolean;
-	public requiredMemberPermissions?: PermissionResolvable;
-	public requiredClientPermissions?: PermissionResolvable;
+  public description?: string;
+  public ownerOnly?: boolean;
+  public requiredMemberPermissions?: PermissionResolvable;
+  public requiredClientPermissions?: PermissionResolvable;
   public cooldown?: number;
-	public aliases?: string[];
+  public aliases?: string[];
   public usage?: string;
   public example?: string;
-	public options?: ApplicationCommandOptionData[] = [];
+  public options?: ApplicationCommandOptionData[] = [];
 
-	public run: BaseCommandRunFunction<Command>;
-	public autoCompleteRun?: AutoCompleteRunFunction;
+  public run: BaseCommandRunFunction<Command>;
+  public autoCompleteRun?: AutoCompleteRunFunction;
 
-	public constructor(data: CommandOptions<Command>) {
-		this.data = data;
+  public constructor(data: CommandOptions<Command>) {
+    this.data = data;
     this.name = data.name;
-		this.type = data.type;
+    this.type = data.type;
     this.category = data.category;
     this.guildIds = this.data.guildIds ?? []; // Keep it empty for global commands
     this.runInDM = data.dmPermission;
@@ -66,22 +66,22 @@ export class CommandBuilder<Command extends CommandType = CommandType> implement
     }
 
     this.run = data.run as BaseCommandRunFunction<Command>;
-	}
+  }
 
-	public buildAPIApplicationCommand(): RESTPostAPIChatInputApplicationCommandsJSONBody {
-		return {
-			name: this.data.name,
-			description: this.description ?? "",
-			default_member_permissions: this.requiredMemberPermissions?.toString(),
-			dm_permission: this.runInDM,
-			options: this
-				.options as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-				APIApplicationCommandOption[]
-			>,
-			type: this
-				.type as unknown as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-				ApplicationCommandType.ChatInput | undefined
-			>,
-		};
-	}
+  public buildAPIApplicationCommand(): RESTPostAPIChatInputApplicationCommandsJSONBody {
+    return {
+      name: this.data.name,
+      description: this.description ?? "",
+      default_member_permissions: this.requiredMemberPermissions?.toString(),
+      dm_permission: this.runInDM,
+      options: this
+        .options as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
+          APIApplicationCommandOption[]
+        >,
+      type: this
+        .type as unknown as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
+          ApplicationCommandType.ChatInput | undefined
+        >,
+    };
+  }
 }
