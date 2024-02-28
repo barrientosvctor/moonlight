@@ -37,7 +37,18 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     const eventHandler = this.__handler.events();
     const commandHandler = this.__handler.commands();
 
-    await Promise.all([eventHandler, commandHandler]);
+    const [h1, h2] = await Promise.allSettled([eventHandler, commandHandler]);
+
+    if (h1.status === "rejected") {
+      console.error(h1.reason);
+      process.exit(1);
+    }
+
+    if (h2.status === "rejected") {
+      console.error(h2.reason);
+      process.exit(1);
+    }
+
     return await super.login(token);
   }
 }
