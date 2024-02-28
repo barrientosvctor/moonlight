@@ -1,5 +1,6 @@
 import { EventBuilder } from "../structures/EventBuilder.js";
 import { CommandType } from "../types/command.types.js";
+import { bold } from "discord.js";
 
 export default new EventBuilder({
   event: "messageCreate",
@@ -14,7 +15,13 @@ export default new EventBuilder({
 
     const command = client.commandsManager.getCommand(args[0], CommandType.Legacy);
 
-    if (!command) return;
+    if (!command) {
+      message.reply(`El comando ${bold(args[0])} no fue encontrado.`)
+      .then(msg => setTimeout(async () => {
+        if (msg.deletable) await msg.delete();
+      }, 5000))
+      return;
+    }
 
     try {
       await command.run(client, message, args);
