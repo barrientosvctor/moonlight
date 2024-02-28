@@ -19,7 +19,7 @@ export class ClientHandler implements ClientHandlerPieces {
     const [result] = await Promise.allSettled([eventsFolder]);
 
     if (result.status === "rejected")
-      throw new Error("Event handler could not be resolved.");
+      throw new Error(result.reason);
 
     result.value.filter(file => file.name.endsWith(this.__path.extension)).forEach(async info => {
       const event = (await import(`../events/${info.name}`)).default as EventBuilder;
@@ -40,7 +40,7 @@ export class ClientHandler implements ClientHandlerPieces {
     const [result] = await Promise.allSettled([commandsFolder]);
 
     if (result.status === "rejected")
-      throw new Error("Command handler could not be resolved.");
+      throw new Error(result.reason);
 
     result.value.filter(item => item.name.endsWith(this.__path.extension)).forEach(async info => {
       const folderName = info.path.split(/[\\/]+/g).at(-1);
