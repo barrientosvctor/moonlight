@@ -19,4 +19,4 @@ type EventBuilderParameters<T> = {
   execute: (...args: EventArgs<T>) => Awaitable<void>;
 }
 
-type EventArgs<T> = T extends keyof ClientEvents ? [...args: ClientEvents[T], client: MoonlightClient] : unknown[];
+type EventArgs<T> = T extends keyof ClientEvents ? [...args: ClientEvents[T], client: MoonlightClient<true>] : unknown[];
