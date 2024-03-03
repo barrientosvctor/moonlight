@@ -23,7 +23,7 @@ export default new EventBuilder({
       return;
     }
 
-    if (command.ownerOnly && message.author.id !== client.application.owner?.id) return;
+    if (command.ownerOnly && message.author.id !== client.application?.owner?.id) return;
 
     if (command.cooldown && command.cooldown > 0) {
       if (!client.cooldown.has(command.name))
