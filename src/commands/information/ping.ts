@@ -7,7 +7,7 @@ export default new CommandBuilder({
   name: "ping",
   cooldown: 15,
   category: "Información",
-  description: "Muestra la latencia actual del bot en Discord.",
+  description: "Muestra el tiempo de respuesta que tengo actualmente.",
   run(client, message) {
     return message.reply(`Pong! 🏓 --- ${bold(`${client.ws.ping} ms`)}.`);
   }
