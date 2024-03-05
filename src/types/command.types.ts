@@ -134,3 +134,8 @@ export type CommandManagerPieces = {
   addCommand(name: string, options: CommandBuilder): void;
   getCommand<Type extends CommandType>(name: string, type: Type): CommandBuilder<Type> | undefined;
 }
+
+export type CategoryInformation = {
+  name: string;
+  commands: string[];
+}
