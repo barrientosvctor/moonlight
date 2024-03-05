@@ -42,11 +42,17 @@ export class ClientHandler implements ClientHandlerPieces {
     if (result.status === "rejected")
       throw new Error(result.reason);
 
-    result.value.filter(item => item.name.endsWith(this.__path.extension)).forEach(async info => {
-      const folderName = info.path.split(/[\\/]+/g).at(-1);
-      const command = (await import(`../commands/${folderName}/${info.name}`)).default as CommandBuilder;
+    const commandsInfo = result.value.filter(item => item.name.endsWith(this.__path.extension));
+    const commandsName = Array.from(commandsInfo, (info) => info.name);
 
-      this.__client.commandsManager.addCommand(command.name, command);
+    commandsInfo.forEach(async info => {
+      const folderName = info.path.split(/[\\/]+/g).at(-1);
+      if (folderName) {
+        const command = (await import(`../commands/${folderName}/${info.name}`)).default as CommandBuilder;
+
+        this.__client.commandsManager.categories.set(folderName, { name: folderName, commands: commandsName });
+        this.__client.commandsManager.addCommand(command.name, command);
+      }
     });
   }
 }
