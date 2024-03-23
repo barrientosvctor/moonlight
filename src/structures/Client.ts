@@ -6,7 +6,7 @@ import {
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
-import jsonUtils from "../utils.json" with { type: "json" };
+import jsonUtils from "../util/data.json" with { type: "json" };
 
 export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> {
   private static __instance: MoonlightClient;
