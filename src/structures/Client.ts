@@ -72,8 +72,8 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     let emojiField = "";
     let mentionField = "";
 
-    if (data.emoji && this.getEmoji(data.emoji)) emojiField = `${this.getEmoji(data.emoji)} ~ ` || "";
-    if (data.mention) mentionField = `**${data.mention}**, ` || "";
+    if (data.emoji && this.getEmoji(data.emoji)) emojiField = `${this.getEmoji(data.emoji)} ~ `;
+    if (data.mention) mentionField = `**${data.mention}**, `;
 
     return `${emojiField}${mentionField}${message}`;
   }
