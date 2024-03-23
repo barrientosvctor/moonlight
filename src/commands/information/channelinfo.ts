@@ -1,4 +1,4 @@
-import { ChannelType, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { ChannelType, EmbedBuilder, type GuildTextBasedChannel } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 import { getChannel } from "../../util/functions.js";
