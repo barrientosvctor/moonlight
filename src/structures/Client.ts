@@ -6,12 +6,14 @@ import {
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
+import jsonUtils from "../utils.json" with { type: "json" };
 
 export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager();
   readonly cooldown = new Map<string, Map<string, number>>();
+  readonly utils = jsonUtils;
 
   private constructor(options: ClientOptions) {
     super(options);
