@@ -15,7 +15,7 @@ export type Emoji = {
 export const emojiList: Emoji = {
   check: ["✅"],
   error: ["❌"],
-  noargs: ["❗"],
+  noargs: ["❗", "❓"],
   sad: ["😔", "😕", "😞", "😟", "🙁", "☹️", "😢", "😭"],
   tada: ["🎉"],
   wait: ["<a:waiting:1019010655434571969>"],
