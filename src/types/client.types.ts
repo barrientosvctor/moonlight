@@ -36,4 +36,5 @@ export type ClientPieces = {
   utils: typeof jsonUtils;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
+  convertPermissionString<ItemType extends string>(item: ItemType): string;
 }

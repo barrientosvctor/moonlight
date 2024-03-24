@@ -82,4 +82,9 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
 
     return `${emojiField}${mentionField}${message}`;
   }
+
+  public convertPermissionString<ItemType extends string>(item: ItemType) {
+    const index = Object.keys(this.utils.guild.roles.permissions).indexOf(item);
+    return Object.values(this.utils.guild.roles.permissions)[index];
+  }
 }
