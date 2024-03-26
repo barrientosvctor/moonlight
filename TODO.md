@@ -1,0 +1,3 @@
+- [ ] Fix and add the new guild properties on json (features)
+- [ ] Allow to use and search commands via aliases
+- [ ] Convert the commands folder name to its Spanish version on help command
