@@ -13,6 +13,7 @@ import {
   type ClientPieces
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
+import { CommandType } from "../types/command.types.js";
 
 export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> implements ClientPieces {
   private static __instance: MoonlightClient;
@@ -81,5 +82,9 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     }
 
     return `${emojiField}${mentionField}${message}`;
+  }
+
+  public receiveCommand(argument: string) {
+    return this.commandsManager.getCommand(argument, CommandType.Legacy) || this.commandsManager.getCommandByAlias(argument);
   }
 }
