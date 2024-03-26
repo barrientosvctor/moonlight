@@ -79,7 +79,6 @@
         "SendMessagesInThreads": "Enviar mensajes en los hilos",
         "UseEmbeddedActivities": "Iniciar actividades",
         "ModerateMembers": "Moderar miembros"
-
     },
     "guild.premiumTier": {
         "0": "Tier 0",
