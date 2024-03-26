@@ -3,6 +3,7 @@ import type {
   AutocompleteInteraction,
   Awaitable,
   ChatInputCommandInteraction,
+  Collection,
   Message,
   MessageContextMenuCommandInteraction,
   PermissionResolvable,
@@ -131,8 +132,10 @@ export type CommandBuilderPieces<Type extends CommandType = CommandType> = {
 }
 
 export type CommandManagerPieces = {
+  categories: Collection<string, CategoryInformation>;
   addCommand(name: string, options: CommandBuilder): void;
   getCommand<Type extends CommandType>(name: string, type: Type): CommandBuilder<Type> | undefined;
+  showCommandsList(): string;
 }
 
 export type CategoryInformation = {
