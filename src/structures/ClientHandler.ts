@@ -56,6 +56,9 @@ export class ClientHandler implements ClientHandlerPieces {
 
         this.__client.commandsManager.categories.set(folderName, { name: folderName, commands: commandsName });
         this.__client.commandsManager.addCommand(command.name, command);
+
+        if (command.aliases)
+          command.aliases.forEach(alias => this.__client.commandsManager.addAliasToCommand(alias, command.name));
       }
     });
   }
