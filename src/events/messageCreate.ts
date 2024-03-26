@@ -1,5 +1,4 @@
 import { EventBuilder } from "../structures/EventBuilder.js";
-import { CommandType } from "../types/command.types.js";
 import { bold } from "discord.js";
 
 export default new EventBuilder({
@@ -13,7 +12,7 @@ export default new EventBuilder({
 
     if (!args[0]) return;
 
-    const command = client.commandsManager.getCommand(args[0], CommandType.Legacy) || client.commandsManager.getCommandByAlias(args[0]);
+    const command = client.receiveCommand(args[0]);
 
     if (!command) {
       message.reply(`El comando ${bold(args[0])} no fue encontrado.`)

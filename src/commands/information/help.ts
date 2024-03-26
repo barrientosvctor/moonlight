@@ -17,7 +17,7 @@ export default new CommandBuilder({
     .setTimestamp();
 
     if (args[1]) {
-      const commandInput = client.commandsManager.getCommand(args[1], CommandType.Legacy);
+      const commandInput = client.receiveCommand(args[1]);
       if (!commandInput || commandInput.ownerOnly)
         return message.reply(`No pude encontrar el comando ${bold(args[1])}. Revisa los comandos que tengo disponibles usando \`!!${this.name}\`.`);
 
