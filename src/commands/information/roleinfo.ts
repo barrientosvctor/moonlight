@@ -35,7 +35,7 @@ export default new CommandBuilder({
       **¿Editable?** ${role.editable ? 'Sí' : 'No'}
       **Fecha de creación:** <t:${Math.ceil(role.createdTimestamp / 1000)}>
       `)
-      .addFields({ name: "Permisos", value: role.permissions.toArray().map((permission) => client.convertPermissionString(permission)).join(", ") });
+      .addFields({ name: "Permisos", value: role.permissions.toArray().map((permission) => client.wrapper.get("guild.roles.permissions", permission)).join(", ") });
 
     return message.reply({ embeds: [embed] });
   }

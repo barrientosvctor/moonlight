@@ -9,6 +9,6 @@ export default new CommandBuilder({
   category: "Información",
   description: "Este comando te permite invitarme a tu servidor.",
   run(client, message) {
-    return message.reply(`Gracias por considerar añadirme a tú servidor. Presiona ${hyperlink("aquí", client.utils.bot.invite)} para invitarme a tu servidor. ❤️`);
+    return message.reply(`Gracias por considerar añadirme a tú servidor. Presiona ${hyperlink("aquí", client.wrapper.get("bot.info", "invite"))} para invitarme a tu servidor. ❤️`);
   }
 });
