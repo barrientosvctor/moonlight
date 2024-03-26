@@ -13,7 +13,7 @@ export default new EventBuilder({
 
     if (!args[0]) return;
 
-    const command = client.commandsManager.getCommand(args[0], CommandType.Legacy);
+    const command = client.commandsManager.getCommand(args[0], CommandType.Legacy) || client.commandsManager.getCommandByAlias(args[0]);
 
     if (!command) {
       message.reply(`El comando ${bold(args[0])} no fue encontrado.`)
