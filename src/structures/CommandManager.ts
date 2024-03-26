@@ -1,5 +1,5 @@
 import { Collection } from "discord.js";
-import type { CommandType } from "../types/command.types.js";
+import { CommandType } from "../types/command.types.js";
 import type {
   CommandManagerPieces,
   CategoryInformation
@@ -9,6 +9,7 @@ import type { CommandBuilder } from "./CommandBuilder.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, CommandBuilder>();
+  private readonly __aliases = new Collection<string, string>();
   readonly categories = new Collection<string, CategoryInformation>();
 
   private formatCommandsName(category: CategoryInformation) {
@@ -31,5 +32,16 @@ export class CommandManager implements CommandManagerPieces {
       const formattedCommandsName = this.formatCommandsName(category);
       return `**${category.name}**\n${formattedCommandsName}`;
     }).join("\n\n");
+  }
+
+  public addAliasToCommand(alias: string, command: string) {
+    this.__aliases.set(alias, command);
+  }
+
+  public getCommandByAlias(alias: string) {
+    const cmd = this.__aliases.get(alias);
+    if (!cmd) return undefined;
+
+    return this.getCommand(cmd, CommandType.Legacy);
   }
 }

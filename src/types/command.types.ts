@@ -136,6 +136,8 @@ export type CommandManagerPieces = {
   addCommand(name: string, options: CommandBuilder): void;
   getCommand<Type extends CommandType>(name: string, type: Type): CommandBuilder<Type> | undefined;
   showCommandsList(): string;
+  addAliasToCommand(alias: string, command: string): void;
+  getCommandByAlias(alias: string): CommandBuilder<CommandType.Legacy> | undefined;
 }
 
 export type CategoryInformation = {
