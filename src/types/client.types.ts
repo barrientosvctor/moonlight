@@ -1,5 +1,5 @@
 import { CommandManager } from "../structures/CommandManager.js";
-import jsonUtils from "../util/data.json" with { type: "json" };
+import { JSONWrapper } from "../structures/JSONWrapper.js";
 
 export type Emoji = {
   check: string | string[];
@@ -33,8 +33,7 @@ export type BeautyMessageOptions = {
 export type ClientPieces = {
   commandsManager: CommandManager;
   cooldown: Map<string, Map<string, number>>;
-  utils: typeof jsonUtils;
+  wrapper: JSONWrapper;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
-  convertPermissionString<ItemType extends string>(item: ItemType): string;
 }

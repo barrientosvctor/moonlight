@@ -6,20 +6,20 @@ import {
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
-import jsonUtils from "../util/data.json" with { type: "json" };
 import {
   type BeautyMessageOptions,
   type EmojiType,
   emojiList,
   type ClientPieces
 } from "../types/client.types.js";
+import { JSONWrapper } from "./JSONWrapper.js";
 
 export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> implements ClientPieces {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager();
   readonly cooldown = new Map<string, Map<string, number>>();
-  readonly utils = jsonUtils;
+  readonly wrapper = new JSONWrapper();
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -81,10 +81,5 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     }
 
     return `${emojiField}${mentionField}${message}`;
-  }
-
-  public convertPermissionString<ItemType extends string>(item: ItemType) {
-    const index = Object.keys(this.utils.guild.roles.permissions).indexOf(item);
-    return Object.values(this.utils.guild.roles.permissions)[index];
   }
 }
