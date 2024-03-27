@@ -40,3 +40,14 @@ export function getRole(role: string, message: Message) {
 
   return message.guild.roles.cache.get(role);
 }
+
+export async function fetchToDiscordAPI(path: string) {
+  const response = await fetch(`https://discord.com/api/v10${path}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bot ${process.env.DISCORD_TOKEN}`
+    }
+  });
+
+  return response.json();
+}
