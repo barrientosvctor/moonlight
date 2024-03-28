@@ -4,7 +4,7 @@
         "color": "#F9D87F",
         "banner": "https://i.imgur.com/Q2LYV6F.png"
     },
-    "user.status": {
+    "user.presence.status": {
         "online": "<:online:1005618778400378880> Conectado",
         "idle": "<:idle:1005618776110288896> Ausente",
         "dnd": "<:dnd:1005618777259511818> No molestar",
