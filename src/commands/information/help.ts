@@ -9,8 +9,8 @@ export default new CommandBuilder({
   category: "Información",
   description: "Revisa información importante sobre un comando o conoce todos los comandos que tengo disponibles.",
   aliases: ["h"],
-  usage: "!!help [comando]",
-  example: "!!help invite",
+  usage: "[comando]",
+  example: "invite",
   run(client, message, args) {
     let embed = new EmbedBuilder()
     .setColor("Random")
@@ -45,12 +45,12 @@ export default new CommandBuilder({
           },
           {
             name: "Forma de uso",
-            value: commandInput.usage!,
+            value: commandInput.usage ? `!!${commandInput.name} ${commandInput.usage}` : "No tiene uso especificado.",
             inline: true
           },
           {
             name: "Ejemplo de uso",
-            value: commandInput.example!,
+            value: commandInput.example ? `!!${commandInput.name} ${commandInput.example}` : "No tiene ejemplo especificado.",
             inline: true
           },
           {
