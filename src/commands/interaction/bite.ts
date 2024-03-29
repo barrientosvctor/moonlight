@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, bold } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 import { fetchAnimeGIF, getMember } from "../../util/functions.js";
@@ -22,7 +22,7 @@ export default new CommandBuilder({
 
     const data = await fetchAnimeGIF("bite"),
       embed = new EmbedBuilder()
-        .setDescription(`**${message.author.username}** modió a **${member.user.username}**`)
+        .setDescription(`${bold(message.author.username)} modió a ${bold(member.user.username)}`)
         .setColor("DarkGrey")
         .setImage(data.url);
 

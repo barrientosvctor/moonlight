@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, bold } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 import { fetchAnimeGIF } from "../../util/functions.js";
@@ -12,7 +12,7 @@ export default new CommandBuilder({
   async run(_, message) {
     const data = await fetchAnimeGIF("cry"),
       embed = new EmbedBuilder()
-        .setDescription(`**${message.author.username}** está llorando.`)
+        .setDescription(`${bold(message.author.username)} está llorando.`)
         .setColor("DarkGrey")
         .setImage(data.url);
 
