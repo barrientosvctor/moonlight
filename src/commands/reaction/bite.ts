@@ -18,12 +18,11 @@ export default new CommandBuilder({
 
     if (!member) return message.reply(client.beautifyMessage("Este usuario no está en el servidor.", { emoji: "error" }));
     if (member.user.id === message.author.id) return message.channel.send(client.beautifyMessage("¿por qué te morderías a ti mismo?", { mention: message.author.username }));
-    if (member.user.id === client.user?.id) return message.channel.send(client.beautifyMessage("¡No me gusta que me muerdan, prueba con otro!", { mention: message.author.username }));
 
     const data = await fetchAnimeGIF("bite"),
       embed = new EmbedBuilder()
         .setDescription(`${bold(message.author.username)} modió a ${bold(member.user.username)}`)
-        .setColor("DarkGrey")
+        .setColor("Random")
         .setImage(data.url);
 
     return message.channel.send({ embeds: [embed] });
