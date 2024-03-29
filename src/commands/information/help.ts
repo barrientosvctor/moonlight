@@ -13,8 +13,7 @@ export default new CommandBuilder({
   example: "invite",
   run(client, message, args) {
     let embed = new EmbedBuilder()
-    .setColor("Random")
-    .setTimestamp();
+      .setColor("Random");
 
     if (args[1]) {
       const commandInput = client.receiveCommand(args[1]);
@@ -61,7 +60,10 @@ export default new CommandBuilder({
             name: "Permisos necesarios de Moonlight",
             value: commandInput.requiredClientPermissions?.toString().length ? commandInput.requiredClientPermissions.toString() : "Ninguno"
           }
-        );
+        )
+        .setFooter({
+          text: "Sintaxis: <requerido> [opcional] | = ó",
+        });
     } else {
       embed
         .setTitle("Mis comandos")
