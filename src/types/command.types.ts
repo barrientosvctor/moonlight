@@ -31,7 +31,7 @@ export const enum CommandType {
  * Union type of the commands categories name. These categories should be written in Spanish because these will be used to show them
  * as command information in Client's responses.
  */
-export type CommandCategory = "Información";
+export type CommandCategory = "Información" | "Interacción";
 
 /**
  * The base command run function for all command types. This receive a CommandType generic and this will be adapted

@@ -51,3 +51,7 @@ export async function fetchToDiscordAPI(path: string) {
 
   return response.json();
 }
+
+export async function fetchAnimeGIF(type: string) {
+  return await fetch(`https://api.otakugifs.xyz/gif?reaction=${type}`).then(res => res.json()) as { url: string };
+}
