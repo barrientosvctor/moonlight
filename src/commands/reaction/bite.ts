@@ -10,7 +10,7 @@ export default new CommandBuilder({
   cooldown: 3,
   usage: "<@usuario | ID>",
   example: "@darz",
-  category: "Interacción",
+  category: "Reacción",
   async run(client, message, args) {
     if (!args[1]) return message.channel.send(client.beautifyMessage("menciona a la persona que vas a morder.", { mention: message.author.username, emoji: "noargs" }));
 

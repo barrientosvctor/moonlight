@@ -5,16 +5,16 @@ import { fetchAnimeGIF } from "../../util/functions.js";
 
 export default new CommandBuilder({
   type: CommandType.Legacy,
-  name: "cry",
-  description: "Solo llora.",
+  name: "dance",
+  description: "Baila felizmente!",
   cooldown: 3,
-  category: "Interacción",
+  category: "Reacción",
   async run(_, message) {
-    const data = await fetchAnimeGIF("cry"),
+    const data = await fetchAnimeGIF("dance"),
       embed = new EmbedBuilder()
-        .setDescription(`${bold(message.author.username)} está llorando.`)
-        .setColor("DarkGrey")
-        .setImage(data.url);
+        .setColor("Random")
+        .setImage(data.url)
+        .setDescription(`${bold(message.author.username)} está bailando.`);
 
     return message.channel.send({ embeds: [embed] });
   }
