@@ -47,14 +47,14 @@ export class ClientHandler implements ClientHandlerPieces {
       throw new Error(result.reason);
 
     const commandsInfo = result.value.filter(item => item.name.endsWith(this.__path.extension));
-    const commandsName = Array.from(commandsInfo, (info) => info.name);
 
     commandsInfo.forEach(async info => {
       const folderName = info.path.split(/[\\/]+/g).at(-1);
+      const commandsPerCategory = Array.from(commandsInfo.filter(data => data.path.split(/[\\/]+/g).at(-1) === folderName), (cmd) => cmd.name);
       if (folderName) {
         const command = (await import(`../commands/${folderName}/${info.name}`)).default as CommandBuilder;
 
-        this.__client.commandsManager.categories.set(folderName, { name: folderName, commands: commandsName });
+        this.__client.commandsManager.categories.set(folderName, { name: folderName, commands: commandsPerCategory });
         this.__client.commandsManager.addCommand(command.name, command);
 
         if (command.aliases)
