@@ -53,8 +53,8 @@ export class CommandBuilder<Command extends CommandType = CommandType> implement
 
       this.cooldown = data.cooldown;
       this.aliases = data.aliases ?? [];
-      this.usage = data.usage ?? "No tiene uso especificado.";
-      this.example = data.example ?? "No tiene ejemplo especificado.";
+      this.usage = data.usage;
+      this.example = data.example;
     } else if (data.type === CommandType.ChatInput) {
       this.description = data.description;
       this.ownerOnly = data.ownerOnly;
