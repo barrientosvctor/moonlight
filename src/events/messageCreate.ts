@@ -14,7 +14,7 @@ export default new EventBuilder({
 
     if (!args[0]) return;
 
-    const command = client.receiveCommand(args[0]);
+    const command = client.utils.receiveCommand(args[0]);
 
     if (!command) {
       message.reply(`El comando ${bold(args[0])} no fue encontrado.`)
@@ -56,14 +56,14 @@ export default new EventBuilder({
     }
 
     if (command.requiredClientPermissions && !message.guild.members.me?.permissions.has(command.requiredClientPermissions)) {
-      message.reply(client.beautifyMessage(`Me faltan alguno de los siguientes permisos: ${client.convertPermissionStringToArray(command.requiredClientPermissions.toString()).join(", ")}`, {
+      message.reply(client.beautifyMessage(`Me faltan alguno de los siguientes permisos: ${client.utils.convertPermissionStringToArray(command.requiredClientPermissions.toString()).join(", ")}`, {
         emoji: "error"
       }));
       return;
     }
 
     if (command.requiredMemberPermissions && !message.member?.permissions.has(command.requiredMemberPermissions)) {
-      message.reply(client.beautifyMessage(`Te faltan alguno de los siguientes permisos: ${client.convertPermissionStringToArray(command.requiredMemberPermissions.toString()).join(", ")}`, {
+      message.reply(client.beautifyMessage(`Te faltan alguno de los siguientes permisos: ${client.utils.convertPermissionStringToArray(command.requiredMemberPermissions.toString()).join(", ")}`, {
         emoji: "error"
       }));
       return;

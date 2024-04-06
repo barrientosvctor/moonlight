@@ -16,7 +16,7 @@ export default new CommandBuilder({
       .setColor("Random");
 
     if (args[1]) {
-      const commandInput = client.receiveCommand(args[1]);
+      const commandInput = client.utils.receiveCommand(args[1]);
       if (!commandInput || commandInput.ownerOnly)
         return message.reply(`No pude encontrar el comando ${bold(args[1])}. Revisa los comandos que tengo disponibles usando \`!!${this.name}\`.`);
 
@@ -54,11 +54,11 @@ export default new CommandBuilder({
           },
           {
             name: "Permisos necesarios del usuario",
-            value: commandInput.requiredMemberPermissions?.toString().length ? client.convertPermissionStringToArray(commandInput.requiredMemberPermissions.toString()).join(", ") : "Ninguno"
+            value: commandInput.requiredMemberPermissions?.toString().length ? client.utils.convertPermissionStringToArray(commandInput.requiredMemberPermissions.toString()).join(", ") : "Ninguno"
           },
           {
             name: "Permisos necesarios de Moonlight",
-            value: commandInput.requiredClientPermissions?.toString().length ? client.convertPermissionStringToArray(commandInput.requiredClientPermissions.toString()).join(", ") : "Ninguno"
+            value: commandInput.requiredClientPermissions?.toString().length ? client.utils.convertPermissionStringToArray(commandInput.requiredClientPermissions.toString()).join(", ") : "Ninguno"
           }
         )
         .setFooter({
