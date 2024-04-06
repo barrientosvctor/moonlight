@@ -87,4 +87,15 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
   public receiveCommand(argument: string) {
     return this.commandsManager.getCommand(argument, CommandType.Legacy) || this.commandsManager.getCommandByAlias(argument);
   }
+
+  /**
+   * This is used with `PermissionResolvable.toString()`
+   * It takes the permissions string and convert it to its Spanish version on a new array.
+   *
+   * @param {string} perms
+   */
+  public convertPermissionStringToArray(perms: string) {
+    const permsArray = perms.split(/[, ]/g);
+    return permsArray.map(perm => this.wrapper.get("guild.roles.permissions", perm));
+  }
 }

@@ -39,4 +39,5 @@ export type ClientPieces = {
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
   receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
+  convertPermissionStringToArray(perms: string): string[];
 }
