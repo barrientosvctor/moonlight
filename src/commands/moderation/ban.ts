@@ -45,7 +45,7 @@ export default new CommandBuilder({
     }
 
     if (!member.user.bot)
-      await member.user.send(`> ¡Has sido baneado de **${message.guild.name}** por **${message.author.tag}**!\n${bold("Razón")}: ${reason}`)
+      await member.user.send(`> ¡Has sido baneado de ${bold(message.guild.name)} por ${bold(message.author.tag)}!\n${bold("Razón")}: ${reason}`)
         .catch(() => { });
 
     return message.reply(client.beautifyMessage(`He baneado a ${member.user.tag} (${inlineCode(member.user.id)}) del servidor.\n${bold("Razón")}: ${reason}`, {
