@@ -13,7 +13,7 @@ import {
   type ClientPieces
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
-import { CommandType } from "../types/command.types.js";
+import { ClientUtilities } from "./ClientUtilities.js";
 
 export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> implements ClientPieces {
   private static __instance: MoonlightClient;
@@ -21,6 +21,7 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
   readonly commandsManager: CommandManager = new CommandManager();
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = new JSONWrapper();
+  readonly utils = new ClientUtilities(this);
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -82,20 +83,5 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     }
 
     return `${emojiField}${mentionField}${message}`;
-  }
-
-  public receiveCommand(argument: string) {
-    return this.commandsManager.getCommand(argument, CommandType.Legacy) || this.commandsManager.getCommandByAlias(argument);
-  }
-
-  /**
-   * This is used with `PermissionResolvable.toString()`
-   * It takes the permissions string and convert it to its Spanish version on a new array.
-   *
-   * @param {string} perms
-   */
-  public convertPermissionStringToArray(perms: string) {
-    const permsArray = perms.split(/[, ]/g);
-    return permsArray.map(perm => this.wrapper.get("guild.roles.permissions", perm));
   }
 }

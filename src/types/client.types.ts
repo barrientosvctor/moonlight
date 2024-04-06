@@ -1,3 +1,5 @@
+import { PermissionsString } from "discord.js";
+import { ClientUtilities } from "../structures/ClientUtilities.js";
 import type { CommandBuilder } from "../structures/CommandBuilder.js";
 import type { CommandManager } from "../structures/CommandManager.js";
 import type { JSONWrapper } from "../structures/JSONWrapper.js";
@@ -36,8 +38,12 @@ export type ClientPieces = {
   commandsManager: CommandManager;
   cooldown: Map<string, Map<string, number>>;
   wrapper: JSONWrapper;
+  utils: ClientUtilities;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
-  receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
+}
+
+export type ClientUtilitiesPieces = {
   convertPermissionStringToArray(perms: string): string[];
+  receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
 }
