@@ -27,11 +27,19 @@ export const enum CommandType {
   Legacy = 4,
 }
 
+export const CategoryNames = {
+  information: "Información",
+  reaction: "Reacción",
+  moderation: "Moderación"
+} as const;
+
+export type CategoryKeyName = keyof typeof CategoryNames;
+
 /**
  * Union type of the commands categories name. These categories should be written in Spanish because these will be used to show them
  * as command information in Client's responses.
  */
-export type CommandCategory = "Información" | "Reacción";
+export type CommandCategory = typeof CategoryNames[CategoryKeyName];
 
 /**
  * The base command run function for all command types. This receive a CommandType generic and this will be adapted
