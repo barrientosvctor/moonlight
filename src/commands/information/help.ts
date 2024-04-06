@@ -54,11 +54,11 @@ export default new CommandBuilder({
           },
           {
             name: "Permisos necesarios del usuario",
-            value: commandInput.requiredMemberPermissions?.toString().length ? commandInput.requiredMemberPermissions.toString() : "Ninguno"
+            value: commandInput.requiredMemberPermissions?.toString().length ? client.wrapper.get("guild.roles.permissions", commandInput.requiredMemberPermissions.toString()) : "Ninguno"
           },
           {
             name: "Permisos necesarios de Moonlight",
-            value: commandInput.requiredClientPermissions?.toString().length ? commandInput.requiredClientPermissions.toString() : "Ninguno"
+            value: commandInput.requiredClientPermissions?.toString().length ? client.wrapper.get("guild.roles.permissions", commandInput.requiredClientPermissions.toString()) : "Ninguno"
           }
         )
         .setFooter({
@@ -70,6 +70,10 @@ export default new CommandBuilder({
         .setDescription(
           client.commandsManager.showCommandsList()
         )
+        .setFooter({
+          text: `Para más información sobre un comando, usa: !!${this.name} <comando>`,
+          iconURL: client.user?.displayAvatarURL({ size: 2048, extension: "png" })
+        });
     }
 
     return message.reply({ embeds: [embed] });
