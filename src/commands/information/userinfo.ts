@@ -1,4 +1,4 @@
-import { ActivityType, EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 import { fetchToDiscordAPI, getMember, getUser } from "../../util/functions.js";
@@ -36,29 +36,7 @@ export default new CommandBuilder({
     } else {
       const member = getMember(user.id, message);
       if (!member)
-      return message.reply(client.beautifyMessage("No se pudo encontrar al usuario.", { emoji: "error" }));
-
-      const clientStatus = [];
-      const activities = [];
-      let status = ``;
-      let customStatus = ``;
-
-      if (member.presence) {
-        for (let activity of member.presence.activities) {
-          if (activity.type === ActivityType.Custom) {
-            customStatus = `${activity.emoji && activity.state ? `**Estado personalizado:** ${activity.emoji} ${activity.state}` : activity.state ? `**Estado personalizado:** ${activity.state}` : activity.emoji ? `**Estado personalizado:** ${activity.emoji}` : ``}`;
-          } else {
-            activities.push(`**- ${client.wrapper.get("user.presence.activities", activity.type.toString())} ${activity.name}**${activity.details ? `\n\`${activity.details}\`` : ``}${activity.state ? `\n\`${activity.state}\`` : ``}\n<t:${Math.ceil(activity.createdTimestamp / 1000)}:R>`)
-          }
-        }
-        if (member.presence.clientStatus?.desktop) clientStatus.push("Escritorio")
-        if (member.presence.clientStatus?.mobile) clientStatus.push("Celular")
-        if (member.presence.clientStatus?.web) clientStatus.push("Navegador")
-
-        status = `**Estado:** ${client.wrapper.get("user.presence.status", member.presence.status.toString())}${clientStatus.length !== 0 ? ` (${clientStatus.join(`, `)})` : ``}${customStatus !== `` ? `\n${customStatus}` : ``}${activities.length !== 0 ? `\n\n${activities.join(`\n`)}` : ``}`;
-      } else {
-        status = `**Estado:** ${client.wrapper.get("user.presence.status", "offline")}`;
-      }
+        return message.reply(client.beautifyMessage("No se pudo encontrar al usuario.", { emoji: "error" }));
 
       embed
         .setThumbnail(member.user.displayAvatarURL({ size: 2048, extension: "png" }) || null)
@@ -70,8 +48,7 @@ export default new CommandBuilder({
 **Fecha de creación:** <t:${Math.ceil(member.user.createdTimestamp / 1000)}>
 **Insignias:** ${member.user.flags?.toArray().map(flag => `${client.wrapper.get("flags", flag)}`).join(', ') || "No tiene insignias"}
 **Apodo:** ${member.nickname || 'No tiene apodo'}
-**Fecha de ingreso:** <t:${Math.ceil(member.joinedTimestamp! / 1000)}>
-${status}`)
+**Fecha de ingreso:** <t:${Math.ceil(member.joinedTimestamp! / 1000)}>`)
         .addFields({
           name: `Roles (${member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== message.guild.roles.everyone).map(role => role).length})`,
           value: member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== message.guild.roles.everyone).map(role => role).join(', ') || 'No tiene roles.'
