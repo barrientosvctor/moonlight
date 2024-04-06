@@ -4,6 +4,7 @@ import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
 import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
 import { CommandBuilder } from "./CommandBuilder.js";
+import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
 type ClientHandlerPieces = {
   events(): void;
@@ -14,6 +15,10 @@ export class ClientHandler implements ClientHandlerPieces {
   private readonly __path = new PathCreator(PATH_CREATOR_DEV_MODE);
 
   constructor(private readonly __client: MoonlightClient) { }
+
+  private convertCategoryName(key: CategoryKeyName) {
+    return CategoryNames[key];
+  }
 
   async events() {
     const eventsFolder = readdir(this.__path.joinPaths("events"), {
@@ -53,8 +58,9 @@ export class ClientHandler implements ClientHandlerPieces {
       const commandsPerCategory = Array.from(commandsInfo.filter(data => data.path.split(/[\\/]+/g).at(-1) === folderName), (cmd) => cmd.name);
       if (folderName) {
         const command = (await import(`../commands/${folderName}/${info.name}`)).default as CommandBuilder;
+        const convertedFolderName = this.convertCategoryName(folderName as CategoryKeyName);
 
-        this.__client.commandsManager.categories.set(folderName, { name: folderName, commands: commandsPerCategory });
+        this.__client.commandsManager.categories.set(convertedFolderName, { name: convertedFolderName, commands: commandsPerCategory });
         this.__client.commandsManager.addCommand(command.name, command);
 
         if (command.aliases)

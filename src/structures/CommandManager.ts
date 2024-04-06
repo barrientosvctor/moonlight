@@ -28,7 +28,7 @@ export class CommandManager implements CommandManagerPieces {
     if (!this.categories.toJSON().length)
       return "No hay comandos disponibles.";
 
-    return this.categories.filter((c) => c.name !== "dev").map((category) => {
+    return this.categories.filter((c) => c.name !== "Desarrollador").map((category) => {
       const formattedCommandsName = this.formatCommandsName(category);
       return `**${category.name}**\n${formattedCommandsName}`;
     }).join("\n\n");
