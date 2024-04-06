@@ -4,6 +4,8 @@ import { bold } from "discord.js";
 export default new EventBuilder({
   event: "messageCreate",
   async execute(message, client) {
+    if (!message.inGuild()) return;
+
     const prefix = "!!" as const;
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -51,6 +53,20 @@ export default new EventBuilder({
       setTimeout(() => {
         commandCollection.delete(message.author.id);
       }, cooldownMSAmount);
+    }
+
+    if (command.requiredClientPermissions && !message.guild.members.me?.permissions.has(command.requiredClientPermissions)) {
+      message.reply(client.beautifyMessage(`Me faltan alguno de los siguientes permisos: ${client.convertPermissionStringToArray(command.requiredClientPermissions.toString()).join(", ")}`, {
+        emoji: "error"
+      }));
+      return;
+    }
+
+    if (command.requiredMemberPermissions && !message.member?.permissions.has(command.requiredMemberPermissions)) {
+      message.reply(client.beautifyMessage(`Te faltan alguno de los siguientes permisos: ${client.convertPermissionStringToArray(command.requiredMemberPermissions.toString()).join(", ")}`, {
+        emoji: "error"
+      }));
+      return;
     }
 
     try {

@@ -1,3 +1,4 @@
 - [ ] Fix and add the new guild properties on json (features)
 - [x] Allow to use and search commands via aliases
 - [x] Convert the commands folder name to its Spanish version on help command
+- [ ] Show the remaining member permissions to run a command.
