@@ -23,4 +23,14 @@ export class ClientUtilities implements ClientUtilitiesPieces {
   public receiveCommand(argument: string) {
     return this.__client.commandsManager.getCommand(argument, CommandType.Legacy) || this.__client.commandsManager.getCommandByAlias(argument);
   }
+
+  /**
+   * This function is my own implementation of `Set.prototype.difference()` (not implemented yet) using arrays.
+   *
+   * Compares the differences between arr1 and arr2.
+   * This function will return a new array with those values that stay in arr1 and not in arr2.
+   */
+  public diff<ArrayType extends unknown[]>(arr1: ArrayType, arr2: ArrayType): ArrayType {
+    return arr1.filter(item => !arr2.includes(item)) as ArrayType;
+  }
 }

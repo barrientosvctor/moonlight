@@ -46,4 +46,5 @@ export type ClientPieces = {
 export type ClientUtilitiesPieces = {
   convertPermissionsToSpanish(perms: PermissionsString[]): string[];
   receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
+  diff<ArrayType extends unknown[]>(arr1: ArrayType, arr2: ArrayType): ArrayType;
 }
