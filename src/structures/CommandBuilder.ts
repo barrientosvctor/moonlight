@@ -9,10 +9,10 @@ import {
 } from "../types/command.types.js";
 import type {
   ApplicationCommandOptionData,
-  PermissionResolvable,
   RESTPostAPIChatInputApplicationCommandsJSONBody,
   APIApplicationCommandOption,
-  ApplicationCommandType
+  ApplicationCommandType,
+  PermissionsString
 } from "discord.js";
 
 export class CommandBuilder<Command extends CommandType = CommandType> implements CommandBuilderPieces<Command> {
@@ -26,8 +26,8 @@ export class CommandBuilder<Command extends CommandType = CommandType> implement
   // All properties of every command type
   public description?: string;
   public ownerOnly?: boolean;
-  public requiredMemberPermissions?: PermissionResolvable;
-  public requiredClientPermissions?: PermissionResolvable;
+  public requiredMemberPermissions?: PermissionsString[];
+  public requiredClientPermissions?: PermissionsString[];
   public cooldown?: number;
   public aliases?: string[];
   public usage?: string;

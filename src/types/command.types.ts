@@ -6,7 +6,7 @@ import type {
   Collection,
   Message,
   MessageContextMenuCommandInteraction,
-  PermissionResolvable,
+  PermissionsString,
   UserContextMenuCommandInteraction
 } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
@@ -57,8 +57,8 @@ interface BaseCommandOptions<Type extends CommandType> {
 interface BaseTextBasedCommandOptions<Type extends CommandType> extends BaseCommandOptions<Type> {
   description: string;
   ownerOnly?: boolean;
-  requiredMemberPermissions?: PermissionResolvable;
-  requiredClientPermissions?: PermissionResolvable;
+  requiredMemberPermissions?: PermissionsString[];
+  requiredClientPermissions?: PermissionsString[];
 }
 
 interface LegacyCommandOptions extends BaseTextBasedCommandOptions<CommandType.Legacy> {
@@ -123,8 +123,8 @@ export type CommandBuilderPieces<Type extends CommandType = CommandType> = {
   // Base text based command options
   description?: string;
   ownerOnly?: boolean;
-  requiredMemberPermissions?: PermissionResolvable;
-  requiredClientPermissions?: PermissionResolvable;
+  requiredMemberPermissions?: PermissionsString[];
+  requiredClientPermissions?: PermissionsString[];
 
   // Legacy command options
   cooldown?: number;
