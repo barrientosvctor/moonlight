@@ -54,11 +54,11 @@ export default new CommandBuilder({
           },
           {
             name: "Permisos necesarios del usuario",
-            value: commandInput.requiredMemberPermissions?.toString().length ? client.utils.convertPermissionStringToArray(commandInput.requiredMemberPermissions.toString()).join(", ") : "Ninguno"
+            value: commandInput.requiredMemberPermissions?.length ? client.utils.convertPermissionsToSpanish(commandInput.requiredMemberPermissions).join(", ") : "Ninguno"
           },
           {
             name: "Permisos necesarios de Moonlight",
-            value: commandInput.requiredClientPermissions?.toString().length ? client.utils.convertPermissionStringToArray(commandInput.requiredClientPermissions.toString()).join(", ") : "Ninguno"
+            value: commandInput.requiredClientPermissions?.length ? client.utils.convertPermissionsToSpanish(commandInput.requiredClientPermissions).join(", ") : "Ninguno"
           }
         )
         .setFooter({
