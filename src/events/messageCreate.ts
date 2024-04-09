@@ -55,15 +55,17 @@ export default new EventBuilder({
       }, cooldownMSAmount);
     }
 
-    if (command.requiredClientPermissions && !message.guild.members.me?.permissions.has(command.requiredClientPermissions)) {
-      message.reply(client.beautifyMessage(`Me faltan alguno de los siguientes permisos: ${client.utils.convertPermissionStringToArray(command.requiredClientPermissions.toString()).join(", ")}`, {
+    if (command.requiredClientPermissions && message.guild.members.me && !message.guild.members.me?.permissions.has(command.requiredClientPermissions)) {
+      const diffPerms = client.utils.diff(command.requiredClientPermissions, message.guild.members.me.permissions.toArray());
+      message.reply(client.beautifyMessage(`Me faltan los siguientes permisos para ejecutar acciones sobre este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`, {
         emoji: "error"
       }));
       return;
     }
 
-    if (command.requiredMemberPermissions && !message.member?.permissions.has(command.requiredMemberPermissions)) {
-      message.reply(client.beautifyMessage(`Te faltan alguno de los siguientes permisos: ${client.utils.convertPermissionStringToArray(command.requiredMemberPermissions.toString()).join(", ")}`, {
+    if (command.requiredMemberPermissions && message.guild.members.me && message.member && !message.member?.permissions.has(command.requiredMemberPermissions)) {
+      const diffPerms = client.utils.diff(command.requiredMemberPermissions, message.member.permissions.toArray());
+      message.reply(client.beautifyMessage(`Te faltan los siguientes permisos para ejecutar este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`, {
         emoji: "error"
       }));
       return;
