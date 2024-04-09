@@ -11,8 +11,8 @@ export default new CommandBuilder({
   description: "Le quita el ban a un usuario de tu servidor.",
   usage: "<@usuario | ID>",
   example: "112233445566778899",
-  requiredClientPermissions: "BanMembers",
-  requiredMemberPermissions: "BanMembers",
+  requiredClientPermissions: ["BanMembers"],
+  requiredMemberPermissions: ["BanMembers"],
   async run(client, message, args) {
     if (!message.inGuild()) return;
     if (!args[1])

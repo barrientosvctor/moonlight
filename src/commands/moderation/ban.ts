@@ -11,8 +11,8 @@ export default new CommandBuilder({
   description: "Banea de su servidor a cualquier miembro.",
   usage: "<@miembro | ID> [razón]",
   example: "@Neon noob",
-  requiredClientPermissions: "BanMembers",
-  requiredMemberPermissions: "BanMembers",
+  requiredClientPermissions: ["BanMembers"],
+  requiredMemberPermissions: ["BanMembers"],
   async run(client, message, args) {
     if (!message.inGuild()) return;
     if (!args[1])
