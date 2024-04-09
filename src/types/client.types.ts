@@ -1,4 +1,4 @@
-import { PermissionsString } from "discord.js";
+import type { PermissionsString } from "discord.js";
 import { ClientUtilities } from "../structures/ClientUtilities.js";
 import type { CommandBuilder } from "../structures/CommandBuilder.js";
 import type { CommandManager } from "../structures/CommandManager.js";
@@ -44,6 +44,6 @@ export type ClientPieces = {
 }
 
 export type ClientUtilitiesPieces = {
-  convertPermissionStringToArray(perms: string): string[];
+  convertPermissionsToSpanish(perms: PermissionsString[]): string[];
   receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
 }

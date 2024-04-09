@@ -1,3 +1,4 @@
+import type { PermissionsString } from "discord.js";
 import type { ClientUtilitiesPieces } from "../types/client.types.js";
 import { CommandType } from "../types/command.types.js";
 import { type MoonlightClient } from "./Client.js";
@@ -6,14 +7,12 @@ export class ClientUtilities implements ClientUtilitiesPieces {
   public constructor(private readonly __client: MoonlightClient) {}
 
   /**
-   * This is used with `PermissionResolvable.toString()`
-   * It takes the permissions string and convert it to its Spanish version on a new array.
+   * It takes the permissions array and convert it to its Spanish version on a new array.
    *
    * @param {string} perms
    */
-  public convertPermissionStringToArray(perms: string) {
-    const permsArray = perms.split(/[, ]/g);
-    return permsArray.map(perm => this.__client.wrapper.get("guild.roles.permissions", perm));
+  public convertPermissionsToSpanish(perms: PermissionsString[]) {
+    return perms.map(perm => this.__client.wrapper.get("guild.roles.permissions", perm));
   }
 
 
