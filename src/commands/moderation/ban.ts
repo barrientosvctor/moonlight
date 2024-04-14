@@ -23,7 +23,7 @@ export default new CommandBuilder({
       return message.reply(client.beautifyMessage("Este usuario no existe. Prueba con otro.", { emoji: "error" }));
 
     let reason = args.slice(2).join(" ");
-    if (!reason) reason = "No se dio razón.";
+    if (!reason) reason = "No hubo razón.";
     if (reason.length >= 511) reason = `${reason.slice(0, 508)}...`;
 
     if (message.guild.members.cache.has(user.id)) {
@@ -36,7 +36,7 @@ export default new CommandBuilder({
       if (member === message.guild.members.me)
         return message.reply("¿Por qué yo?");
       if (member.roles.highest.position >= message.member!.roles.highest.position)
-        return message.reply(client.beautifyMessage("No puedes banear a este miembro debido a que cuenta con un rol igual o superior al tuyo.", { emoji: "error" }));
+        return message.reply(client.beautifyMessage(`No puedes banear a ${bold(member.user.tag)} debido a que cuenta con un rol igual o superior al tuyo.`, { emoji: "error" }));
       if (!member.manageable)
         return message.reply(client.beautifyMessage(`No puedo banear a ${bold(member.user.tag)} ya que tiene un rol igual o superior al mío.`, { emoji: "error" }));
       if (!member.bannable)
