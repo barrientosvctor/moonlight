@@ -41,7 +41,7 @@ export default new CommandBuilder({
     return message.channel.send(client.beautifyMessage(`${numMessages} mensajes eliminados.`, { emoji: "check" }))
       .then(msg => setTimeout(() => {
         if (msg.deletable)
-          message.delete();
+          msg.delete();
       }, 10000));
   }
 });
