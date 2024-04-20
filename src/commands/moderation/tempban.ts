@@ -23,7 +23,7 @@ export default new CommandBuilder({
       language: "es"
     });
 
-    if (!args[1]) return message.channel.send(client.beautifyMessage("menciona o escriba la ID del miembro que va a banear temporalmente del servidor.", { mention: message.author.username, emoji: "noargs" }));
+    if (!args[1]) return message.channel.send(client.beautifyMessage("Menciona o escriba la ID del miembro que va a banear temporalmente del servidor.", { mention: message.author.username, emoji: "noargs" }));
 
     const member = getMember(args[1], message);
     if (!member) return message.reply(client.beautifyMessage("Este usuario no está en el servidor. Prueba con otro.", { emoji: "error" }));
