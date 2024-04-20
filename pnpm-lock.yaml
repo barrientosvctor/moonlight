@@ -8,6 +8,12 @@ dependencies:
   discord.js:
     specifier: 14.14.1
     version: 14.14.1
+  humanize-duration-ts:
+    specifier: 2.1.1
+    version: 2.1.1
+  ms-typescript:
+    specifier: 2.0.0
+    version: 2.0.0
   rimraf:
     specifier: 5.0.5
     version: 5.0.5
@@ -524,6 +530,10 @@ packages:
       path-scurry: 1.10.1
     dev: false
 
+  /humanize-duration-ts@2.1.1:
+    resolution: {integrity: sha512-TibNF2/fkypjAfHdGpWL/dmWUS0G6Qi+3mKyiB6LDCowbMy+PtzbgPTnFMNTOVAJXDau01jYrJ3tFoz5AJSqhA==}
+    dev: false
+
   /is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
@@ -569,6 +579,10 @@ packages:
   /minipass@7.0.4:
     resolution: {integrity: sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==}
     engines: {node: '>=16 || 14 >=14.17'}
+    dev: false
+
+  /ms-typescript@2.0.0:
+    resolution: {integrity: sha512-47wAq6QgJZeFYqQ9k5PbBoyGhZsxOzwmTee2fna5+7coYuidaUFdACrKDbtOuLChFQOsSTS5dEyuplC52E5S8g==}
     dev: false
 
   /path-key@3.1.1:
