@@ -1,7 +1,6 @@
-import { ChannelType, EmbedBuilder, GuildPremiumTier } from "discord.js";
+import { ChannelType, EmbedBuilder, GuildPremiumTier, Routes } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
-import { fetchToDiscordAPI } from "../../util/functions.js";
 
 export default new CommandBuilder({
   type: CommandType.Legacy,
@@ -13,7 +12,7 @@ export default new CommandBuilder({
   async run(client, message) {
     if (!message.inGuild()) return;
 
-    const data = await fetchToDiscordAPI(`/guilds/${message.guildId}`);
+    const data: any = await client.rest.get(Routes.guild(message.guildId));
 
     const embed = new EmbedBuilder()
       .setThumbnail(message.guild.iconURL({ size: 2048, extension: "png" }))

@@ -1,7 +1,7 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Routes } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
-import { fetchToDiscordAPI, getMember, getUser } from "../../util/functions.js";
+import { getMember, getUser } from "../../util/functions.js";
 
 export default new CommandBuilder({
   type: CommandType.Legacy,
@@ -15,8 +15,8 @@ export default new CommandBuilder({
   async run(client, message, args) {
     if (!message.inGuild()) return;
 
-    const user = await getUser(args[1], client) || message.author
-    const data = await fetchToDiscordAPI(`/users/${user.id}`);
+    const user = await getUser(args[1], client) || message.author;
+    const data: any = await client.rest.get(Routes.user(user.id));
     const embed = new EmbedBuilder().setColor(data.banner_color || "Random");
 
     if (!user)
