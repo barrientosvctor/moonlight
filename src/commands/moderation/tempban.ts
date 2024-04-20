@@ -31,7 +31,7 @@ export default new CommandBuilder({
     return message.reply(client.beautifyMessage("Escribe una duración válida. (10s/5m/1h/2w/1y)", { emoji: "error" }));
 
     let reason = args.slice(3).join(" ");
-    if (!reason) reason = "No hubo motivo.";
+    if (!reason) reason = "No hubo razón.";
     if (reason.length >= 511) reason = `${reason.slice(0, 508)}...`;
 
     if (member === message.member) return message.reply(client.beautifyMessage("No te puedes banear a ti mismo, prueba con otro.", { emoji: "error" }));
@@ -50,12 +50,12 @@ export default new CommandBuilder({
     const humanDuration = humanizeService.humanize(toMs(args[2]));
 
     try {
-      await member.user.send(`> ¡Fuiste baneado temporalmente de ${bold(message.guild.name)} por ${bold(message.author.tag)} durante ${bold(humanDuration)}!\nMotivo: ${reason}`);
+      await member.user.send(`> ¡Fuiste baneado temporalmente de ${bold(message.guild.name)} durante ${bold(humanDuration)}!\nRazón: ${reason}`);
     } catch (error) {
       console.error("No message was sent to the banned user.");
     }
 
-    message.reply(client.beautifyMessage(`${bold(member.user.tag)} (${inlineCode(member.user.id)}) fue baneado temporalmente del servidor durante ${bold(humanDuration)}.\n> Motivo: ${reason}`, { emoji: "check" }));
+    message.reply(client.beautifyMessage(`${bold(member.user.tag)} (${inlineCode(member.user.id)}) fue baneado temporalmente del servidor durante ${bold(humanDuration)}.\n> Razón: ${reason}`, { emoji: "check" }));
 
     setTimeout(async () => {
       try {
