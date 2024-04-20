@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Routes } from "discord.js";
 import { MoonlightClient } from "../structures/Client.js";
 
 export async function getUser(user: string, client: MoonlightClient) {
@@ -39,17 +39,6 @@ export function getRole(role: string, message: Message) {
   if (!Number(role) && role.length !== 18) return;
 
   return message.guild.roles.cache.get(role);
-}
-
-export async function fetchToDiscordAPI(path: string) {
-  const response = await fetch(`https://discord.com/api/v10${path}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bot ${process.env.DISCORD_TOKEN}`
-    }
-  });
-
-  return response.json();
 }
 
 export async function fetchAnimeGIF(type: string) {
