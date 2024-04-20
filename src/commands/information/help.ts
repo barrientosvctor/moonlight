@@ -11,13 +11,14 @@ export default new CommandBuilder({
   aliases: ["h"],
   usage: "[comando]",
   example: "invite",
-  run(client, message, args) {
+  async run(client, message, args) {
     let embed = new EmbedBuilder()
       .setColor("Random");
 
     if (args[1]) {
       const commandInput = client.utils.receiveCommand(args[1]);
-      if (!commandInput || commandInput.ownerOnly)
+      const application = await client.application?.fetch();
+      if (!commandInput || (commandInput.ownerOnly && application && message.author.id !== application.owner?.id))
         return message.reply(`No pude encontrar el comando ${bold(args[1])}. Revisa los comandos que tengo disponibles usando \`!!${this.name}\`.`);
 
       embed
