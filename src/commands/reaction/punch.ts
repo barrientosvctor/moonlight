@@ -13,19 +13,35 @@ export default new CommandBuilder({
   category: "Reacción",
   async run(client, message, args) {
     if (!args[1])
-      return message.channel.send(client.beautifyMessage("tienes que mencionar a la persona que vas a golpear.", { mention: message.author.username, emoji: "noargs" }));
+      return message.channel.send(
+        client.beautifyMessage(
+          "tienes que mencionar a la persona que vas a golpear.",
+          { mention: message.author.username, emoji: "noargs" }
+        )
+      );
 
     const member = getMember(args[1], message),
       data = await fetchAnimeGIF("punch"),
       embed = new EmbedBuilder();
 
     if (!member)
-      return message.reply(client.beautifyMessage("No pude encontrar a esa persona en el servidor.", { emoji: "error" }));
+      return message.reply(
+        client.beautifyMessage(
+          "No pude encontrar a esa persona en el servidor.",
+          { emoji: "error" }
+        )
+      );
     if (member.user.id === message.author.id)
-      return message.reply(client.beautifyMessage("¿Te harías daño a ti mismo? ¿estás loco?", { emoji: "error" }));
+      return message.reply(
+        client.beautifyMessage("¿Te harías daño a ti mismo? ¿estás loco?", {
+          emoji: "error"
+        })
+      );
 
     embed
-      .setDescription(`¡${bold(message.author.username)} golpeó a ${bold(member.user.username)}!`)
+      .setDescription(
+        `¡${bold(message.author.username)} golpeó a ${bold(member.user.username)}!`
+      )
       .setColor("Random")
       .setImage(data.url);
     return message.channel.send({ embeds: [embed] });

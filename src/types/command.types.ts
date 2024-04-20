@@ -24,7 +24,7 @@ export const enum CommandType {
   ChatInput = 1,
   User = 2,
   Message = 3,
-  Legacy = 4,
+  Legacy = 4
 }
 
 export const CategoryNames = {
@@ -40,13 +40,15 @@ export type CategoryKeyName = keyof typeof CategoryNames;
  * Union type of the commands categories name. These categories should be written in Spanish because these will be used to show them
  * as command information in Client's responses.
  */
-export type CommandCategory = typeof CategoryNames[CategoryKeyName];
+export type CommandCategory = (typeof CategoryNames)[CategoryKeyName];
 
 /**
  * The base command run function for all command types. This receive a CommandType generic and this will be adapted
  * to the required run parameters for every command type.
  */
-export type BaseCommandRunFunction<Type extends CommandType> = (...args: RunType[Type]) => Awaitable<unknown>;
+export type BaseCommandRunFunction<Type extends CommandType> = (
+  ...args: RunType[Type]
+) => Awaitable<unknown>;
 
 interface BaseCommandOptions<Type extends CommandType> {
   type: Type;
@@ -55,23 +57,28 @@ interface BaseCommandOptions<Type extends CommandType> {
   run: BaseCommandRunFunction<Type>;
 }
 
-interface BaseTextBasedCommandOptions<Type extends CommandType> extends BaseCommandOptions<Type> {
+interface BaseTextBasedCommandOptions<Type extends CommandType>
+  extends BaseCommandOptions<Type> {
   description: string;
   ownerOnly?: boolean;
   requiredMemberPermissions?: PermissionsString[];
   requiredClientPermissions?: PermissionsString[];
 }
 
-interface LegacyCommandOptions extends BaseTextBasedCommandOptions<CommandType.Legacy> {
+interface LegacyCommandOptions
+  extends BaseTextBasedCommandOptions<CommandType.Legacy> {
   cooldown: number;
   aliases?: string[];
   usage?: string;
   example?: string;
 }
 
-export type AutoCompleteRunFunction = (interaction: AutocompleteInteraction) => Awaitable<unknown>;
+export type AutoCompleteRunFunction = (
+  interaction: AutocompleteInteraction
+) => Awaitable<unknown>;
 
-interface ChatInputCommandOptions extends BaseTextBasedCommandOptions<CommandType.ChatInput> {
+interface ChatInputCommandOptions
+  extends BaseTextBasedCommandOptions<CommandType.ChatInput> {
   options?: ApplicationCommandOptionData[];
   autoCompleteRun?: AutoCompleteRunFunction;
 }
@@ -90,11 +97,12 @@ interface GuildCommand {
  * It chooses the respectly command options for every type of command.
  * If the command type is User or Message, it will assign the base command options.
  */
-export type CommandOptions<Command extends CommandType> = Command extends CommandType.ChatInput
-  ? ChatInputCommandOptions & BaseCommand
-  : Command extends CommandType.Legacy
-  ? LegacyCommandOptions & BaseCommand
-  : BaseCommandOptions<Command> & BaseCommand;
+export type CommandOptions<Command extends CommandType> =
+  Command extends CommandType.ChatInput
+    ? ChatInputCommandOptions & BaseCommand
+    : Command extends CommandType.Legacy
+      ? LegacyCommandOptions & BaseCommand
+      : BaseCommandOptions<Command> & BaseCommand;
 
 type BaseCommand = GuildCommand | GlobalCommand;
 
@@ -104,14 +112,18 @@ interface RunType {
   [CommandType.ChatInput]: [interaction: ChatInputCommandInteraction];
   [CommandType.Message]: [interaction: MessageContextMenuCommandInteraction];
   [CommandType.User]: [interaction: UserContextMenuCommandInteraction];
-  [CommandType.Legacy]: [client: MoonlightClient, message: Message<boolean>, args: string[]];
+  [CommandType.Legacy]: [
+    client: MoonlightClient,
+    message: Message<boolean>,
+    args: string[]
+  ];
 }
 
 export type AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base> = {
   [K in keyof Base]: Base[K] extends Exclude<Base[K], undefined>
-  ? AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]>
-  : AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]> | undefined;
-}
+    ? AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]>
+    : AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]> | undefined;
+};
 
 export type CommandBuilderPieces<Type extends CommandType = CommandType> = {
   // Base command options
@@ -138,18 +150,23 @@ export type CommandBuilderPieces<Type extends CommandType = CommandType> = {
   autoCompleteRun?: AutoCompleteRunFunction;
 
   run: BaseCommandRunFunction<Type>;
-}
+};
 
 export type CommandManagerPieces = {
   categories: Collection<string, CategoryInformation>;
   addCommand(name: string, options: CommandBuilder): void;
-  getCommand<Type extends CommandType>(name: string, type: Type): CommandBuilder<Type> | undefined;
+  getCommand<Type extends CommandType>(
+    name: string,
+    type: Type
+  ): CommandBuilder<Type> | undefined;
   showCommandsList(): string;
   addAliasToCommand(alias: string, command: string): void;
-  getCommandByAlias(alias: string): CommandBuilder<CommandType.Legacy> | undefined;
-}
+  getCommandByAlias(
+    alias: string
+  ): CommandBuilder<CommandType.Legacy> | undefined;
+};
 
 export type CategoryInformation = {
   name: string;
   commands: string[];
-}
+};

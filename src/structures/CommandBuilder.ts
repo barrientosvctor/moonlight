@@ -15,11 +15,13 @@ import type {
   PermissionsString
 } from "discord.js";
 
-export class CommandBuilder<Command extends CommandType = CommandType> implements CommandBuilderPieces<Command> {
+export class CommandBuilder<Command extends CommandType = CommandType>
+  implements CommandBuilderPieces<Command>
+{
   private data: CommandOptions<Command>;
   public name: string;
   public type: CommandType;
-  public category: CommandCategory
+  public category: CommandCategory;
   public guildIds: string[] = [];
   public runInDM?: boolean = false;
 
@@ -76,12 +78,12 @@ export class CommandBuilder<Command extends CommandType = CommandType> implement
       dm_permission: this.runInDM,
       options: this
         .options as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-          APIApplicationCommandOption[]
-        >,
+        APIApplicationCommandOption[]
+      >,
       type: this
         .type as unknown as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-          ApplicationCommandType.ChatInput | undefined
-        >,
+        ApplicationCommandType.ChatInput | undefined
+      >
     };
   }
 }

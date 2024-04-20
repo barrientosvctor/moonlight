@@ -16,7 +16,13 @@ export default new CommandBuilder({
     const embed = new EmbedBuilder();
     let isError = false;
 
-    if (!args[1]) return message.channel.send(client.beautifyMessage("Escribe el código a ejecutar.", { mention: message.author.username, emoji: "noargs" }));
+    if (!args[1])
+      return message.channel.send(
+        client.beautifyMessage("Escribe el código a ejecutar.", {
+          mention: message.author.username,
+          emoji: "noargs"
+        })
+      );
     const argument = args.slice(1).join(" ");
 
     let result;
@@ -27,15 +33,21 @@ export default new CommandBuilder({
       isError = true;
     }
 
-
     if (isError) {
-      embed.setColor("Red")
+      embed
+        .setColor("Red")
         .setTitle("Hubo un error al evaluar el código.")
-        .addFields({ name: "Entrada", value: `${codeBlock("js", argument)}` }, { name: 'Error', value: `${codeBlock("js", result)}` });
+        .addFields(
+          { name: "Entrada", value: `${codeBlock("js", argument)}` },
+          { name: "Error", value: `${codeBlock("js", result)}` }
+        );
     } else {
-      embed.setColor("Green")
+      embed
+        .setColor("Green")
         .setTitle("¡Código evaluado correctamente!")
-        .setDescription(`**Tipo:** ${codeBlock("prolog", typeof result)}\n**Evaluado en:** ${codeBlock("yaml", `${Date.now() - message.createdTimestamp}ms`)}\n**Entrada:** ${codeBlock("js", argument)}\n**Salida:** ${codeBlock("js", inspect(result, { depth: 0 }))}`);
+        .setDescription(
+          `**Tipo:** ${codeBlock("prolog", typeof result)}\n**Evaluado en:** ${codeBlock("yaml", `${Date.now() - message.createdTimestamp}ms`)}\n**Entrada:** ${codeBlock("js", argument)}\n**Salida:** ${codeBlock("js", inspect(result, { depth: 0 }))}`
+        );
     }
 
     return message.reply({ embeds: [embed] });

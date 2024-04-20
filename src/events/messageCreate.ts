@@ -17,16 +17,24 @@ export default new EventBuilder({
     const command = client.utils.receiveCommand(args[0]);
 
     if (!command) {
-      message.reply(`El comando ${bold(args[0])} no fue encontrado.`)
-        .then(msg => setTimeout(async () => {
-          if (msg.deletable) await msg.delete();
-        }, 5000));
+      message
+        .reply(`El comando ${bold(args[0])} no fue encontrado.`)
+        .then(msg =>
+          setTimeout(async () => {
+            if (msg.deletable) await msg.delete();
+          }, 5000)
+        );
       return;
     }
 
     const application = await client.application?.fetch();
 
-    if (command.ownerOnly && application && message.author.id !== application.owner?.id) return;
+    if (
+      command.ownerOnly &&
+      application &&
+      message.author.id !== application.owner?.id
+    )
+      return;
 
     if (command.cooldown && command.cooldown > 0) {
       if (!client.cooldown.has(command.name))
@@ -38,15 +46,20 @@ export default new EventBuilder({
       if (!commandCollection) return;
 
       if (commandCollection.has(message.author.id)) {
-        const expirationTime = commandCollection.get(message.author.id)! + cooldownMSAmount;
+        const expirationTime =
+          commandCollection.get(message.author.id)! + cooldownMSAmount;
 
         if (Date.now() < expirationTime) {
           const time_left = (expirationTime - Date.now()) / 1000;
-          message.reply(`Espera! Necesitas esperar ${time_left < 1 ? 'unos segundos más' : time_left === 1 ? '*1 segundo*' : time_left >= 2 ? `*${time_left.toFixed(0)} segundos*` : `*${time_left.toFixed(0)} segundos*`} para volver a usar el comando **${command.name}**.`)
-            .then(m => setTimeout(async () => {
-              if (m.deletable)
-                await m.delete();
-            }, cooldownMSAmount));
+          message
+            .reply(
+              `Espera! Necesitas esperar ${time_left < 1 ? "unos segundos más" : time_left === 1 ? "*1 segundo*" : time_left >= 2 ? `*${time_left.toFixed(0)} segundos*` : `*${time_left.toFixed(0)} segundos*`} para volver a usar el comando **${command.name}**.`
+            )
+            .then(m =>
+              setTimeout(async () => {
+                if (m.deletable) await m.delete();
+              }, cooldownMSAmount)
+            );
           return;
         }
       }
@@ -57,19 +70,46 @@ export default new EventBuilder({
       }, cooldownMSAmount);
     }
 
-    if (command.requiredClientPermissions && message.guild.members.me && !message.guild.members.me?.permissions.has(command.requiredClientPermissions)) {
-      const diffPerms = client.utils.diff(command.requiredClientPermissions, message.guild.members.me.permissions.toArray());
-      message.reply(client.beautifyMessage(`Me faltan los siguientes permisos para ejecutar acciones sobre este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`, {
-        emoji: "error"
-      }));
+    if (
+      command.requiredClientPermissions &&
+      message.guild.members.me &&
+      !message.guild.members.me?.permissions.has(
+        command.requiredClientPermissions
+      )
+    ) {
+      const diffPerms = client.utils.diff(
+        command.requiredClientPermissions,
+        message.guild.members.me.permissions.toArray()
+      );
+      message.reply(
+        client.beautifyMessage(
+          `Me faltan los siguientes permisos para ejecutar acciones sobre este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`,
+          {
+            emoji: "error"
+          }
+        )
+      );
       return;
     }
 
-    if (command.requiredMemberPermissions && message.guild.members.me && message.member && !message.member?.permissions.has(command.requiredMemberPermissions)) {
-      const diffPerms = client.utils.diff(command.requiredMemberPermissions, message.member.permissions.toArray());
-      message.reply(client.beautifyMessage(`Te faltan los siguientes permisos para ejecutar este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`, {
-        emoji: "error"
-      }));
+    if (
+      command.requiredMemberPermissions &&
+      message.guild.members.me &&
+      message.member &&
+      !message.member?.permissions.has(command.requiredMemberPermissions)
+    ) {
+      const diffPerms = client.utils.diff(
+        command.requiredMemberPermissions,
+        message.member.permissions.toArray()
+      );
+      message.reply(
+        client.beautifyMessage(
+          `Te faltan los siguientes permisos para ejecutar este comando: ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`,
+          {
+            emoji: "error"
+          }
+        )
+      );
       return;
     }
 

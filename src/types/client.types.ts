@@ -14,7 +14,7 @@ export type Emoji = {
   wait: string | string[];
   warning: string | string[];
   love: string | string[];
-}
+};
 
 export const emojiList: Emoji = {
   check: ["✅"],
@@ -32,7 +32,7 @@ export type EmojiType = keyof Emoji;
 export type BeautyMessageOptions = {
   mention: string;
   emoji: EmojiType;
-}
+};
 
 export type ClientPieces = {
   commandsManager: CommandManager;
@@ -41,10 +41,15 @@ export type ClientPieces = {
   utils: ClientUtilities;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
-}
+};
 
 export type ClientUtilitiesPieces = {
   convertPermissionsToSpanish(perms: PermissionsString[]): string[];
-  receiveCommand(argument: string): CommandBuilder<CommandType.Legacy> | undefined;
-  diff<ArrayType extends unknown[]>(arr1: ArrayType, arr2: ArrayType): ArrayType;
-}
+  receiveCommand(
+    argument: string
+  ): CommandBuilder<CommandType.Legacy> | undefined;
+  diff<ArrayType extends unknown[]>(
+    arr1: ArrayType,
+    arr2: ArrayType
+  ): ArrayType;
+};

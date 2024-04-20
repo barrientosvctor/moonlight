@@ -13,9 +13,7 @@ export default new CommandBuilder({
   category: "Reacción",
   async run(client, message, args) {
     const data = await fetchAnimeGIF("wink"),
-      embed = new EmbedBuilder()
-        .setColor("Random")
-        .setImage(data.url);
+      embed = new EmbedBuilder().setColor("Random").setImage(data.url);
 
     if (!args[1])
       embed.setDescription(`${bold(message.author.username)} guiña el ojo.`);
@@ -23,11 +21,23 @@ export default new CommandBuilder({
       const member = getMember(args[1], message);
 
       if (!member)
-        return message.reply(client.beautifyMessage("No pude encontrar a esa persona en el servidor.", { emoji: "error" }));
+        return message.reply(
+          client.beautifyMessage(
+            "No pude encontrar a esa persona en el servidor.",
+            { emoji: "error" }
+          )
+        );
       if (member.user.id === message.author.id)
-        return message.reply(client.beautifyMessage("No puedes guiñarte el ojo a ti mismo, eso sería muy raro jeje.", { emoji: "error" }));
+        return message.reply(
+          client.beautifyMessage(
+            "No puedes guiñarte el ojo a ti mismo, eso sería muy raro jeje.",
+            { emoji: "error" }
+          )
+        );
 
-      embed.setDescription(`¡${bold(message.author.username)} le guiñó el ojo a ${bold(member.user.username)}!`);
+      embed.setDescription(
+        `¡${bold(message.author.username)} le guiñó el ojo a ${bold(member.user.username)}!`
+      );
     }
 
     return message.channel.send({ embeds: [embed] });

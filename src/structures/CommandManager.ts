@@ -6,14 +6,15 @@ import type {
 } from "../types/command.types.js";
 import type { CommandBuilder } from "./CommandBuilder.js";
 
-
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, CommandBuilder>();
   private readonly __aliases = new Collection<string, string>();
   readonly categories = new Collection<string, CategoryInformation>();
 
   private formatCommandsName(category: CategoryInformation) {
-    return category.commands.map((command) => `\`${command.slice(0, -3)}\``).join(", ");
+    return category.commands
+      .map(command => `\`${command.slice(0, -3)}\``)
+      .join(", ");
   }
 
   public addCommand(name: string, options: CommandBuilder) {
@@ -21,17 +22,21 @@ export class CommandManager implements CommandManagerPieces {
   }
 
   public getCommand<Type extends CommandType>(name: string, type: Type) {
-    return this.__commands.filter(command => command.type === type).get(name) as CommandBuilder<Type> | undefined;
+    return this.__commands
+      .filter(command => command.type === type)
+      .get(name) as CommandBuilder<Type> | undefined;
   }
 
   public showCommandsList() {
-    if (!this.categories.toJSON().length)
-      return "No hay comandos disponibles.";
+    if (!this.categories.toJSON().length) return "No hay comandos disponibles.";
 
-    return this.categories.filter((c) => c.name !== "Desarrollador").map((category) => {
-      const formattedCommandsName = this.formatCommandsName(category);
-      return `**${category.name}**\n${formattedCommandsName}`;
-    }).join("\n\n");
+    return this.categories
+      .filter(c => c.name !== "Desarrollador")
+      .map(category => {
+        const formattedCommandsName = this.formatCommandsName(category);
+        return `**${category.name}**\n${formattedCommandsName}`;
+      })
+      .join("\n\n");
   }
 
   public addAliasToCommand(alias: string, command: string) {

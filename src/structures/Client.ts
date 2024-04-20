@@ -1,8 +1,4 @@
-import {
-  ActivityType,
-  Client,
-  type ClientOptions
-} from "discord.js";
+import { ActivityType, Client, type ClientOptions } from "discord.js";
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
@@ -15,7 +11,10 @@ import {
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";
 
-export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> implements ClientPieces {
+export class MoonlightClient<Ready extends boolean = boolean>
+  extends Client<Ready>
+  implements ClientPieces
+{
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager();
@@ -33,10 +32,12 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
         intents: ["Guilds", "GuildMessages", "MessageContent"],
         presence: {
           status: "dnd",
-          activities: [{
-            name: "Reconstrucción...",
-            type: ActivityType.Watching
-          }]
+          activities: [
+            {
+              name: "Reconstrucción...",
+              type: ActivityType.Watching
+            }
+          ]
         },
         allowedMentions: { repliedUser: false }
       });
@@ -65,7 +66,9 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
 
   public getEmoji(type: EmojiType) {
     if (typeof emojiList[type] === "object")
-      return emojiList[type][Math.floor(Math.random() * emojiList[type].length)];
+      return emojiList[type][
+        Math.floor(Math.random() * emojiList[type].length)
+      ];
 
     return emojiList[type];
   }
@@ -74,7 +77,8 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     let emojiField = "";
     let mentionField = "";
 
-    if (data.emoji && this.getEmoji(data.emoji)) emojiField = `${this.getEmoji(data.emoji)} ~ `;
+    if (data.emoji && this.getEmoji(data.emoji))
+      emojiField = `${this.getEmoji(data.emoji)} ~ `;
     if (data.mention) {
       mentionField = `**${data.mention}**, `;
       const msgArray = Array.from(message);

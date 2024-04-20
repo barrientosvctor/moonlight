@@ -16,21 +16,51 @@ export default new CommandBuilder({
   async run(client, message, args) {
     if (!message.inGuild()) return;
 
-    const channel = getChannel(args[1], message) || message.channel
+    const channel = getChannel(args[1], message) || message.channel;
     if (!channel)
-      return message.reply(client.beautifyMessage("Parece que ese canal no pertenece al servidor.", { emoji: "error" }));
+      return message.reply(
+        client.beautifyMessage(
+          "Parece que ese canal no pertenece al servidor.",
+          { emoji: "error" }
+        )
+      );
     if (channel.type !== ChannelType.GuildText)
-      return message.reply(client.beautifyMessage("Solo puedo hacer esta acción con canales de texto.", { emoji: "error" }));
-    if (channel.permissionsFor(message.guild.roles.everyone).has(["SendMessages", "AddReactions"]))
-      return message.reply(client.beautifyMessage(`El canal ${channel} ya estaba desbloqueado.`, { emoji: "error" }));
+      return message.reply(
+        client.beautifyMessage(
+          "Solo puedo hacer esta acción con canales de texto.",
+          { emoji: "error" }
+        )
+      );
+    if (
+      channel
+        .permissionsFor(message.guild.roles.everyone)
+        .has(["SendMessages", "AddReactions"])
+    )
+      return message.reply(
+        client.beautifyMessage(`El canal ${channel} ya estaba desbloqueado.`, {
+          emoji: "error"
+        })
+      );
 
     try {
-      await channel.permissionOverwrites.edit(message.guild.roles.everyone, { "SendMessages": true, "AddReactions": true });
+      await channel.permissionOverwrites.edit(message.guild.roles.everyone, {
+        SendMessages: true,
+        AddReactions: true
+      });
     } catch (error) {
       console.error(error);
-      message.channel.send(client.beautifyMessage("Ocurrió un error al intentar desbloquear el canal.", { emoji: "warning" }));
+      message.channel.send(
+        client.beautifyMessage(
+          "Ocurrió un error al intentar desbloquear el canal.",
+          { emoji: "warning" }
+        )
+      );
     }
 
-    return channel.send(client.beautifyMessage("El canal ha sido desbloqueado.", { emoji: "check" }));
+    return channel.send(
+      client.beautifyMessage("El canal ha sido desbloqueado.", {
+        emoji: "check"
+      })
+    );
   }
 });

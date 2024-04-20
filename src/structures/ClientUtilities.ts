@@ -12,16 +12,20 @@ export class ClientUtilities implements ClientUtilitiesPieces {
    * @param {string} perms
    */
   public convertPermissionsToSpanish(perms: PermissionsString[]) {
-    return perms.map(perm => this.__client.wrapper.get("guild.roles.permissions", perm));
+    return perms.map(perm =>
+      this.__client.wrapper.get("guild.roles.permissions", perm)
+    );
   }
 
-
   /**
-  * This function is a short and modular way to search commands in the collection.
-  * You should use it when you need to get commands.
-  */
+   * This function is a short and modular way to search commands in the collection.
+   * You should use it when you need to get commands.
+   */
   public receiveCommand(argument: string) {
-    return this.__client.commandsManager.getCommand(argument, CommandType.Legacy) || this.__client.commandsManager.getCommandByAlias(argument);
+    return (
+      this.__client.commandsManager.getCommand(argument, CommandType.Legacy) ||
+      this.__client.commandsManager.getCommandByAlias(argument)
+    );
   }
 
   /**
@@ -30,7 +34,10 @@ export class ClientUtilities implements ClientUtilitiesPieces {
    * Compares the differences between arr1 and arr2.
    * This function will return a new array with those values that stay in arr1 and not in arr2.
    */
-  public diff<ArrayType extends unknown[]>(arr1: ArrayType, arr2: ArrayType): ArrayType {
+  public diff<ArrayType extends unknown[]>(
+    arr1: ArrayType,
+    arr2: ArrayType
+  ): ArrayType {
     return arr1.filter(item => !arr2.includes(item)) as ArrayType;
   }
 }

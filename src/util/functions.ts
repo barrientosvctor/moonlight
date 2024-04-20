@@ -15,7 +15,8 @@ export function getMember(member: string, message: Message) {
   if (!member || !message.inGuild()) return;
 
   if (member.startsWith("\\")) member = member.slice(1);
-  if (member.startsWith("<@") && member.endsWith(">")) member = member.slice(2, -1);
+  if (member.startsWith("<@") && member.endsWith(">"))
+    member = member.slice(2, -1);
   if (!Number(member) && member.length !== 18) return;
 
   return message.guild.members.cache.get(member);
@@ -25,7 +26,8 @@ export function getChannel(channel: string, message: Message) {
   if (!channel || !message.inGuild()) return;
 
   if (channel.startsWith("\\")) channel = channel.slice(1);
-  if (channel.startsWith("<#") && channel.endsWith(">")) channel = channel.slice(2, -1);
+  if (channel.startsWith("<#") && channel.endsWith(">"))
+    channel = channel.slice(2, -1);
   if (!Number(channel) && channel.length !== 18) return;
 
   return message.guild.channels.cache.get(channel);
@@ -42,5 +44,7 @@ export function getRole(role: string, message: Message) {
 }
 
 export async function fetchAnimeGIF(type: string) {
-  return await fetch(`https://api.otakugifs.xyz/gif?reaction=${type}`).then(res => res.json()) as { url: string };
+  return (await fetch(`https://api.otakugifs.xyz/gif?reaction=${type}`).then(
+    res => res.json()
+  )) as { url: string };
 }
