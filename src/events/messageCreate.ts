@@ -24,7 +24,9 @@ export default new EventBuilder({
       return;
     }
 
-    if (command.ownerOnly && message.author.id !== client.application?.owner?.id) return;
+    const application = await client.application?.fetch();
+
+    if (command.ownerOnly && application && message.author.id !== application.owner?.id) return;
 
     if (command.cooldown && command.cooldown > 0) {
       if (!client.cooldown.has(command.name))
