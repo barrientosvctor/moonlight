@@ -30,7 +30,8 @@ export const enum CommandType {
 export const CategoryNames = {
   information: "Información",
   reaction: "Reacción",
-  moderation: "Moderación"
+  moderation: "Moderación",
+  dev: "Desarrollador"
 } as const;
 
 export type CategoryKeyName = keyof typeof CategoryNames;
