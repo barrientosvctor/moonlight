@@ -13,17 +13,26 @@ export default new CommandBuilder({
   example: "@shawn",
   category: "Utilidad",
   async run(client, message, args) {
-const user = await getUser(args[1], client) || message.author;
-      if (!user) return message.reply(client.beautifyMessage("Usuario no encontrado.", { emoji: "error" }));
+    const user = (await getUser(args[1], client)) || message.author;
+    if (!user)
+      return message.reply(
+        client.beautifyMessage("Usuario no encontrado.", { emoji: "error" })
+      );
 
-      const embed = new EmbedBuilder()
-    .setColor("Random")
-      .setDescription(`
+    const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setDescription(
+        `
 > Avatar de ${bold(user.tag)}
-${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceStatic: true }))} | ${hyperlink("JPG", user.displayAvatarURL({ size: 2048, extension: "jpg", forceStatic: true }))} | ${hyperlink("WEBP", user.displayAvatarURL({ size: 2048, extension: "webp", forceStatic: true }))} ${user.avatar?.startsWith("a_") ? `| ${hyperlink("GIF", user.displayAvatarURL({ size: 2048, extension: "gif"}))}` : ""}
-`)
-      .setImage(user.avatar?.startsWith("a_") ? user.displayAvatarURL({ size: 2048, extension: "gif" }) : user.displayAvatarURL({ size: 2048, extension: "png" }));
+${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceStatic: true }))} | ${hyperlink("JPG", user.displayAvatarURL({ size: 2048, extension: "jpg", forceStatic: true }))} | ${hyperlink("WEBP", user.displayAvatarURL({ size: 2048, extension: "webp", forceStatic: true }))} ${user.avatar?.startsWith("a_") ? `| ${hyperlink("GIF", user.displayAvatarURL({ size: 2048, extension: "gif" }))}` : ""}
+`
+      )
+      .setImage(
+        user.avatar?.startsWith("a_")
+          ? user.displayAvatarURL({ size: 2048, extension: "gif" })
+          : user.displayAvatarURL({ size: 2048, extension: "png" })
+      );
 
-      return message.reply({ embeds: [embed] });
+    return message.reply({ embeds: [embed] });
   }
 });
