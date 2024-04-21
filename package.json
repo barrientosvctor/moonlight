@@ -12,7 +12,8 @@
     "format:check": "prettier . --check",
     "format:write": "prettier . --write",
     "linter": "pnpm eslint .",
-    "linter:fix": "pnpm eslint . --fix"
+    "linter:fix": "pnpm eslint . --fix",
+    "precommit": "pnpm format:check && pnpm linter"
   },
   "keywords": [],
   "author": "",
