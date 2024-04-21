@@ -1,4 +1,4 @@
-import { EmbedBuilder, Routes } from "discord.js";
+import { type APIUser, EmbedBuilder, Routes } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 import { getMember, getUser } from "../../util/functions.js";
@@ -17,8 +17,8 @@ export default new CommandBuilder({
     if (!message.inGuild()) return;
 
     const user = (await getUser(args[1], client)) || message.author;
-    const data: any = await client.rest.get(Routes.user(user.id));
-    const embed = new EmbedBuilder().setColor(data.banner_color || "Random");
+    const data = await client.rest.get(Routes.user(user.id)) as APIUser;
+    const embed = new EmbedBuilder().setColor(data.accent_color || "Random");
 
     if (!user)
       return message.reply(
@@ -34,7 +34,7 @@ export default new CommandBuilder({
         .setDescription(`
 **ID:** \`${user.id}\`
 **Avatar:** [Avatar de ${user.username}](${data.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${data.avatar}.${data.avatar.startsWith("a_") ? "gif" : "png"}?size=2048` : user.displayAvatarURL({ size: 2048, extension: "png" })})
-**Banner:** ${data.banner ? `[Banner de ${user.username}](https://cdn.discordapp.com/banners/${user.id}/${data.banner}.${data.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : data.banner_color ? `\`${data.banner_color}\`` : "No tiene banner"}
+**Banner:** ${data.banner ? `[Banner de ${user.username}](https://cdn.discordapp.com/banners/${user.id}/${data.banner}.${data.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : data.accent_color ? `\`${data.accent_color.toString(16)}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(user.createdTimestamp / 1000)}>
 **Insignias:** ${
         user.flags
@@ -63,7 +63,7 @@ export default new CommandBuilder({
           `
 **ID:** ${member.user.id}
 **Avatar:** [Avatar de ${member.user.username}](${member.displayAvatarURL({ size: 2048, extension: "png" })})
-**Banner:** ${data.banner ? `[Banner de ${member.user.username}](https://cdn.discordapp.com/banners/${member.user.id}/${data.banner}.${data.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : data.banner_color ? `\`${data.banner_color}\`` : "No tiene banner"}
+**Banner:** ${data.banner ? `[Banner de ${member.user.username}](https://cdn.discordapp.com/banners/${member.user.id}/${data.banner}.${data.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : data.accent_color ? `\`${data.accent_color.toString(16)}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(member.user.createdTimestamp / 1000)}>
 **Insignias:** ${
             member.user.flags

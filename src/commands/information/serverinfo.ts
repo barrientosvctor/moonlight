@@ -1,4 +1,5 @@
 import {
+    type APIGuild,
   ChannelType,
   EmbedBuilder,
   GuildPremiumTier,
@@ -17,7 +18,7 @@ export default new CommandBuilder({
   async run(client, message) {
     if (!message.inGuild()) return;
 
-    const data: any = await client.rest.get(Routes.guild(message.guildId));
+    const data = await client.rest.get(Routes.guild(message.guildId)) as APIGuild;
 
     const embed = new EmbedBuilder()
       .setThumbnail(message.guild.iconURL({ size: 2048, extension: "png" }))

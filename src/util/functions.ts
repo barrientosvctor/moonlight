@@ -1,4 +1,4 @@
-import { Message, Routes } from "discord.js";
+import { Message } from "discord.js";
 import { MoonlightClient } from "../structures/Client.js";
 
 export async function getUser(user: string, client: MoonlightClient) {

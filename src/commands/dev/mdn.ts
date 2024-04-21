@@ -24,7 +24,7 @@ export default new CommandBuilder({
     const data = await fetch(
       `https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(args.slice(1).join(" "))}&locale=es`
     ).then(res => res.json());
-    let msg: string[] = [];
+    const msg: string[] = [];
 
     for (const doc of data.documents) {
       msg.push(

@@ -13,7 +13,7 @@ export default new CommandBuilder({
   usage: "[comando]",
   example: "invite",
   async run(client, message, args) {
-    let embed = new EmbedBuilder().setColor("Random");
+    const embed = new EmbedBuilder().setColor("Random");
 
     if (args[1]) {
       const commandInput = client.utils.receiveCommand(args[1]);
