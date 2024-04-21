@@ -31,7 +31,8 @@ export const CategoryNames = {
   information: "Información",
   reaction: "Reacción",
   moderation: "Moderación",
-  dev: "Desarrollador"
+  dev: "Desarrollador",
+  utility: "Utilidad"
 } as const;
 
 export type CategoryKeyName = keyof typeof CategoryNames;
