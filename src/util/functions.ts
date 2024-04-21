@@ -1,5 +1,5 @@
-import { Message } from "discord.js";
-import { MoonlightClient } from "../structures/Client.js";
+import type { Message } from "discord.js";
+import type { MoonlightClient } from "../structures/Client.js";
 
 export async function getUser(user: string, client: MoonlightClient) {
   if (!user) return;
