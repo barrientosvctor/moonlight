@@ -17,7 +17,7 @@ export default new CommandBuilder({
     if (!message.inGuild()) return;
 
     const user = (await getUser(args[1], client)) || message.author;
-    const data = await client.rest.get(Routes.user(user.id)) as APIUser;
+    const data = (await client.rest.get(Routes.user(user.id))) as APIUser;
     const embed = new EmbedBuilder().setColor(data.accent_color || "Random");
 
     if (!user)
