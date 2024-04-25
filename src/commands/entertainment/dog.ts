@@ -6,7 +6,7 @@ export default new CommandBuilder({
   type: CommandType.Legacy,
   name: "dog",
   description: "Mira fotos de perritos.",
-  cooldown: 10,
+  cooldown: 5,
   category: "Entretenimiento",
   async run(client, message) {
     const data = await fetch("https://api.thedogapi.com/v1/images/search", {
