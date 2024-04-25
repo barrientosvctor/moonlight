@@ -1,4 +1,4 @@
-import { EmbedBuilder, bold, italic } from "discord.js";
+import { EmbedBuilder, bold } from "discord.js";
 import { CommandBuilder } from "../../structures/CommandBuilder.js";
 import { CommandType } from "../../types/command.types.js";
 
@@ -8,7 +8,7 @@ export default new CommandBuilder({
   description: "Administra los emojis de tu servidor.",
   cooldown: 10,
   usage: "<add / remove / rename> <emoji>",
-  example: "rename RappiHappu Happy",
+  example: "rename :RappiHappu: Happy",
   category: "Utilidad",
   async run(client, message, args) {
     if (!message.inGuild()) return;
@@ -72,6 +72,7 @@ export default new CommandBuilder({
             { mention: message.author.username, emoji: "noargs" }
           )
         );
+
       const targetEmoji =
         message.guild.emojis.cache.find(emoji => emoji.name === args[2]) ||
         message.guild.emojis.cache.find(
@@ -98,7 +99,7 @@ export default new CommandBuilder({
 
         embed
           .setDescription(
-            `${client.beautifyMessage(`El emoji ${italic(args[2])} fue eliminado del servidor.`, { emoji: "check" })}`
+            `${client.beautifyMessage(`Se eliminó el emoji del servidor.`, { emoji: "check" })}`
           )
           .setColor("Green");
       } catch (error) {
@@ -143,9 +144,11 @@ export default new CommandBuilder({
           name: args[3],
           reason: `Emoji modificado por: ${bold(message.author.tag)}.`
         });
-        embed.setDescription(
-          `${client.beautifyMessage("Emoji cambiado de nombre éxitosamente!", { emoji: "check" })}`
-        );
+        embed
+          .setDescription(
+            `${client.beautifyMessage("Emoji cambiado de nombre éxitosamente!", { emoji: "check" })}`
+          )
+          .setColor("Green");
       } catch (error) {
         console.error(error);
         return message.channel.send(
