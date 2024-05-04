@@ -16,8 +16,6 @@ To run this project, you will need to add the following environment variables to
 
 ## Run Locally
 
-Make sure you have installed [pnpm](https://pnpm.io/) to run this project.
-
 Clone the project
 
 ```bash
@@ -33,7 +31,7 @@ Go to the Moonlight directory
 Install dependencies
 
 ```bash
-  pnpm install
+  npm i
 ```
 
 ### Run on production
@@ -41,13 +39,13 @@ Install dependencies
 Build the project
 
 ```bash
-  pnpm build
+  npm run build
 ```
 
 Start the bot
 
 ```bash
-  pnpm start
+  npm start
 ```
 
 ### Run on development
@@ -57,5 +55,5 @@ Make sure the `PATH_CREATOR_DEV_MODE` constant is set to `true`. That constant i
 Then run the following command:
 
 ```bash
-  pnpm dev
+  npm run dev
 ```
