@@ -6,7 +6,7 @@ import {
   type BeautyMessageOptions,
   type EmojiType,
   emojiList,
-  type ClientPieces,
+  type ClientPieces
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";

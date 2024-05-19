@@ -1,12 +1,12 @@
 export type Properties = {
   key: string;
   content: string;
-}
+};
 
 export type DatabaseContent = {
   prefix: Properties[];
   muterole: Properties[];
-}
+};
 
 export const DB_CONTENT: DatabaseContent = {
   prefix: [],
@@ -23,4 +23,4 @@ export type DatabasePieces = {
   add(option: DatabaseOptions, key: string, value: string): Promise<void>;
   modify(option: DatabaseOptions, key: string, value: string): Promise<void>;
   delete(option: DatabaseOptions, key: string): Promise<void>;
-}
+};

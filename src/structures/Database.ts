@@ -1,8 +1,13 @@
 import { Low } from "lowdb";
-import { DB_CONTENT, DatabaseContent, type DatabasePieces, type DatabaseOptions } from "../types/database.types.js";
+import {
+  DB_CONTENT,
+  DatabaseContent,
+  type DatabasePieces,
+  type DatabaseOptions
+} from "../types/database.types.js";
 import { JSONFile } from "lowdb/node";
 import { join } from "node:path";
-import { existsSync, mkdirSync, writeFile } from "node:fs"
+import { existsSync, mkdirSync, writeFile } from "node:fs";
 import { promisify } from "node:util";
 
 const createFile = promisify(writeFile);
@@ -19,7 +24,10 @@ export class Database extends Low<DatabaseContent> implements DatabasePieces {
     mkdirSync(this.folderPath);
 
     if (existsSync(join(this.folderPath, "db.json"))) return;
-    await createFile(join(this.folderPath, "db.json"), JSON.stringify(DB_CONTENT, undefined, 4));
+    await createFile(
+      join(this.folderPath, "db.json"),
+      JSON.stringify(DB_CONTENT, undefined, 4)
+    );
   }
 
   public get(option: DatabaseOptions, key: string) {
@@ -35,7 +43,9 @@ export class Database extends Low<DatabaseContent> implements DatabasePieces {
   }
 
   public hasExactValue(option: DatabaseOptions, key: string, value: string) {
-    return Boolean(this.data[option].find(reg => reg.key === key && reg.content === value));
+    return Boolean(
+      this.data[option].find(reg => reg.key === key && reg.content === value)
+    );
   }
 
   public async add(option: DatabaseOptions, key: string, value: string) {
