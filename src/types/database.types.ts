@@ -1,7 +1,5 @@
-import type { Snowflake } from "discord.js";
-
 export type Properties = {
-  key: Snowflake;
+  key: string;
   content: string;
 }
 
@@ -19,10 +17,10 @@ export type DatabaseOptions = keyof DatabaseContent;
 
 export type DatabasePieces = {
   createDatabaseFile(): Promise<void>;
-  get(option: DatabaseOptions, key: Snowflake): string | null;
-  has(option: DatabaseOptions, key: Snowflake): boolean;
-  hasExactValue(option: DatabaseOptions, key: Snowflake, value: string): boolean;
-  add(option: DatabaseOptions, key: Snowflake, value: string): Promise<void>;
-  modify(option: DatabaseOptions, key: Snowflake, value: string): Promise<void>;
-  delete(option: DatabaseOptions, key: Snowflake): Promise<void>;
+  get(option: DatabaseOptions, key: string): string | null;
+  has(option: DatabaseOptions, key: string): boolean;
+  hasExactValue(option: DatabaseOptions, key: string, value: string): boolean;
+  add(option: DatabaseOptions, key: string, value: string): Promise<void>;
+  modify(option: DatabaseOptions, key: string, value: string): Promise<void>;
+  delete(option: DatabaseOptions, key: string): Promise<void>;
 }

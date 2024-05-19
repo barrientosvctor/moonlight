@@ -3,7 +3,6 @@ import { DB_CONTENT, DatabaseContent, type DatabasePieces, type DatabaseOptions 
 import { JSONFile } from "lowdb/node";
 import { join } from "node:path";
 import { existsSync, mkdirSync, writeFile } from "node:fs"
-import type { Snowflake } from "discord.js";
 import { promisify } from "node:util";
 
 const createFile = promisify(writeFile);
@@ -23,7 +22,7 @@ export class Database extends Low<DatabaseContent> implements DatabasePieces {
     await createFile(join(this.folderPath, "db.json"), JSON.stringify(DB_CONTENT, undefined, 4));
   }
 
-  public get(option: DatabaseOptions, key: Snowflake) {
+  public get(option: DatabaseOptions, key: string) {
     const indexData = this.data[option].findIndex(reg => reg.key === key);
 
     if (indexData === -1) return null;
@@ -31,15 +30,15 @@ export class Database extends Low<DatabaseContent> implements DatabasePieces {
     return this.data[option][indexData].content;
   }
 
-  public has(option: DatabaseOptions, key: Snowflake) {
+  public has(option: DatabaseOptions, key: string) {
     return Boolean(this.data[option].find(reg => reg.key === key));
   }
 
-  public hasExactValue(option: DatabaseOptions, key: Snowflake, value: string) {
+  public hasExactValue(option: DatabaseOptions, key: string, value: string) {
     return Boolean(this.data[option].find(reg => reg.key === key && reg.content === value));
   }
 
-  public async add(option: DatabaseOptions, key: Snowflake, value: string) {
+  public async add(option: DatabaseOptions, key: string, value: string) {
     await this.update(data => {
       data[option].push({
         key: key,
@@ -48,7 +47,7 @@ export class Database extends Low<DatabaseContent> implements DatabasePieces {
     });
   }
 
-  public async modify(option: DatabaseOptions, key: Snowflake, value: string) {
+  public async modify(option: DatabaseOptions, key: string, value: string) {
     const indexData = this.data[option].findIndex(reg => reg.key === key);
 
     if (indexData !== -1) {
