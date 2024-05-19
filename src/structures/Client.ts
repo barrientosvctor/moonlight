@@ -6,10 +6,11 @@ import {
   type BeautyMessageOptions,
   type EmojiType,
   emojiList,
-  type ClientPieces
+  type ClientPieces,
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";
+import { Database } from "./Database.js";
 
 export class MoonlightClient<Ready extends boolean = boolean>
   extends Client<Ready>
@@ -21,6 +22,7 @@ export class MoonlightClient<Ready extends boolean = boolean>
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = new JSONWrapper();
   readonly utils = new ClientUtilities(this);
+  readonly database = new Database();
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -61,6 +63,9 @@ export class MoonlightClient<Ready extends boolean = boolean>
       process.exit(1);
     }
 
+    await this.database.createDatabaseFile();
+    // Read before add new registers to database will not overwrite the last registers.
+    await this.database.read();
     return await super.login(token);
   }
 

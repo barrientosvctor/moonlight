@@ -4,6 +4,7 @@ import type { CommandBuilder } from "../structures/CommandBuilder.js";
 import type { CommandManager } from "../structures/CommandManager.js";
 import type { JSONWrapper } from "../structures/JSONWrapper.js";
 import type { CommandType } from "./command.types.js";
+import type { Database } from "../structures/Database.js";
 
 export type Emoji = {
   check: string | string[];
@@ -39,6 +40,7 @@ export type ClientPieces = {
   cooldown: Map<string, Map<string, number>>;
   wrapper: JSONWrapper;
   utils: ClientUtilities;
+  database: Database;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
 };
