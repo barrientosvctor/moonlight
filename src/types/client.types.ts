@@ -1,4 +1,4 @@
-import type { PermissionsString } from "discord.js";
+import type { PermissionsString, Snowflake } from "discord.js";
 import { ClientUtilities } from "../structures/ClientUtilities.js";
 import type { CommandBuilder } from "../structures/CommandBuilder.js";
 import type { CommandManager } from "../structures/CommandManager.js";
@@ -43,6 +43,7 @@ export type ClientPieces = {
   database: Database;
   getEmoji(type: EmojiType): string[] | string;
   beautifyMessage(message: string, data: Partial<BeautyMessageOptions>): string;
+  getPrefix(guildId: Snowflake): string;
 };
 
 export type ClientUtilitiesPieces = {

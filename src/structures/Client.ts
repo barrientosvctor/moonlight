@@ -1,4 +1,4 @@
-import { ActivityType, Client, type ClientOptions } from "discord.js";
+import { ActivityType, Client, type Snowflake, type ClientOptions } from "discord.js";
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
@@ -92,5 +92,12 @@ export class MoonlightClient<Ready extends boolean = boolean>
     }
 
     return `${emojiField}${mentionField}${message}`;
+  }
+
+  public getPrefix(guildId: Snowflake) {
+    if (this.database.has("prefix", guildId))
+      return this.database.get("prefix", guildId)!;
+
+    return "!!";
   }
 }

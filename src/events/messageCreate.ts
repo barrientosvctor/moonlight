@@ -6,7 +6,7 @@ export default new EventBuilder({
   async execute(message, client) {
     if (!message.inGuild()) return;
 
-    const prefix = "!!" as const;
+    const prefix = client.getPrefix(message.guildId);
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
