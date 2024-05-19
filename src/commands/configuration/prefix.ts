@@ -17,6 +17,7 @@ export default new CommandBuilder({
 
     if (args[1] === "set") {
       if (!args[2]) return message.reply(client.beautifyMessage("Escribe el nuevo prefix que tendré en el servidor.", { emoji: "noargs" }));
+      if (args[2].length > 10) return message.reply(client.beautifyMessage("El prefix no debe sobrepasar los 10 carácteres.", { emoji: "error" }));
 
       if (client.database.has("prefix", message.guildId)) {
         await client.database.modify("prefix", message.guildId, args[2]);
