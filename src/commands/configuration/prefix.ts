@@ -28,7 +28,7 @@ export default new CommandBuilder({
     } else if (args[1] === "reset") {
       if (client.database.has("prefix", message.guildId)) {
         await client.database.delete("prefix", message.guildId);
-      } else return message.reply(client.beautifyMessage("No tengo un prefix establecido anteriormente en el servidor.", { emoji: "error" }));
+      } else return message.reply(client.beautifyMessage("No tenía un prefix establecido anteriormente en el servidor.", { emoji: "error" }));
 
       return message.reply(client.beautifyMessage(`El prefix fue reiniciado. Ahora es: ${bold("!!")}`, { emoji: "check" }));
     } else return message.reply(client.beautifyMessage("Opción no válida. Las opciones disponibles son las siguientes: `set` ó `reset`", { emoji: "error" }));
