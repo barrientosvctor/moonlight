@@ -8,7 +8,7 @@ export default new CommandBuilder({
   cooldown: 10,
   category: "Configuración",
   description: "Cambia el prefix del su servidor.",
-  usage: "<set / reset> [prefix]",
+  usage: "<set / reset> <prefix>",
   example: "set mm!",
   requiredMemberPermissions: ["ManageGuild"],
   async run(client, message, args) {
