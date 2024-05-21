@@ -68,7 +68,7 @@ export default new CommandBuilder({
       );
     if (!member.roles.cache.has(muteRoleID))
       return message.reply(
-        client.beautifyMessage(`${member.user.tag} no estaba muteado.`, {
+        client.beautifyMessage(`${bold(member.user.tag)} no estaba muteado.`, {
           emoji: "error"
         })
       );
