@@ -6,11 +6,13 @@ export type Properties = {
 export type DatabaseContent = {
   prefix: Properties[];
   muterole: Properties[];
+  autorole: Properties[];
 };
 
 export const DB_CONTENT: DatabaseContent = {
   prefix: [],
-  muterole: []
+  muterole: [],
+  autorole: []
 } as const;
 
 export type DatabaseOptions = keyof DatabaseContent;
