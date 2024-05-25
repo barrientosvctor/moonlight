@@ -47,7 +47,7 @@ export class ClientHandler implements ClientHandlerPieces {
   }
 
   async commands() {
-    const commandsFolder = readdir(this.__path.joinPaths("commands"), {
+    const commandsFolder = readdir(this.__path.joinPaths("commands", "prefix"), {
       recursive: true,
       withFileTypes: true
     });
@@ -69,7 +69,7 @@ export class ClientHandler implements ClientHandlerPieces {
         cmd => cmd.name
       );
       if (folderName) {
-        const command = (await import(`../commands/${folderName}/${info.name}`))
+        const command = (await import(`../commands/prefix/${folderName}/${info.name}`))
           .default as CommandBuilder;
         const convertedFolderName = this.convertCategoryName(
           folderName as CategoryKeyName
