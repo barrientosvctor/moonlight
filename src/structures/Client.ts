@@ -31,7 +31,7 @@ export class MoonlightClient<Ready extends boolean = boolean>
   static get Instance(): MoonlightClient {
     if (!MoonlightClient.__instance)
       MoonlightClient.__instance = new MoonlightClient({
-        intents: ["Guilds", "GuildMessages", "MessageContent"],
+        intents: ["Guilds", "GuildMessages", "MessageContent", "GuildMembers"],
         presence: {
           status: "dnd",
           activities: [
