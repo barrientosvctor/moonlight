@@ -1,6 +1,6 @@
 {
     "bot.info": {
-        "invite": "https://discord.com/api/oauth2/authorize?client_id=741756688398549034&permissions=1378030578775&scope=bot%20applications.commands",
+        "invite": "https://discord.com/oauth2/authorize?client_id=741756688398549034",
         "color": "#F9D87F",
         "banner": "https://i.imgur.com/Q2LYV6F.png"
     },
