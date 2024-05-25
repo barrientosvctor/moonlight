@@ -1,4 +1,4 @@
-import { EmbedBuilder, bold, underscore } from "discord.js";
+import { EmbedBuilder, bold, underline } from "discord.js";
 import { CommandBuilder } from "../../../structures/CommandBuilder.js";
 import { CommandType } from "../../../types/command.types.js";
 
@@ -33,14 +33,14 @@ export default new CommandBuilder({
       .setTitle(`${data[0].location.name}`)
       .setDescription(
         `
-> ${underscore("Pronóstico del clima")}
+> ${underline("Pronóstico del clima")}
 ${bold("Cielo")}: ${data[0].current.skytext}
 ${bold("Temperatura")}: ${data[0].current.temperature}°${data[0].location.degreetype}
 ${bold("Sensación térmica")}: ${data[0].current.feelslike}°${data[0].location.degreetype}
 ${bold("Humedad")}: ${data[0].current.humidity}%
 ${bold("Velocidad del viento")}: ${data[0].current.winddisplay}
 
-> ${underscore("Otra información")}
+> ${underline("Otra información")}
 ${bold("Día")}: ${data[0].current.day} (${data[0].current.shortday})
 ${bold("Fecha y hora")}: ${data[0].current.date} - ${data[0].current.observationtime}
 ${bold("Zona horaria")}: GMT${data[0].location.timezone}`
