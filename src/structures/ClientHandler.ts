@@ -9,6 +9,7 @@ import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 type ClientHandlerPieces = {
   events(): void;
   commands(): void;
+  userContextMenus(): void;
 };
 
 export class ClientHandler implements ClientHandlerPieces {
@@ -86,6 +87,20 @@ export class ClientHandler implements ClientHandlerPieces {
             this.__client.commandsManager.addAliasToCommand(alias, command.name)
           );
       }
+    });
+  }
+
+  public async userContextMenus() {
+      const contextFolder = readdir(this.__path.joinPaths("commands", "context"));
+
+    const [result] = await Promise.allSettled([contextFolder]);
+
+    if (result.status === "rejected") throw new Error(result.reason);
+
+    result.value.filter(f => f.endsWith(this.__path.extension)).forEach(async filename => {
+      const context = (await import(`../commands/context/${filename}`)).default as CommandBuilder;
+
+      this.__client.commandsManager.addCommand(context.name, context);
     });
   }
 }
