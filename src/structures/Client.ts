@@ -50,8 +50,9 @@ export class MoonlightClient<Ready extends boolean = boolean>
   public override async login(token?: string | undefined): Promise<string> {
     const eventHandler = this.__handler.events();
     const commandHandler = this.__handler.commands();
+    const userContextHandler = this.__handler.userContextMenus();
 
-    const [h1, h2] = await Promise.allSettled([eventHandler, commandHandler]);
+    const [h1, h2, h3] = await Promise.allSettled([eventHandler, commandHandler, userContextHandler]);
 
     if (h1.status === "rejected") {
       console.error(h1.reason);
@@ -63,10 +64,21 @@ export class MoonlightClient<Ready extends boolean = boolean>
       process.exit(1);
     }
 
+    if (h3.status === "rejected") {
+      console.error(h3.reason);
+      process.exit(1);
+    }
+
     await this.database.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
     await this.database.read();
-    return await super.login(token);
+    const tok = await super.login(token);
+
+    await this.commandsManager.initializeSlashCommands(this, {
+      shortcut: true
+    });
+
+    return tok;
   }
 
   public getEmoji(type: EmojiType) {
