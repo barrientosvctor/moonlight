@@ -46,8 +46,7 @@ export class CommandManager implements CommandManagerPieces {
         console.log("Please use detailed registry for multiple guilds");
       }
 
-      // TODO: why it appears 0 commands?
-      console.log(`Started refreshing ${globalCommands.size} application (/) guild commands.`);
+      console.log(`Started refreshing ${guildCommands.size} application (/) guild commands.`);
 
       client.rest.put(Routes.applicationGuildCommands(client.user!.id, guildCommands.first()!.guildIds[0]),
         {
