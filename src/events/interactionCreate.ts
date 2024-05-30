@@ -11,7 +11,7 @@ export default new EventBuilder({
         if (command.ownerOnly && application && interaction.user.id !== application.owner?.id) return;
 
         try {
-          await command.run(interaction);
+          await command.run(interaction, client);
         } catch (error) {
           console.log("Hubo un error al intentar ejecutar esta interacción.");
           console.error(error);
@@ -21,7 +21,7 @@ export default new EventBuilder({
       const command = client.commandsManager.getCommand(interaction.commandName, CommandType.User);
       if (command && command.run) {
         try {
-          await command.run(interaction);
+          await command.run(interaction, client);
         } catch (error) {
           console.log("Hubo un error al intentar ejecutar esta interacción de menú contextual de usuario.");
           console.error(error);

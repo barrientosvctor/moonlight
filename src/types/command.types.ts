@@ -112,9 +112,9 @@ type BaseCommand = GuildCommand | GlobalCommand;
 type NonEmptyArray<Type extends `${number}` = `${number}`> = [Type, ...Type[]];
 
 interface RunType {
-  [CommandType.ChatInput]: [interaction: ChatInputCommandInteraction];
-  [CommandType.Message]: [interaction: MessageContextMenuCommandInteraction];
-  [CommandType.User]: [interaction: UserContextMenuCommandInteraction];
+  [CommandType.ChatInput]: [interaction: ChatInputCommandInteraction, client: MoonlightClient];
+  [CommandType.Message]: [interaction: MessageContextMenuCommandInteraction, client: MoonlightClient];
+  [CommandType.User]: [interaction: UserContextMenuCommandInteraction, client: MoonlightClient];
   [CommandType.Legacy]: [
     client: MoonlightClient,
     message: Message<boolean>,
