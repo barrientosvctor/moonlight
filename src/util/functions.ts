@@ -11,15 +11,20 @@ export async function getUser(user: string, client: MoonlightClient) {
   return await client.users.fetch(user);
 }
 
-export function getMember(member: string, message: Message) {
+export async function getMember(member: string, message: Message) {
   if (!member || !message.inGuild()) return;
 
   if (member.startsWith("\\")) member = member.slice(1);
   if (member.startsWith("<@") && member.endsWith(">"))
     member = member.slice(2, -1);
-  if (!Number(member) && member.length !== 18) return;
+  if (!Number(member)) return;
 
-  return message.guild.members.cache.get(member);
+  const targetMember = await message.guild.members.fetch({ user: member, limit: 1, cache: false, force: false });
+
+  if (!message.guild.members.cache.has(targetMember.id))
+    return undefined;
+
+  return targetMember;
 }
 
 export function getChannel(channel: string, message: Message) {
