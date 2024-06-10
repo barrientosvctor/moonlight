@@ -20,7 +20,7 @@ export default new CommandBuilder({
         )
       );
 
-    const member = getMember(args[1], message),
+    const member = await getMember(args[1], message),
       data = await fetchAnimeGIF("punch"),
       embed = new EmbedBuilder();
 

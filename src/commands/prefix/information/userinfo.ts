@@ -44,7 +44,7 @@ export default new CommandBuilder({
       }
 `);
     } else {
-      const member = getMember(user.id, message);
+      const member = await getMember(user.id, message);
       if (!member)
         return message.reply(
           client.beautifyMessage("No se pudo encontrar al usuario.", {

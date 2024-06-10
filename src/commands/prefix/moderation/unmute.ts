@@ -32,7 +32,7 @@ export default new CommandBuilder({
       );
 
     const muteRoleID = client.database.get("muterole", message.guildId)!;
-    const member = getMember(args[1], message);
+    const member = await getMember(args[1], message);
     if (!member)
       return message.reply(
         client.beautifyMessage(

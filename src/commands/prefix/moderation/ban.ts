@@ -24,7 +24,7 @@ export default new CommandBuilder({
         )
       );
 
-    const member = getMember(args[1], message);
+    const member = await getMember(args[1], message);
     if (!member)
       return message.reply(
         client.beautifyMessage(

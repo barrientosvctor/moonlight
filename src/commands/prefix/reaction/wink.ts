@@ -18,7 +18,7 @@ export default new CommandBuilder({
     if (!args[1])
       embed.setDescription(`${bold(message.author.username)} guiña el ojo.`);
     else {
-      const member = getMember(args[1], message);
+      const member = await await getMember(args[1], message);
 
       if (!member)
         return message.reply(
