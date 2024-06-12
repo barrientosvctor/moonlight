@@ -69,6 +69,7 @@
         "ManageRoles": "Gestionar roles",
         "ManageWebhooks": "Gestionar webhooks",
         "ManageEmojisAndStickers": "Gestionar emojis y stickers",
+        "ManageGuildExpressions": "Gestionar expresiones",
         "UseApplicationCommands": "Usar comandos de aplicaciones",
         "RequestToSpeak": "Solicitar para hablar",
         "ManageEvents": "Gestionar eventos",
@@ -77,8 +78,15 @@
         "CreatePrivateThreads": "Crear hilos privados",
         "UseExternalStickers": "Usar stickers externos",
         "SendMessagesInThreads": "Enviar mensajes en los hilos",
-        "UseEmbeddedActivities": "Iniciar actividades",
-        "ModerateMembers": "Moderar miembros"
+        "UseEmbeddedActivities": "Usar actividades",
+        "ModerateMembers": "Aislar miembros temporalmente",
+        "ViewCreatorMonetizationAnalytics": "Ver información del servidor",
+        "UseSoundboard": "Usar panel de sonidos",
+        "CreateGuildExpressions": "Crear expresiones de servidor",
+        "CreateEvents": "Crear eventos",
+        "UseExternalSounds": "Usar sonidos externos",
+        "SendVoiceMessages": "Enviar mensajes de voz",
+        "SendPolls": "Enviar encuestas"
     },
     "guild.premiumTier": {
         "0": "Tier 0",
