@@ -4,20 +4,6 @@
         "color": "#F9D87F",
         "banner": "https://i.imgur.com/Q2LYV6F.png"
     },
-    "user.presence.status": {
-        "online": "<:online:1005618778400378880> Conectado",
-        "idle": "<:idle:1005618776110288896> Ausente",
-        "dnd": "<:dnd:1005618777259511818> No molestar",
-        "offline": "<:offline:1005618883685789836> Desconectado"
-    },
-    "user.presence.activities": {
-        "0": "Jugando a",
-        "1": "En directo",
-        "2": "Escuchando",
-        "3": "Viendo",
-        "4": "Personalizado",
-        "5": "Compitiendo"
-    },
     "flags": {
         "Staff": "<:staff:952078063972282398>",
         "Partner": "<:partner:952075115787595858>",
