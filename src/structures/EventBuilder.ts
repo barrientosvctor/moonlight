@@ -1,20 +1,26 @@
-import { ClientEvents } from "discord.js";
-import { Moonlight } from "../Moonlight";
+import type { Awaitable, ClientEvents } from "discord.js";
+import type { MoonlightClient } from "./Client.js";
 
-interface EventBuilderOptions {
-  name: keyof ClientEvents;
-  once?: boolean;
-  run: (bot: Moonlight, ...args: any[]) => void;
-}
+export class EventBuilder<Event extends keyof ClientEvents = keyof ClientEvents>
+  implements EventBuilderParameters<Event>
+{
+  event: EventBuilderParameters<Event>["event"];
+  once?: EventBuilderParameters<Event>["once"];
+  execute: EventBuilderParameters<Event>["execute"];
 
-export class EventBuilder {
-  public name: EventBuilderOptions["name"];
-  public once?: EventBuilderOptions["once"];
-  public run: EventBuilderOptions["run"];
-
-  constructor(options: EventBuilder) {
-    this.name = options.name;
-    this.once = options.once;
-    this.run = options.run;
+  constructor(protected readonly __params: EventBuilderParameters<Event>) {
+    this.event = __params.event;
+    this.once = __params.once ?? false;
+    this.execute = __params.execute;
   }
 }
+
+type EventBuilderParameters<T> = {
+  event: T extends keyof ClientEvents ? T : keyof ClientEvents;
+  once?: boolean;
+  execute: (...args: EventArgs<T>) => Awaitable<void>;
+};
+
+type EventArgs<T> = T extends keyof ClientEvents
+  ? [...args: ClientEvents[T], client: MoonlightClient]
+  : unknown[];
