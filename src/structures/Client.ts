@@ -33,11 +33,11 @@ export class MoonlightClient<Ready extends boolean = boolean>
       MoonlightClient.__instance = new MoonlightClient({
         intents: ["Guilds", "GuildMessages", "MessageContent", "GuildMembers"],
         presence: {
-          status: "dnd",
+          status: "online",
           activities: [
             {
-              name: "Reconstrucción...",
-              type: ActivityType.Watching
+              name: "¡Estoy de vuelta!",
+              type: ActivityType.Playing
             }
           ]
         },
