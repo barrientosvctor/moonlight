@@ -57,7 +57,7 @@ export default new CommandBuilder({
           .setDescription(
             `${client.getEmoji("check")} Muy bien! El emoji ${emoji.animated ? `<a:${emoji.name}:${emoji.id}>` : `<:${emoji.name}:${emoji.id}>`} fue añadido correctamente al servidor.\n\n**Nombre:** ${emoji.name}\n**ID:** ${emoji.id}\n**¿Animado?** ${emoji.animated ? `Sí.` : `No.`}\n**Añadido por:** ${message.author}`
           )
-          .setImage(emoji.url);
+          .setImage(emoji.imageURL());
       } catch (error) {
         console.error(error);
         return message.channel.send(
