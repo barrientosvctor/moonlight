@@ -1,5 +1,5 @@
 import { EventBuilder } from "../structures/EventBuilder.js";
-import { bold } from "discord.js";
+import { EmbedBuilder, type HexColorString, bold } from "discord.js";
 
 export default new EventBuilder({
   event: "messageCreate",
@@ -7,6 +7,16 @@ export default new EventBuilder({
     if (!message.inGuild()) return;
 
     const prefix = client.getPrefix(message.guildId);
+
+    if (client.user && message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
+      const embed = new EmbedBuilder()
+      .setTitle("Hola!")
+      .setDescription(`> ${bold(`Soy ${client.user?.username}`)}, un bot multipropósito en Español para su servidor de Discord.\n\n> Cuento con varios comandos de prefix (\`${prefix}\`) y de barra (\`/\`) para utilizar en su servidor.\n\n> Para empezar a usar mis comandos, puedes revisar la lista de comandos con \`${prefix}help\`\n\n> *・ ¡Muchas gracias por leer!* ${client.getEmoji("love")}`)
+      .setColor(client.wrapper.get("bot.info", "color") as HexColorString);
+
+      message.reply({ embeds: [embed] });
+      return;
+    }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
