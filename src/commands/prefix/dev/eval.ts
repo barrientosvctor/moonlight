@@ -34,19 +34,22 @@ export default new CommandBuilder({
     }
 
     if (isError) {
+      let errorMessage = (result as Object).toString();
+
+      if (errorMessage.length > 1024) errorMessage = `${errorMessage.slice(0, 1024 - 50)}...`;
+
       embed
         .setColor("Red")
         .setTitle("Hubo un error al evaluar el código.")
         .addFields(
-          { name: "Entrada", value: `${codeBlock("js", argument)}` },
-          { name: "Error", value: `${codeBlock("js", result)}` }
+          { name: "Error", value: `${codeBlock("js", errorMessage)}` }
         );
     } else {
       embed
         .setColor("Green")
         .setTitle("¡Código evaluado correctamente!")
         .setDescription(
-          `**Tipo:** ${codeBlock("prolog", typeof result)}\n**Evaluado en:** ${codeBlock("yaml", `${Date.now() - message.createdTimestamp}ms`)}\n**Entrada:** ${codeBlock("js", argument)}\n**Salida:** ${codeBlock("js", inspect(result, { depth: 0 }))}`
+          `**Tipo:** ${codeBlock("prolog", typeof result)}\n**Evaluado en:** ${codeBlock("yaml", `${Date.now() - message.createdTimestamp}ms`)}\n**Salida:** ${codeBlock("js", inspect(result, { depth: 0 }))}`
         );
     }
 
