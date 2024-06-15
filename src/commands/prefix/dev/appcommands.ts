@@ -58,7 +58,7 @@ export default new CommandBuilder({
 
     const menuOptions: APISelectMenuOption[] = data.map((item) => {
       return {
-        label: `${item.name}`,
+        label: item.name,
         value: item.id,
         description: item.description || "Sin descripción."
       }
