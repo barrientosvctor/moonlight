@@ -7,8 +7,7 @@ export default new EventBuilder({
     if (interaction.isChatInputCommand()) {
       const command = client.commandsManager.getCommand(interaction.commandName, CommandType.ChatInput);
       if (command && command.run) {
-        const application = await client.application?.fetch();
-        if (command.ownerOnly && application && interaction.user.id !== application.owner?.id) return;
+        if (command.ownerOnly && interaction.user.id !== "617173543582433280") return;
 
         try {
           await command.run(interaction, client);

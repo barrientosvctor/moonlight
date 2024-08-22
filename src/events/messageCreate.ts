@@ -37,12 +37,9 @@ export default new EventBuilder({
       return;
     }
 
-    const application = await client.application?.fetch();
-
     if (
       command.ownerOnly &&
-      application &&
-      message.author.id !== application.owner?.id
+      message.author.id !== "617173543582433280"
     )
       return;
 
