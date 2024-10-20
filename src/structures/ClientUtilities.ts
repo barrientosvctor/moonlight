@@ -1,6 +1,5 @@
 import type { PermissionsString } from "discord.js";
 import type { ClientUtilitiesPieces } from "../types/client.types.js";
-import { CommandType } from "../types/command.types.js";
 import { type MoonlightClient } from "./Client.js";
 
 export class ClientUtilities implements ClientUtilitiesPieces {
@@ -23,7 +22,7 @@ export class ClientUtilities implements ClientUtilitiesPieces {
    */
   public receiveCommand(argument: string) {
     return (
-      this.__client.commandsManager.getCommand(argument, CommandType.Legacy) ||
+      this.__client.commandsManager.getCommand(argument) ||
       this.__client.commandsManager.getCommandByAlias(argument)
     );
   }

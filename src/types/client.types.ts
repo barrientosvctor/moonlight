@@ -1,9 +1,8 @@
 import type { PermissionsString } from "discord.js";
 import { ClientUtilities } from "../structures/ClientUtilities.js";
-import type { CommandBuilder } from "../structures/CommandBuilder.js";
+import type { LegacyCommandBuilder } from "../structures/CommandBuilder.js";
 import type { CommandManager } from "../structures/CommandManager.js";
 import type { JSONWrapper } from "../structures/JSONWrapper.js";
-import type { CommandType } from "./command.types.js";
 import type { Database } from "../structures/Database.js";
 
 export type Emoji = {
@@ -50,7 +49,7 @@ export type ClientUtilitiesPieces = {
   convertPermissionsToSpanish(perms: PermissionsString[]): string[];
   receiveCommand(
     argument: string
-  ): CommandBuilder<CommandType.Legacy> | undefined;
+  ): LegacyCommandBuilder | undefined;
   diff<ArrayType extends unknown[]>(
     arr1: ArrayType,
     arr2: ArrayType

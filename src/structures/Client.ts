@@ -69,14 +69,17 @@ export class MoonlightClient<Ready extends boolean = boolean>
       process.exit(1);
     }
 
+    if (h4.status === "rejected") {
+      console.error(h4.reason);
+      process.exit(1);
+    }
+
     await this.database.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
     await this.database.read();
     const tok = await super.login(token);
 
-    await this.commandsManager.initializeSlashCommands(this, {
-      shortcut: true
-    });
+    // TODO: Add slash commands initialization
 
     return tok;
   }

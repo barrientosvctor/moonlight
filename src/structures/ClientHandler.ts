@@ -3,13 +3,14 @@ import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
 import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
-import { CommandBuilder } from "./CommandBuilder.js";
+import { LegacyCommandBuilder } from "./CommandBuilder.js";
 import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
 type ClientHandlerPieces = {
-  events(): void;
-  commands(): void;
-  userContextMenus(): void;
+  events(): Promise<void>;
+  commands(): Promise<void>;
+  userContextMenus(): Promise<void>;
+  slashCommands(): Promise<void>;
 };
 
 export class ClientHandler implements ClientHandlerPieces {
@@ -71,7 +72,7 @@ export class ClientHandler implements ClientHandlerPieces {
       );
       if (folderName) {
         const command = (await import(`../commands/prefix/${folderName}/${info.name}`))
-          .default as CommandBuilder;
+          .default as LegacyCommandBuilder;
         const convertedFolderName = this.convertCategoryName(
           folderName as CategoryKeyName
         );
@@ -98,9 +99,51 @@ export class ClientHandler implements ClientHandlerPieces {
     if (result.status === "rejected") throw new Error(result.reason);
 
     result.value.filter(f => f.endsWith(this.__path.extension)).forEach(async filename => {
-      const context = (await import(`../commands/context/${filename}`)).default as CommandBuilder;
+      const context = (await import(`../commands/context/${filename}`)).default as LegacyCommandBuilder;
 
       this.__client.commandsManager.addCommand(context.name, context);
+    });
+  }
+
+  public async slashCommands() {
+    const slashCommandsFolder = readdir(this.__path.joinPaths("commands", "slash"), {
+      recursive: true,
+      withFileTypes: true
+    });
+
+    const [result] = await Promise.allSettled([slashCommandsFolder]);
+
+    if (result.status === "rejected") throw new Error(result.reason);
+
+    const commandsInfo = result.value.filter(item =>
+      item.name.endsWith(this.__path.extension)
+    );
+
+    commandsInfo.forEach(async info => {
+      console.log({ name: info.name, path: info.path });
+
+      const folderName = info.path.split(/[\\/]+/g).at(-1);
+      const commandsPerCategory = Array.from(
+        commandsInfo.filter(
+          data => data.path.split(/[\\/]+/g).at(-1) === folderName
+        ),
+        cmd => cmd.name
+      );
+      if (folderName) {
+        const command = (await import(`../commands/slash/${folderName}/${info.name}`))
+          .default as LegacyCommandBuilder;
+        const convertedFolderName = this.convertCategoryName(
+          folderName as CategoryKeyName
+        );
+
+        this.__client.commandsManager.categories.set(convertedFolderName, {
+          name: convertedFolderName,
+          commands: commandsPerCategory
+        });
+        this.__client.commandsManager.addCommand(command.name, command);
+      }
+      console.log("Done");
+
     });
   }
 }
