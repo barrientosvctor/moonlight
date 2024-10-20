@@ -51,8 +51,9 @@ export class MoonlightClient<Ready extends boolean = boolean>
     const eventHandler = this.__handler.events();
     const commandHandler = this.__handler.commands();
     const userContextHandler = this.__handler.userContextMenus();
+    const slashCommandsHandler = this.__handler.slashCommands();
 
-    const [h1, h2, h3] = await Promise.allSettled([eventHandler, commandHandler, userContextHandler]);
+    const [h1, h2, h3, h4] = await Promise.allSettled([eventHandler, commandHandler, userContextHandler, slashCommandsHandler]);
 
     if (h1.status === "rejected") {
       console.error(h1.reason);
