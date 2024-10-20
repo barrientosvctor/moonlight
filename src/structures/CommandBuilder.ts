@@ -1,12 +1,14 @@
 import {
   CommandCategory,
-  LegacyCommandBuilderPieces as LegacyCommandBuilderPieces,
+  LegacyCommandBuilderPieces,
   LegacyCommandRunParameters,
   LegacyCommandOptions
 } from "../types/command.types.js";
 import type {
   PermissionsString,
-  Awaitable
+  Awaitable,
+  SlashCommandBuilder,
+  ChatInputCommandInteraction
 } from "discord.js";
 
 export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
@@ -34,5 +36,23 @@ export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
     this.usage = data.usage;
     this.example = data.example;
     this.run = data.run;
+  }
+}
+
+type SlashCommandOptions = {
+  data: SlashCommandBuilder;
+  ownerOnly?: boolean;
+  run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
+}
+
+export class SlashCommand {
+  public data: SlashCommandBuilder;
+  public ownerOnly?: boolean;
+  public run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
+
+  constructor(options: SlashCommandOptions) {
+    this.data = options.data;
+    this.ownerOnly = options.ownerOnly ?? false;
+    this.run = options.run;
   }
 }

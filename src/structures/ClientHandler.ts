@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
 import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
-import { LegacyCommandBuilder } from "./CommandBuilder.js";
+import { LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
 import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
 type ClientHandlerPieces = {
@@ -131,7 +131,7 @@ export class ClientHandler implements ClientHandlerPieces {
       );
       if (folderName) {
         const command = (await import(`../commands/slash/${folderName}/${info.name}`))
-          .default as LegacyCommandBuilder;
+          .default as SlashCommand;
         const convertedFolderName = this.convertCategoryName(
           folderName as CategoryKeyName
         );
@@ -140,7 +140,7 @@ export class ClientHandler implements ClientHandlerPieces {
           name: convertedFolderName,
           commands: commandsPerCategory
         });
-        this.__client.commandsManager.addCommand(command.name, command);
+        this.__client.commandsManager.addSlashCommand(command.data.name, command);
       }
       console.log("Done");
 

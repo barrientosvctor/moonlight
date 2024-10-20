@@ -3,10 +3,11 @@ import type {
   CommandManagerPieces,
   CategoryInformation
 } from "../types/command.types.js";
-import type { LegacyCommandBuilder } from "./CommandBuilder.js";
+import type { LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
+  private readonly __slashcommands = new Collection<string, SlashCommand>();
   private readonly __aliases = new Collection<string, string>();
   readonly categories = new Collection<string, CategoryInformation>();
 
@@ -20,8 +21,16 @@ export class CommandManager implements CommandManagerPieces {
     this.__commands.set(name, options);
   }
 
+  public addSlashCommand(name: string, options: SlashCommand) {
+    this.__slashcommands.set(name, options);
+  }
+
   public getCommand(name: string) {
     return this.__commands.get(name);
+  }
+
+  public getSlashCommand(name: string) {
+    return this.__slashcommands.get(name);
   }
 
   public showCommandsList() {
