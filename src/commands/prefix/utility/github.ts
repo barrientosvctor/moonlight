@@ -1,9 +1,7 @@
 import { EmbedBuilder, bold, hyperlink, time } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "github",
   description: "Busca usuarios de GitHub mediante este comando.",
   cooldown: 10,

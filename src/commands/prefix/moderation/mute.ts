@@ -1,6 +1,5 @@
 import { bold, inlineCode } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { getMember } from "../../../util/functions.js";
 import {
   HumanizeDuration,
@@ -8,8 +7,7 @@ import {
 } from "humanize-duration-ts";
 import { toMs } from "ms-typescript";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "mute",
   cooldown: 5,
   category: "Moderación",

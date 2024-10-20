@@ -1,10 +1,8 @@
 import { bold, inlineCode } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { getMember } from "../../../util/functions.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "ban",
   cooldown: 5,
   category: "Moderación",

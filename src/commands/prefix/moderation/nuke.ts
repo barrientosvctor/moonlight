@@ -7,12 +7,10 @@ import {
   type ComponentType,
   type Interaction
 } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { getChannel } from "../../../util/functions.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "nuke",
   cooldown: 5,
   category: "Moderación",

@@ -1,9 +1,7 @@
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { bold } from "discord.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "ping",
   cooldown: 15,
   category: "Información",

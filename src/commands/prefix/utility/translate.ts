@@ -1,13 +1,11 @@
 import { bold, hyperlink } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 const here = hyperlink(
   "aquí",
   "https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes"
 );
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "translate",
   description: `Traduce un mensaje al idioma que gustes.\nPara conocer los códigos de lenguaje haz click ${here}`,
   cooldown: 10,

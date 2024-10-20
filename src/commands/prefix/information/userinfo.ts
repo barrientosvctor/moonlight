@@ -1,10 +1,8 @@
 import { type APIUser, EmbedBuilder, Routes } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { getMember, getUser } from "../../../util/functions.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "userinfo",
   cooldown: 5,
   category: "Información",

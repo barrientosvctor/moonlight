@@ -1,9 +1,7 @@
 import { bold, time } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "jumbo",
   description:
     "Obten la imagen de un emoji del servidor, añadido también con información sobre este.",

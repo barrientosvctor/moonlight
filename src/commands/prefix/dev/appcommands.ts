@@ -1,11 +1,9 @@
 import { APISelectMenuOption, ActionRowBuilder, ComponentType, type Guild, Routes, StringSelectMenuBuilder, type APIApplicationCommand } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 
 type Parameters = "--global" | "--guild";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "appcommands",
   cooldown: 10,
   category: "Desarrollador",

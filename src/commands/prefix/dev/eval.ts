@@ -1,10 +1,8 @@
 import { EmbedBuilder, codeBlock } from "discord.js";
-import { CommandBuilder } from "../../../structures/CommandBuilder.js";
-import { CommandType } from "../../../types/command.types.js";
+import { LegacyCommandBuilder } from "../../../structures/CommandBuilder.js";
 import { inspect } from "node:util";
 
-export default new CommandBuilder({
-  type: CommandType.Legacy,
+export default new LegacyCommandBuilder({
   name: "eval",
   cooldown: 10,
   category: "Desarrollador",
