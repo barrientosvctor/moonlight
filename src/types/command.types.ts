@@ -2,10 +2,14 @@ import type {
   Awaitable,
   Collection,
   Message,
-  PermissionsString,
+  PermissionsString
 } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
-import type { ContextMenu, LegacyCommandBuilder, SlashCommand } from "../structures/CommandBuilder.js";
+import type {
+  ContextMenu,
+  LegacyCommandBuilder,
+  SlashCommand
+} from "../structures/CommandBuilder.js";
 
 export const CategoryNames = {
   information: "Información",
@@ -30,9 +34,9 @@ export type CommandCategory = (typeof CategoryNames)[CategoryKeyName];
  * to the required run parameters for every command type.
  */
 export type LegacyCommandRunParameters = [
-    client: MoonlightClient,
-    message: Message<boolean>,
-    args: string[]
+  client: MoonlightClient,
+  message: Message<boolean>,
+  args: string[]
 ];
 
 export interface LegacyCommandOptions {
@@ -53,7 +57,6 @@ export interface LegacyCommandOptions {
  * It chooses the respectly command options for every type of command.
  * If the command type is User or Message, it will assign the base command options.
  */
-
 
 export type AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base> = {
   [K in keyof Base]: Base[K] extends Exclude<Base[K], undefined>
@@ -86,20 +89,12 @@ export type CommandManagerPieces = {
   addCommand(name: string, options: LegacyCommandBuilder): void;
   addSlashCommand(name: string, options: SlashCommand): void;
   addContextMenuCommand(name: string, options: ContextMenu): void;
-  getCommand(
-    name: string
-  ): LegacyCommandBuilder | undefined;
-  getSlashCommand(
-    name: string
-  ): SlashCommand | undefined;
-  getContextMenuCommand(
-    name: string
-  ): ContextMenu | undefined;
+  getCommand(name: string): LegacyCommandBuilder | undefined;
+  getSlashCommand(name: string): SlashCommand | undefined;
+  getContextMenuCommand(name: string): ContextMenu | undefined;
   showCommandsList(): string;
   addAliasToCommand(alias: string, command: string): void;
-  getCommandByAlias(
-    alias: string
-  ): LegacyCommandBuilder | undefined;
+  getCommandByAlias(alias: string): LegacyCommandBuilder | undefined;
 };
 
 export type CategoryInformation = {

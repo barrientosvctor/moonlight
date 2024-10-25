@@ -3,7 +3,11 @@ import type {
   CommandManagerPieces,
   CategoryInformation
 } from "../types/command.types.js";
-import type { ContextMenu, LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
+import type {
+  ContextMenu,
+  LegacyCommandBuilder,
+  SlashCommand
+} from "./CommandBuilder.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();

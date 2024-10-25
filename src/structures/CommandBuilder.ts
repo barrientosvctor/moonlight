@@ -45,13 +45,17 @@ export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
 type SlashCommandOptions = {
   data: SlashCommandBuilder;
   ownerOnly?: boolean;
-  run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
-}
+  run: (
+    ...args: [interaction: ChatInputCommandInteraction]
+  ) => Awaitable<unknown>;
+};
 
 export class SlashCommand implements SlashCommandOptions {
   public data: SlashCommandBuilder;
   public ownerOnly?: boolean;
-  public run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
+  public run: (
+    ...args: [interaction: ChatInputCommandInteraction]
+  ) => Awaitable<unknown>;
 
   constructor(options: SlashCommandOptions) {
     this.data = options.data;
@@ -61,16 +65,26 @@ export class SlashCommand implements SlashCommandOptions {
 }
 
 type ContextMenuOptions = {
-    data: ContextMenuCommandBuilder,
-    run: (...args: [interaction: ContextMenuCommandInteraction, client: MoonlightClient]) => Awaitable<unknown>;
-}
+  data: ContextMenuCommandBuilder;
+  run: (
+    ...args: [
+      interaction: ContextMenuCommandInteraction,
+      client: MoonlightClient
+    ]
+  ) => Awaitable<unknown>;
+};
 
 export class ContextMenu implements ContextMenuOptions {
-    public data: ContextMenuCommandBuilder;
-    public run: (...args: [interaction: ContextMenuCommandInteraction, client: MoonlightClient]) => Awaitable<unknown>;
+  public data: ContextMenuCommandBuilder;
+  public run: (
+    ...args: [
+      interaction: ContextMenuCommandInteraction,
+      client: MoonlightClient
+    ]
+  ) => Awaitable<unknown>;
 
-    constructor(options: ContextMenuOptions) {
-        this.data = options.data;
-        this.run = options.run;
-    }
+  constructor(options: ContextMenuOptions) {
+    this.data = options.data;
+    this.run = options.run;
+  }
 }

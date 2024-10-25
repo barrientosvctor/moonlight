@@ -19,10 +19,14 @@ export async function getMember(member: string, message: Message) {
     member = member.slice(2, -1);
   if (!Number(member)) return;
 
-  const targetMember = await message.guild.members.fetch({ user: member, limit: 1, cache: false, force: false });
+  const targetMember = await message.guild.members.fetch({
+    user: member,
+    limit: 1,
+    cache: false,
+    force: false
+  });
 
-  if (!message.guild.members.cache.has(targetMember.id))
-    return undefined;
+  if (!message.guild.members.cache.has(targetMember.id)) return undefined;
 
   return targetMember;
 }

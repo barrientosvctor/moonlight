@@ -8,11 +8,16 @@ export default new EventBuilder({
 
     const prefix = client.getPrefix(message.guildId);
 
-    if (client.user && message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))) {
+    if (
+      client.user &&
+      message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`))
+    ) {
       const embed = new EmbedBuilder()
-      .setTitle("Hola!")
-      .setDescription(`> ${bold(`Soy ${client.user?.username}`)}, un bot multipropósito en Español para su servidor de Discord.\n\n> Cuento con varios comandos de prefix (\`${prefix}\`) y de barra (\`/\`) para utilizar en su servidor.\n\n> Para empezar a usar mis comandos, puedes revisar la lista de comandos con \`${prefix}help\`\n\n> *・ ¡Muchas gracias por leer!* ${client.getEmoji("love")}`)
-      .setColor(client.wrapper.get("bot.info", "color") as HexColorString);
+        .setTitle("Hola!")
+        .setDescription(
+          `> ${bold(`Soy ${client.user?.username}`)}, un bot multipropósito en Español para su servidor de Discord.\n\n> Cuento con varios comandos de prefix (\`${prefix}\`) y de barra (\`/\`) para utilizar en su servidor.\n\n> Para empezar a usar mis comandos, puedes revisar la lista de comandos con \`${prefix}help\`\n\n> *・ ¡Muchas gracias por leer!* ${client.getEmoji("love")}`
+        )
+        .setColor(client.wrapper.get("bot.info", "color") as HexColorString);
 
       message.reply({ embeds: [embed] });
       return;
@@ -37,11 +42,7 @@ export default new EventBuilder({
       return;
     }
 
-    if (
-      command.ownerOnly &&
-      message.author.id !== "617173543582433280"
-    )
-      return;
+    if (command.ownerOnly && message.author.id !== "617173543582433280") return;
 
     if (command.cooldown && command.cooldown > 0) {
       if (!client.cooldown.has(command.name))

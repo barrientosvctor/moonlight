@@ -34,14 +34,16 @@ export default new LegacyCommandBuilder({
     if (isError) {
       let errorMessage = (result as Object).toString();
 
-      if (errorMessage.length > 1024) errorMessage = `${errorMessage.slice(0, 1024 - 50)}...`;
+      if (errorMessage.length > 1024)
+        errorMessage = `${errorMessage.slice(0, 1024 - 50)}...`;
 
       embed
         .setColor("Red")
         .setTitle("Hubo un error al evaluar el código.")
-        .addFields(
-          { name: "Error", value: `${codeBlock("js", errorMessage)}` }
-        );
+        .addFields({
+          name: "Error",
+          value: `${codeBlock("js", errorMessage)}`
+        });
     } else {
       embed
         .setColor("Green")

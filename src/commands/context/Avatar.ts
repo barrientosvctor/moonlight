@@ -1,8 +1,14 @@
-import { ApplicationCommandType, ContextMenuCommandBuilder, EmbedBuilder, bold, hyperlink } from "discord.js";
-import { ContextMenu } from "../../structures/CommandBuilder.js"
+import {
+  ApplicationCommandType,
+  ContextMenuCommandBuilder,
+  EmbedBuilder,
+  bold,
+  hyperlink
+} from "discord.js";
+import { ContextMenu } from "../../structures/CommandBuilder.js";
 
 export default new ContextMenu({
-    data: new ContextMenuCommandBuilder()
+  data: new ContextMenuCommandBuilder()
     .setName("Avatar")
     .setType(ApplicationCommandType.User)
     .setDMPermission(false),
@@ -13,14 +19,14 @@ export default new ContextMenu({
     if (!member) return;
 
     const embed = new EmbedBuilder()
-    .setColor("Random")
-    .setDescription(
-      `
+      .setColor("Random")
+      .setDescription(
+        `
 > Avatar de ${bold(member.user.tag)}
 ${hyperlink("PNG", member.displayAvatarURL({ size: 2048, extension: "png", forceStatic: true }))} | ${hyperlink("JPG", member.displayAvatarURL({ size: 2048, extension: "jpg", forceStatic: true }))} | ${hyperlink("WEBP", member.displayAvatarURL({ size: 2048, extension: "webp", forceStatic: true }))} ${member.avatar?.startsWith("a_") ? `| ${hyperlink("GIF", member.displayAvatarURL({ size: 2048, extension: "gif" }))}` : ""}
 `
-    )
-    .setImage(member.user.displayAvatarURL({ size: 2048, extension: "png" }));
+      )
+      .setImage(member.user.displayAvatarURL({ size: 2048, extension: "png" }));
     return interaction.reply({ embeds: [embed] });
   }
 });

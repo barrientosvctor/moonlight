@@ -3,7 +3,11 @@ import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
 import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
-import { ContextMenu, LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
+import {
+  ContextMenu,
+  LegacyCommandBuilder,
+  SlashCommand
+} from "./CommandBuilder.js";
 import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
 type ClientHandlerPieces = {
@@ -49,10 +53,13 @@ export class ClientHandler implements ClientHandlerPieces {
   }
 
   async commands() {
-    const commandsFolder = readdir(this.__path.joinPaths("commands", "prefix"), {
-      recursive: true,
-      withFileTypes: true
-    });
+    const commandsFolder = readdir(
+      this.__path.joinPaths("commands", "prefix"),
+      {
+        recursive: true,
+        withFileTypes: true
+      }
+    );
 
     const [result] = await Promise.allSettled([commandsFolder]);
 
@@ -71,8 +78,9 @@ export class ClientHandler implements ClientHandlerPieces {
         cmd => cmd.name
       );
       if (folderName) {
-        const command = (await import(`../commands/prefix/${folderName}/${info.name}`))
-          .default as LegacyCommandBuilder;
+        const command = (
+          await import(`../commands/prefix/${folderName}/${info.name}`)
+        ).default as LegacyCommandBuilder;
         const convertedFolderName = this.convertCategoryName(
           folderName as CategoryKeyName
         );
@@ -92,24 +100,33 @@ export class ClientHandler implements ClientHandlerPieces {
   }
 
   public async contextMenus() {
-      const contextFolder = readdir(this.__path.joinPaths("commands", "context"));
+    const contextFolder = readdir(this.__path.joinPaths("commands", "context"));
 
     const [result] = await Promise.allSettled([contextFolder]);
 
     if (result.status === "rejected") throw new Error(result.reason);
 
-    result.value.filter(f => f.endsWith(this.__path.extension)).forEach(async filename => {
-      const context = (await import(`../commands/context/${filename}`)).default as ContextMenu;
+    result.value
+      .filter(f => f.endsWith(this.__path.extension))
+      .forEach(async filename => {
+        const context = (await import(`../commands/context/${filename}`))
+          .default as ContextMenu;
 
-      this.__client.commandsManager.addContextMenuCommand(context.data.name, context);
-    });
+        this.__client.commandsManager.addContextMenuCommand(
+          context.data.name,
+          context
+        );
+      });
   }
 
   public async slashCommands() {
-    const slashCommandsFolder = readdir(this.__path.joinPaths("commands", "slash"), {
-      recursive: true,
-      withFileTypes: true
-    });
+    const slashCommandsFolder = readdir(
+      this.__path.joinPaths("commands", "slash"),
+      {
+        recursive: true,
+        withFileTypes: true
+      }
+    );
 
     const [result] = await Promise.allSettled([slashCommandsFolder]);
 
@@ -130,8 +147,9 @@ export class ClientHandler implements ClientHandlerPieces {
         cmd => cmd.name
       );
       if (folderName) {
-        const command = (await import(`../commands/slash/${folderName}/${info.name}`))
-          .default as SlashCommand;
+        const command = (
+          await import(`../commands/slash/${folderName}/${info.name}`)
+        ).default as SlashCommand;
         const convertedFolderName = this.convertCategoryName(
           folderName as CategoryKeyName
         );
@@ -140,10 +158,12 @@ export class ClientHandler implements ClientHandlerPieces {
           name: convertedFolderName,
           commands: commandsPerCategory
         });
-        this.__client.commandsManager.addSlashCommand(command.data.name, command);
+        this.__client.commandsManager.addSlashCommand(
+          command.data.name,
+          command
+        );
       }
       console.log("Done");
-
     });
   }
 }
