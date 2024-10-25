@@ -3,11 +3,12 @@ import type {
   CommandManagerPieces,
   CategoryInformation
 } from "../types/command.types.js";
-import type { LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
+import type { ContextMenu, LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
   private readonly __slashcommands = new Collection<string, SlashCommand>();
+  private readonly __contextmenus = new Collection<string, ContextMenu>();
   private readonly __aliases = new Collection<string, string>();
   readonly categories = new Collection<string, CategoryInformation>();
 
@@ -25,12 +26,20 @@ export class CommandManager implements CommandManagerPieces {
     this.__slashcommands.set(name, options);
   }
 
+  public addContextMenuCommand(name: string, options: ContextMenu) {
+    this.__contextmenus.set(name, options);
+  }
+
   public getCommand(name: string) {
     return this.__commands.get(name);
   }
 
   public getSlashCommand(name: string) {
     return this.__slashcommands.get(name);
+  }
+
+  public getContextMenuCommand(name: string) {
+    return this.__contextmenus.get(name);
   }
 
   public showCommandsList() {

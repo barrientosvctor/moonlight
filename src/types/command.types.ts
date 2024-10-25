@@ -5,7 +5,7 @@ import type {
   PermissionsString,
 } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
-import type { LegacyCommandBuilder, SlashCommand } from "../structures/CommandBuilder.js";
+import type { ContextMenu, LegacyCommandBuilder, SlashCommand } from "../structures/CommandBuilder.js";
 
 export const CategoryNames = {
   information: "Información",
@@ -85,12 +85,16 @@ export type CommandManagerPieces = {
   categories: Collection<string, CategoryInformation>;
   addCommand(name: string, options: LegacyCommandBuilder): void;
   addSlashCommand(name: string, options: SlashCommand): void;
+  addContextMenuCommand(name: string, options: ContextMenu): void;
   getCommand(
     name: string
   ): LegacyCommandBuilder | undefined;
   getSlashCommand(
     name: string
   ): SlashCommand | undefined;
+  getContextMenuCommand(
+    name: string
+  ): ContextMenu | undefined;
   showCommandsList(): string;
   addAliasToCommand(alias: string, command: string): void;
   getCommandByAlias(
