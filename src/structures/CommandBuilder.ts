@@ -12,6 +12,7 @@ import type {
   ContextMenuCommandBuilder,
   ContextMenuCommandInteraction
 } from "discord.js";
+import type { MoonlightClient } from "./Client.js";
 
 export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
   public name: string;
@@ -61,12 +62,12 @@ export class SlashCommand implements SlashCommandOptions {
 
 type ContextMenuOptions = {
     data: ContextMenuCommandBuilder,
-    run: (...args: [interaction: ContextMenuCommandInteraction]) => Awaitable<unknown>;
+    run: (...args: [interaction: ContextMenuCommandInteraction, client: MoonlightClient]) => Awaitable<unknown>;
 }
 
 export class ContextMenu implements ContextMenuOptions {
     public data: ContextMenuCommandBuilder;
-    public run: (...args: [interaction: ContextMenuCommandInteraction]) => Awaitable<unknown>;
+    public run: (...args: [interaction: ContextMenuCommandInteraction, client: MoonlightClient]) => Awaitable<unknown>;
 
     constructor(options: ContextMenuOptions) {
         this.data = options.data;

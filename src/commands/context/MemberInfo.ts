@@ -1,11 +1,11 @@
-import { APIUser, EmbedBuilder, Routes } from "discord.js";
-import { CommandBuilder } from "../../structures/CommandBuilder.js"
-import { CommandType } from "../../types/command.types.js";
+import { APIUser, ApplicationCommandType, ContextMenuCommandBuilder, EmbedBuilder, Routes } from "discord.js";
+import { ContextMenu } from "../../structures/CommandBuilder.js";
 
-export default new CommandBuilder({
-  type: CommandType.User,
-  name: "Member Info",
-  category: "Moderación",
+export default new ContextMenu({
+  data: new ContextMenuCommandBuilder()
+  .setName("Member Info")
+  .setType(ApplicationCommandType.User)
+  .setDMPermission(false),
   async run(interaction, client) {
     if (!interaction.guild || !interaction.member) return;
 

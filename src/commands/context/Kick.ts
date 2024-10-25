@@ -1,11 +1,11 @@
-import { bold, inlineCode } from "discord.js";
-import { CommandBuilder } from "../../structures/CommandBuilder.js"
-import { CommandType } from "../../types/command.types.js";
+import { ApplicationCommandType, ContextMenuCommandBuilder, bold, inlineCode } from "discord.js";
+import { ContextMenu } from "../../structures/CommandBuilder.js";
 
-export default new CommandBuilder({
-  type: CommandType.User,
-  name: "Kick",
-  category: "Moderación",
+export default new ContextMenu({
+  data: new ContextMenuCommandBuilder()
+  .setName("Kick")
+  .setType(ApplicationCommandType.User)
+  .setDMPermission(false),
   async run(interaction, client) {
     if (!interaction.guild || !interaction.member) return;
 
