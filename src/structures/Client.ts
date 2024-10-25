@@ -50,10 +50,10 @@ export class MoonlightClient<Ready extends boolean = boolean>
   public override async login(token?: string | undefined): Promise<string> {
     const eventHandler = this.__handler.events();
     const commandHandler = this.__handler.commands();
-    const userContextHandler = this.__handler.userContextMenus();
+    const contextHandler = this.__handler.contextMenus();
     const slashCommandsHandler = this.__handler.slashCommands();
 
-    const [h1, h2, h3, h4] = await Promise.allSettled([eventHandler, commandHandler, userContextHandler, slashCommandsHandler]);
+    const [h1, h2, h3, h4] = await Promise.allSettled([eventHandler, commandHandler, contextHandler, slashCommandsHandler]);
 
     if (h1.status === "rejected") {
       console.error(h1.reason);

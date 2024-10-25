@@ -3,13 +3,13 @@ import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
 import { PATH_CREATOR_DEV_MODE } from "./constants/pathCreator.constant.js";
-import { LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
+import { ContextMenu, LegacyCommandBuilder, SlashCommand } from "./CommandBuilder.js";
 import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
 type ClientHandlerPieces = {
   events(): Promise<void>;
   commands(): Promise<void>;
-  userContextMenus(): Promise<void>;
+  contextMenus(): Promise<void>;
   slashCommands(): Promise<void>;
 };
 
@@ -91,7 +91,7 @@ export class ClientHandler implements ClientHandlerPieces {
     });
   }
 
-  public async userContextMenus() {
+  public async contextMenus() {
       const contextFolder = readdir(this.__path.joinPaths("commands", "context"));
 
     const [result] = await Promise.allSettled([contextFolder]);
@@ -99,9 +99,9 @@ export class ClientHandler implements ClientHandlerPieces {
     if (result.status === "rejected") throw new Error(result.reason);
 
     result.value.filter(f => f.endsWith(this.__path.extension)).forEach(async filename => {
-      const context = (await import(`../commands/context/${filename}`)).default as LegacyCommandBuilder;
+      const context = (await import(`../commands/context/${filename}`)).default as ContextMenu;
 
-      this.__client.commandsManager.addCommand(context.name, context);
+      this.__client.commandsManager.addContextMenuCommand(context.data.name, context);
     });
   }
 
