@@ -8,7 +8,9 @@ import type {
   PermissionsString,
   Awaitable,
   SlashCommandBuilder,
-  ChatInputCommandInteraction
+  ChatInputCommandInteraction,
+  ContextMenuCommandBuilder,
+  ContextMenuCommandInteraction
 } from "discord.js";
 
 export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
@@ -45,7 +47,7 @@ type SlashCommandOptions = {
   run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
 }
 
-export class SlashCommand {
+export class SlashCommand implements SlashCommandOptions {
   public data: SlashCommandBuilder;
   public ownerOnly?: boolean;
   public run: (...args: [interaction: ChatInputCommandInteraction]) => Awaitable<unknown>;
@@ -55,4 +57,19 @@ export class SlashCommand {
     this.ownerOnly = options.ownerOnly ?? false;
     this.run = options.run;
   }
+}
+
+type ContextMenuOptions = {
+    data: ContextMenuCommandBuilder,
+    run: (...args: [interaction: ContextMenuCommandInteraction]) => Awaitable<unknown>;
+}
+
+export class ContextMenu implements ContextMenuOptions {
+    public data: ContextMenuCommandBuilder;
+    public run: (...args: [interaction: ContextMenuCommandInteraction]) => Awaitable<unknown>;
+
+    constructor(options: ContextMenuOptions) {
+        this.data = options.data;
+        this.run = options.run;
+    }
 }
