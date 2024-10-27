@@ -12,7 +12,7 @@ export default new EventBuilder({
           return;
 
         try {
-          await command.run(interaction);
+          await command.run(interaction, client);
         } catch (error) {
           console.log("Hubo un error al intentar ejecutar esta interacción.");
           console.error(error);

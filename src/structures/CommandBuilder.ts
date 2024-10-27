@@ -47,7 +47,7 @@ type SlashCommandOptions = {
   testGuildOnly?: boolean;
   ownerOnly?: boolean;
   run: (
-    ...args: [interaction: ChatInputCommandInteraction]
+    ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
 };
 
@@ -56,7 +56,7 @@ export class SlashCommand implements SlashCommandOptions {
   public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
   public run: (
-    ...args: [interaction: ChatInputCommandInteraction]
+    ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
 
   constructor(options: SlashCommandOptions) {
