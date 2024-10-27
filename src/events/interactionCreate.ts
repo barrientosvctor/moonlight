@@ -19,9 +19,8 @@ export default new EventBuilder({
         }
       }
     } else if (interaction.isUserContextMenuCommand()) {
-      const command = client.commandsManager.getCommand(
-        interaction.commandName,
-        CommandType.User
+      const command = client.commandsManager.getContextMenuCommand(
+        interaction.commandName
       );
       if (command && command.run) {
         try {
