@@ -9,6 +9,7 @@ import type {
   SlashCommand
 } from "./CommandBuilder.js";
 import type { MoonlightClient } from "./Client.js";
+import { GUILD_ID } from "../constants.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
@@ -73,22 +74,47 @@ export class CommandManager implements CommandManagerPieces {
   }
 
   public async registerApplicationCommands() {
-    console.log("-------------- SLASH COMMANDS COLLECTION ---------------");
-
-    console.log(this.__slashcommands);
-
-    const slashCommandsData = this.__slashcommands.map(slash => slash.data.toJSON());
-    const contextMenusData = this.__contextmenus.map(ctx => ctx.data.toJSON());
+    const [globalSlashCommandsData, guildSlashCommandsData] = [
+      this.__slashcommands.filter(slash => !slash.testGuildOnly).map(slash => slash.data.toJSON()),
+      this.__slashcommands.filter(slash => slash.testGuildOnly).map(slash => slash.data.toJSON())
+    ];
+    const [globalContextMenusData, guildContextMenusData] = [
+      this.__contextmenus.filter(ctx => !ctx.testGuildOnly).map(ctx => ctx.data.toJSON()),
+      this.__contextmenus.filter(ctx => ctx.testGuildOnly).map(ctx => ctx.data.toJSON())
+    ];
 
     if (this.__client.user) {
-      // TODO: Add guild commands registerer
-      await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
-        body: slashCommandsData
-      });
+      if (guildSlashCommandsData.length) {
+        await this.__client.rest.put(Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID), {
+          body: guildSlashCommandsData
+        });
+        console.log(`Successfully reloaded ${guildSlashCommandsData.length} guild slash (/) commands!`);
+      }
 
-      console.log(`Successfully reloaded ${slashCommandsData.length} slash (/) commands!`);
+      if (globalSlashCommandsData.length) {
+        await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
+          body: globalSlashCommandsData
+        });
+
+        console.log(`Successfully reloaded ${globalSlashCommandsData.length} slash (/) commands!`);
+      }
+
+      if (guildContextMenusData.length) {
+        await this.__client.rest.put(Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID), {
+          body: guildContextMenusData
+        });
+
+        console.log(`Successfully reloaded ${guildContextMenusData.length} guild context menus commands!`);
+      }
+
+      if (globalContextMenusData.length) {
+        await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
+          body: globalContextMenusData
+        });
+        console.log(`Successfully reloaded ${globalContextMenusData.length} context menus commands!`);
+      }
     } else {
-      console.log(`I couldn't reload slash (/) commands.`);
+      console.log(`I couldn't reload application commands.`);
     }
   }
 }
