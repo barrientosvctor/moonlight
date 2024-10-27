@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection, Routes } from "discord.js";
 import type {
   CommandManagerPieces,
   CategoryInformation
@@ -8,6 +8,7 @@ import type {
   LegacyCommandBuilder,
   SlashCommand
 } from "./CommandBuilder.js";
+import type { MoonlightClient } from "./Client.js";
 
 export class CommandManager implements CommandManagerPieces {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
@@ -15,6 +16,8 @@ export class CommandManager implements CommandManagerPieces {
   private readonly __contextmenus = new Collection<string, ContextMenu>();
   private readonly __aliases = new Collection<string, string>();
   readonly categories = new Collection<string, CategoryInformation>();
+
+  public constructor(private readonly __client: MoonlightClient) {}
 
   private formatCommandsName(category: CategoryInformation) {
     return category.commands
@@ -67,5 +70,25 @@ export class CommandManager implements CommandManagerPieces {
     if (!cmd) return undefined;
 
     return this.getCommand(cmd);
+  }
+
+  public async registerApplicationCommands() {
+    console.log("-------------- SLASH COMMANDS COLLECTION ---------------");
+
+    console.log(this.__slashcommands);
+
+    const slashCommandsData = this.__slashcommands.map(slash => slash.data.toJSON());
+    const contextMenusData = this.__contextmenus.map(ctx => ctx.data.toJSON());
+
+    if (this.__client.user) {
+      // TODO: Add guild commands registerer
+      await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
+        body: slashCommandsData
+      });
+
+      console.log(`Successfully reloaded ${slashCommandsData.length} slash (/) commands!`);
+    } else {
+      console.log(`I couldn't reload slash (/) commands.`);
+    }
   }
 }

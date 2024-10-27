@@ -132,6 +132,9 @@ export class ClientHandler implements ClientHandlerPieces {
 
     if (result.status === "rejected") throw new Error(result.reason);
 
+  console.log("-------------- SLASH COMMANDS READDIR ---------------");
+
+
     const commandsInfo = result.value.filter(item =>
       item.name.endsWith(this.__path.extension)
     );
@@ -140,30 +143,16 @@ export class ClientHandler implements ClientHandlerPieces {
       console.log({ name: info.name, path: info.path });
 
       const folderName = info.path.split(/[\\/]+/g).at(-1);
-      const commandsPerCategory = Array.from(
-        commandsInfo.filter(
-          data => data.path.split(/[\\/]+/g).at(-1) === folderName
-        ),
-        cmd => cmd.name
-      );
       if (folderName) {
         const command = (
           await import(`../commands/slash/${folderName}/${info.name}`)
         ).default as SlashCommand;
-        const convertedFolderName = this.convertCategoryName(
-          folderName as CategoryKeyName
-        );
 
-        this.__client.commandsManager.categories.set(convertedFolderName, {
-          name: convertedFolderName,
-          commands: commandsPerCategory
-        });
         this.__client.commandsManager.addSlashCommand(
           command.data.name,
           command
         );
       }
-      console.log("Done");
     });
   }
 }

@@ -18,7 +18,7 @@ export class MoonlightClient<Ready extends boolean = boolean>
 {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
-  readonly commandsManager: CommandManager = new CommandManager();
+  readonly commandsManager: CommandManager = new CommandManager(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = new JSONWrapper();
   readonly utils = new ClientUtilities(this);
@@ -48,37 +48,10 @@ export class MoonlightClient<Ready extends boolean = boolean>
   }
 
   public override async login(token?: string | undefined): Promise<string> {
-    const eventHandler = this.__handler.events();
-    const commandHandler = this.__handler.commands();
-    const contextHandler = this.__handler.contextMenus();
-    const slashCommandsHandler = this.__handler.slashCommands();
-
-    const [h1, h2, h3, h4] = await Promise.allSettled([
-      eventHandler,
-      commandHandler,
-      contextHandler,
-      slashCommandsHandler
-    ]);
-
-    if (h1.status === "rejected") {
-      console.error(h1.reason);
-      process.exit(1);
-    }
-
-    if (h2.status === "rejected") {
-      console.error(h2.reason);
-      process.exit(1);
-    }
-
-    if (h3.status === "rejected") {
-      console.error(h3.reason);
-      process.exit(1);
-    }
-
-    if (h4.status === "rejected") {
-      console.error(h4.reason);
-      process.exit(1);
-    }
+    await this.__handler.events();
+    await this.__handler.commands();
+    await this.__handler.contextMenus();
+    await this.__handler.slashCommands();
 
     await this.database.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
@@ -86,6 +59,7 @@ export class MoonlightClient<Ready extends boolean = boolean>
     const tok = await super.login(token);
 
     // TODO: Add slash commands initialization
+    await this.commandsManager.registerApplicationCommands();
 
     return tok;
   }

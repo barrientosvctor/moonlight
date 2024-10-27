@@ -95,6 +95,7 @@ export type CommandManagerPieces = {
   showCommandsList(): string;
   addAliasToCommand(alias: string, command: string): void;
   getCommandByAlias(alias: string): LegacyCommandBuilder | undefined;
+  registerApplicationCommands(): Promise<void>;
 };
 
 export type CategoryInformation = {
