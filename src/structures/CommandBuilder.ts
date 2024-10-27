@@ -44,6 +44,7 @@ export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
 
 type SlashCommandOptions = {
   data: SlashCommandBuilder;
+  testGuildOnly?: boolean;
   ownerOnly?: boolean;
   run: (
     ...args: [interaction: ChatInputCommandInteraction]
@@ -52,6 +53,7 @@ type SlashCommandOptions = {
 
 export class SlashCommand implements SlashCommandOptions {
   public data: SlashCommandBuilder;
+  public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
   public run: (
     ...args: [interaction: ChatInputCommandInteraction]
@@ -59,6 +61,7 @@ export class SlashCommand implements SlashCommandOptions {
 
   constructor(options: SlashCommandOptions) {
     this.data = options.data;
+    this.testGuildOnly = options.testGuildOnly ?? false;
     this.ownerOnly = options.ownerOnly ?? false;
     this.run = options.run;
   }
@@ -66,6 +69,7 @@ export class SlashCommand implements SlashCommandOptions {
 
 type ContextMenuOptions = {
   data: ContextMenuCommandBuilder;
+  testGuildOnly?: boolean;
   run: (
     ...args: [
       interaction: ContextMenuCommandInteraction,
@@ -76,6 +80,7 @@ type ContextMenuOptions = {
 
 export class ContextMenu implements ContextMenuOptions {
   public data: ContextMenuCommandBuilder;
+  public testGuildOnly?: boolean;
   public run: (
     ...args: [
       interaction: ContextMenuCommandInteraction,
@@ -85,6 +90,7 @@ export class ContextMenu implements ContextMenuOptions {
 
   constructor(options: ContextMenuOptions) {
     this.data = options.data;
+    this.testGuildOnly = options.testGuildOnly ?? false;
     this.run = options.run;
   }
 }

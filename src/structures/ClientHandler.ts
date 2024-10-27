@@ -132,9 +132,6 @@ export class ClientHandler implements ClientHandlerPieces {
 
     if (result.status === "rejected") throw new Error(result.reason);
 
-  console.log("-------------- SLASH COMMANDS READDIR ---------------");
-
-
     const commandsInfo = result.value.filter(item =>
       item.name.endsWith(this.__path.extension)
     );
