@@ -3,4 +3,4 @@ import "dotenv/config";
 
 const client = MoonlightClient.Instance;
 
-client.login();
+await client.login();
