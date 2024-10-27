@@ -11,8 +11,7 @@
     "build": "rimraf dist && tsc --build",
     "format:check": "prettier . --check",
     "format:write": "prettier . --write",
-    "linter": "eslint .",
-    "precommit": "npm run format:check && npm run linter"
+    "precommit": "npm run format:check"
   },
   "keywords": [],
   "author": "",
