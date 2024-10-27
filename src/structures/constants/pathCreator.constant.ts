@@ -4,4 +4,4 @@
  *
  * This is necessary to use bot handlers.
  */
-export const PATH_CREATOR_DEV_MODE: boolean = true as const;
+export const PATH_CREATOR_DEV_MODE: boolean = false as const;
