@@ -1,8 +1,0 @@
-{
-  "arrowParens": "avoid",
-  "singleQuote": false,
-  "bracketSpacing": true,
-  "endOfLine": "lf",
-  "semi": true,
-  "trailingComma": "none"
-}

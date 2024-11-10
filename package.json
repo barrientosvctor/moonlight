@@ -8,10 +8,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
-    "build": "rimraf dist && tsc --build",
-    "format:check": "prettier . --check",
-    "format:write": "prettier . --write",
-    "precommit": "npm run format:check"
+    "build": "rimraf dist && tsc --build"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +22,6 @@
   },
   "devDependencies": {
     "dotenv": "16.4.5",
-    "prettier": "3.2.5",
     "tsx": "4.9.0",
     "typescript": "5.4.5"
   }
