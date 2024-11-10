@@ -1,15 +1,9 @@
 import type {
   Awaitable,
-  Collection,
   Message,
   PermissionsString
 } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
-import type {
-  ContextMenu,
-  LegacyCommandBuilder,
-  SlashCommand
-} from "../structures/CommandBuilder.js";
 
 export const CategoryNames = {
   information: "Información",
@@ -52,51 +46,6 @@ export interface LegacyCommandOptions {
   example?: string;
   run: (...args: LegacyCommandRunParameters) => Awaitable<unknown>;
 }
-
-/**
- * It chooses the respectly command options for every type of command.
- * If the command type is User or Message, it will assign the base command options.
- */
-
-export type AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base> = {
-  [K in keyof Base]: Base[K] extends Exclude<Base[K], undefined>
-    ? AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]>
-    : AddUndefinedToPossiblyUndefinedPropertiesOfInterface<Base[K]> | undefined;
-};
-
-export type LegacyCommandBuilderPieces = {
-  // Base command options
-  name: string;
-  category: CommandCategory;
-
-  // Base text based command options
-  description?: string;
-  ownerOnly?: boolean;
-  requiredMemberPermissions?: PermissionsString[];
-  requiredClientPermissions?: PermissionsString[];
-
-  // Legacy command options
-  cooldown?: number;
-  aliases?: string[];
-  usage?: string;
-  example?: string;
-
-  run: (...args: LegacyCommandRunParameters) => Awaitable<unknown>;
-};
-
-export type CommandManagerPieces = {
-  categories: Collection<string, CategoryInformation>;
-  addCommand(name: string, options: LegacyCommandBuilder): void;
-  addSlashCommand(name: string, options: SlashCommand): void;
-  addContextMenuCommand(name: string, options: ContextMenu): void;
-  getCommand(name: string): LegacyCommandBuilder | undefined;
-  getSlashCommand(name: string): SlashCommand | undefined;
-  getContextMenuCommand(name: string): ContextMenu | undefined;
-  showCommandsList(): string;
-  addAliasToCommand(alias: string, command: string): void;
-  getCommandByAlias(alias: string): LegacyCommandBuilder | undefined;
-  registerApplicationCommands(): Promise<void>;
-};
 
 export type CategoryInformation = {
   name: string;

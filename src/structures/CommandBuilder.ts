@@ -1,6 +1,5 @@
 import {
   CommandCategory,
-  LegacyCommandBuilderPieces,
   LegacyCommandRunParameters,
   LegacyCommandOptions
 } from "../types/command.types.js";
@@ -15,7 +14,7 @@ import type {
 } from "discord.js";
 import type { MoonlightClient } from "./Client.js";
 
-export class LegacyCommandBuilder implements LegacyCommandBuilderPieces {
+export class LegacyCommandBuilder {
   public name: string;
   public category: CommandCategory;
   public description?: string;

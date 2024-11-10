@@ -10,14 +10,7 @@ import {
 } from "./CommandBuilder.js";
 import { type CategoryKeyName, CategoryNames } from "../types/command.types.js";
 
-type ClientHandlerPieces = {
-  events(): Promise<void>;
-  commands(): Promise<void>;
-  contextMenus(): Promise<void>;
-  slashCommands(): Promise<void>;
-};
-
-export class ClientHandler implements ClientHandlerPieces {
+export class ClientHandler {
   private readonly __path = new PathCreator(PATH_CREATOR_DEV_MODE);
 
   constructor(private readonly __client: MoonlightClient) {}

@@ -6,16 +6,12 @@ import {
   type BeautyMessageOptions,
   type EmojiType,
   emojiList,
-  type ClientPieces
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";
 import { Database } from "./Database.js";
 
-export class MoonlightClient<Ready extends boolean = boolean>
-  extends Client<Ready>
-  implements ClientPieces
-{
+export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager(this);

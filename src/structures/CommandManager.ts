@@ -1,6 +1,5 @@
 import { Collection, Routes } from "discord.js";
 import type {
-  CommandManagerPieces,
   CategoryInformation
 } from "../types/command.types.js";
 import type {
@@ -11,7 +10,7 @@ import type {
 import type { MoonlightClient } from "./Client.js";
 import { GUILD_ID } from "../constants.js";
 
-export class CommandManager implements CommandManagerPieces {
+export class CommandManager {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
   private readonly __slashcommands = new Collection<string, SlashCommand>();
   private readonly __contextmenus = new Collection<string, ContextMenu>();

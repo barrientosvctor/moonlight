@@ -1,8 +1,7 @@
 import type { PermissionsString } from "discord.js";
-import type { ClientUtilitiesPieces } from "../types/client.types.js";
 import { type MoonlightClient } from "./Client.js";
 
-export class ClientUtilities implements ClientUtilitiesPieces {
+export class ClientUtilities {
   public constructor(private readonly __client: MoonlightClient) {}
 
   /**

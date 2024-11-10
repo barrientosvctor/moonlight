@@ -2,7 +2,6 @@ import { Low } from "lowdb";
 import {
   DB_CONTENT,
   DatabaseContent,
-  type DatabasePieces,
   type DatabaseOptions
 } from "../types/database.types.js";
 import { JSONFile } from "lowdb/node";
@@ -12,7 +11,7 @@ import { promisify } from "node:util";
 
 const createFile = promisify(writeFile);
 
-export class Database extends Low<DatabaseContent> implements DatabasePieces {
+export class Database extends Low<DatabaseContent> {
   private readonly folderPath = join(process.cwd(), "db");
 
   constructor() {
