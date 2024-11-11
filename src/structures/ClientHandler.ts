@@ -116,7 +116,6 @@ export class ClientHandler {
     const slashCommandsFolder = readdir(
       this.__path.joinPaths("commands", "slash"),
       {
-        recursive: true,
         withFileTypes: true
       }
     );
@@ -125,24 +124,15 @@ export class ClientHandler {
 
     if (result.status === "rejected") throw new Error(result.reason);
 
-    const commandsInfo = result.value.filter(item =>
-      item.name.endsWith(this.__path.extension)
-    );
-
-    commandsInfo.forEach(async info => {
-      console.log({ name: info.name, path: info.path });
-
-      const folderName = info.path.split(/[\\/]+/g).at(-1);
-      if (folderName) {
+    result.value.forEach(async info => {
         const command = (
-          await import(`../commands/slash/${folderName}/${info.name}`)
+          await import(`../commands/slash/${info.name}`)
         ).default as SlashCommand;
 
         this.__client.commandsManager.addSlashCommand(
           command.data.name,
           command
         );
-      }
     });
   }
 }
