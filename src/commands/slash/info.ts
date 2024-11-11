@@ -1,4 +1,4 @@
-import { APIGuild, ChannelType, EmbedBuilder, GuildPremiumTier, Role, Routes, SlashCommandBuilder, TextChannel } from "discord.js";
+import { APIGuild, APIUser, ChannelType, EmbedBuilder, GuildMember, GuildPremiumTier, Role, Routes, SlashCommandBuilder, TextChannel } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
@@ -35,7 +35,7 @@ export default new SlashCommand({
     .addUserOption(user =>
       user
       .setName("user")
-      .setDescription("Elige un usuario para obtener información")
+      .setDescription("Elige un usuario para obtener información.")
       .setRequired(true))),
   testGuildOnly: true,
   async run(interaction, client) {
@@ -107,6 +107,49 @@ export default new SlashCommand({
 **Emojis:** ${interaction.guild.emojis.cache.size}
 **Stickers:** ${interaction.guild.stickers.cache.size}
 **Roles:** ${interaction.guild.roles.cache.filter(r => r !== interaction.guild?.roles.everyone).size}`);
+
+      return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "user") {
+      if (!interaction.inGuild() || !interaction.guild) return;
+
+      const user = interaction.options.getUser("user", true);
+      const userApiData = (await client.rest.get(Routes.user(user.id))) as APIUser;
+      const embed = new EmbedBuilder().setColor(userApiData.accent_color || "Random");
+
+      if (!user) return interaction.reply("El usuario no fue encontrado.");
+
+      if (!interaction.guild.members.cache.get(user.id)) {
+        embed
+          .setThumbnail(user.displayAvatarURL({ size: 2048, extension: "png" }))
+          .setTitle(`Información del ${user.bot ? "bot" : "usuario"} ${user.tag}`)
+          .setDescription(`
+**ID:** \`${user.id}\`
+**Avatar:** [Avatar de ${user.username}](${userApiData.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${userApiData.avatar}.${userApiData.avatar.startsWith("a_") ? "gif" : "png"}?size=2048` : user.displayAvatarURL({ size: 2048, extension: "png" })})
+**Banner:** ${userApiData.banner ? `[Banner de ${user.username}](https://cdn.discordapp.com/banners/${user.id}/${userApiData.banner}.${userApiData.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : userApiData.accent_color ? `\`${userApiData.accent_color.toString(16)}\`` : "No tiene banner"}
+**Fecha de creación:** <t:${Math.ceil(user.createdTimestamp / 1000)}>
+**Insignias:** ${user.flags?.toArray().map(flag => `${client.wrapper.get("flags", flag)}`).join(", ") || "No tiene insignias"}
+`);
+      } else {
+        const member = interaction.options.getMember("user") as GuildMember;
+        if (!member) return interaction.reply("No se pudo encontrar a éste usuario.");
+
+        embed
+          .setThumbnail(member.user.displayAvatarURL({ size: 2048, extension: "png" }) || null)
+          .setTitle(`Información del ${member.user.bot ? "bot" : "miembro"} ${member.user.tag}`)
+          .setDescription(
+            `
+**ID:** ${member.user.id}
+**Avatar:** [Avatar de ${member.user.username}](${member.displayAvatarURL({ size: 2048, extension: "png" })})
+**Banner:** ${userApiData.banner ? `[Banner de ${member.user.username}](https://cdn.discordapp.com/banners/${member.user.id}/${userApiData.banner}.${userApiData.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : userApiData.accent_color ? `\`${userApiData.accent_color.toString(16)}\`` : "No tiene banner"}
+**Fecha de creación:** <t:${Math.ceil(member.user.createdTimestamp / 1000)}>
+**Insignias:** ${member.user.flags?.toArray().map(flag => `${client.wrapper.get("flags", flag)}`).join(", ") || "No tiene insignias"}
+**Apodo:** ${member.nickname || "No tiene apodo"}
+**Fecha de ingreso:** <t:${Math.ceil(member.joinedTimestamp! / 1000)}>`)
+          .addFields({
+            name: `Roles (${member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).length})`,
+            value: member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).join(", ") || "No tiene roles."
+          });
+      }
 
       return interaction.reply({ embeds: [embed] });
     }
