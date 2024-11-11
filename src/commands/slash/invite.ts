@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, hyperlink } from "discord.js";
-import { SlashCommand } from "../../../structures/CommandBuilder.js";
+import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder().setName("invite").setDescription("¡Invita al bot usando éste comando!"),
