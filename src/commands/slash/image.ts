@@ -3,6 +3,7 @@ import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder()
+  .setDMPermission(true)
   .setName("image")
   .setDescription("Mira imagenes de distintas cosas")
   .addSubcommand(cmd =>
