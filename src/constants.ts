@@ -1,1 +1,1 @@
-export const GUILD_ID = "744764718543011902" as const;
+export const GUILD_ID = "1305365241793871974" as const;
