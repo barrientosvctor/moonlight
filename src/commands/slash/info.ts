@@ -1,4 +1,4 @@
-import { ChannelType, EmbedBuilder, Role, SlashCommandBuilder, TextChannel } from "discord.js";
+import { APIGuild, ChannelType, EmbedBuilder, GuildPremiumTier, Role, Routes, SlashCommandBuilder, TextChannel } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
@@ -77,6 +77,36 @@ export default new SlashCommand({
         name: "Permisos",
         value: role.permissions.toArray().map(permission => client.wrapper.get("guild.roles.permissions", permission)).join(", ")
       });
+
+      return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "server") {
+      if (!interaction.inGuild() || !interaction.guild) return interaction.reply("Para usar éste subcomando debes de hacer uso de él en un servidor.");
+
+      const data = (await client.rest.get(Routes.guild(interaction.guild.id))) as APIGuild;
+
+      const embed = new EmbedBuilder()
+      .setThumbnail(interaction.guild.iconURL({ size: 2048, extension: "png" }))
+      .setColor("Random")
+      .setTitle(`Información de ${interaction.guild.name}`).setDescription(`
+**Nombre:** ${interaction.guild.name}
+**Descripción:** ${interaction.guild.description || "Ninguno"}
+**ID:** ${interaction.guildId}
+**Dueño:** ${interaction.guild.members.cache.get(interaction.guild.ownerId)?.user.tag || "*Desconocido*"}
+**Boost:** ${interaction.guild.premiumTier !== GuildPremiumTier.None ? `${interaction.guild.premiumSubscriptionCount} (${client.wrapper.get("guild.premiumTier", interaction.guild.premiumTier.toString())})` : `*Ninguno*`}
+**Icono:** ${interaction.guild.icon ? `[Icono de ${interaction.guild.name}](${interaction.guild.iconURL({ size: 2048, extension: "png" })})` : "No establecido."}
+**Banner:** ${data.banner ? `[Banner de ${interaction.guild.name}](https://cdn.discordapp.com/banners/${interaction.guildId}/${data.banner}.${data.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : "*Ninguno*"}
+**Fecha de creación:** <t:${Math.ceil(interaction.guild.createdTimestamp! / 1000)}>
+
+**Características:** ${interaction.guild.features.map(feature => `${client.wrapper.get("guild.features", feature)}`).join(", ") || "*Ninguno*"}
+**Nivel de verificación:** ${client.wrapper.get("guild.verificationLevel", interaction.guild.verificationLevel.toString())}
+**Filtro de contenido explícito:** ${client.wrapper.get("guild.explicitContentFilter", interaction.guild.explicitContentFilter.toString())}
+**Nivel de MFA**: ${client.wrapper.get("guild.mfaLevel", interaction.guild.mfaLevel.toString())}
+
+**Total de usuarios:** ${interaction.guild.memberCount}
+**Canales:** ${interaction.guild.channels.cache.size} (Texto: ${interaction.guild.channels.cache.filter(c => c.type === ChannelType.GuildText).size} | Voz: ${interaction.guild.channels.cache.filter(c => c.type === ChannelType.GuildVoice).size} | Categorías: ${interaction.guild.channels.cache.filter(c => c.type === ChannelType.GuildCategory).size})
+**Emojis:** ${interaction.guild.emojis.cache.size}
+**Stickers:** ${interaction.guild.stickers.cache.size}
+**Roles:** ${interaction.guild.roles.cache.filter(r => r !== interaction.guild?.roles.everyone).size}`);
 
       return interaction.reply({ embeds: [embed] });
     }
