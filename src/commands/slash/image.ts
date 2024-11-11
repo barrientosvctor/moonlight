@@ -12,7 +12,11 @@ export default new SlashCommand({
   .addSubcommand(cmd =>
     cmd
     .setName("dog")
-    .setDescription("Mira imágenes de perritos.")),
+    .setDescription("Mira imágenes de perritos."))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("fox")
+    .setDescription("Mira imágenes de zorros.")),
   testGuildOnly: true,
   async run(interaction, _) {
     const subcommand = interaction.options.getSubcommand();
@@ -42,6 +46,19 @@ export default new SlashCommand({
       .setFooter({
         text: `Tamaño: ${data[0].width}x${data[0].height}`
       });
+      return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "fox") {
+      const data = await fetch("https://randomfox.ca/floof/", {
+        method: "GET"
+      }).then(res => res.json());
+      if (!data)
+        return interaction.reply("No fue posible encontrar una imagen.");
+
+      const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setDescription("¡Mira este lindo zorro!")
+      .setImage(data.image);
+
       return interaction.reply({ embeds: [embed] });
     }
 
