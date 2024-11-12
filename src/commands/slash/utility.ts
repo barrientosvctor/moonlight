@@ -60,9 +60,16 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
     } else if (subcommand === "math") {
       const operation = interaction.options.getString("operation", true);
       const text = await fetch(`https://api.mathjs.org/v4/?expr=${operation.replace(`+`, `%2B`).replace(`^`, `%5E`).replace(`/`, `%2F`)}`)
-      .then(res => res.text());
+        .then(res => res.text());
 
       return interaction.reply(text);
+    } else if (subcommand === "morse") {
+      const data = await fetch(`https://api.popcat.xyz/texttomorse?text=${encodeURIComponent(interaction.options.getString("text", true))}`, {
+        method: "GET"
+      }).then(res => res.json());
+      if (data.error) return interaction.reply("Hubo un error externo al intentar convertir el texto.");
+
+      return interaction.reply(data.morse);
     }
 
     return interaction.reply("Haz uso de los diferentes subcomandos que trae éste comando.");
