@@ -52,11 +52,17 @@ export default new SlashCommand({
 ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceStatic: true }))} | ${hyperlink("JPG", user.displayAvatarURL({ size: 2048, extension: "jpg", forceStatic: true }))} | ${hyperlink("WEBP", user.displayAvatarURL({ size: 2048, extension: "webp", forceStatic: true }))} ${user.avatar?.startsWith("a_") ? `| ${hyperlink("GIF", user.displayAvatarURL({ size: 2048, extension: "gif" }))}` : ""}
 `)
       .setImage(user.avatar?.startsWith("a_")
-          ? user.displayAvatarURL({ size: 2048, extension: "gif" })
-          : user.displayAvatarURL({ size: 2048, extension: "png" })
+        ? user.displayAvatarURL({ size: 2048, extension: "gif" })
+        : user.displayAvatarURL({ size: 2048, extension: "png" })
       );
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "math") {
+      const operation = interaction.options.getString("operation", true);
+      const text = await fetch(`https://api.mathjs.org/v4/?expr=${operation.replace(`+`, `%2B`).replace(`^`, `%5E`).replace(`/`, `%2F`)}`)
+      .then(res => res.text());
+
+      return interaction.reply(text);
     }
 
     return interaction.reply("Haz uso de los diferentes subcomandos que trae éste comando.");
