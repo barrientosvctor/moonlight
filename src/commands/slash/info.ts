@@ -4,38 +4,38 @@ import { SlashCommand } from "../../structures/CommandBuilder.js";
 export default new SlashCommand({
   data: new SlashCommandBuilder()
   .setName("info")
-  .setDescription("Comandos para obtener información.")
+  .setDescription("Commands to get information.")
   .addSubcommand(cmd =>
     cmd
     .setName("channel")
-    .setDescription("Obtén información sobre algún canal del servidor.")
+    .setDescription("Get information about a guild's channel.")
     .addChannelOption(ch =>
       ch
       .setName("name")
-      .setDescription("Elige un canal para obtener información.")
+      .setDescription("Choose a channel to get information.")
       .setRequired(true)
       .addChannelTypes(ChannelType.GuildText)))
   .addSubcommand(cmd =>
     cmd
     .setName("role")
-    .setDescription("Obtén información sobre un rol del servidor.")
+    .setDescription("Get information about a guild's role.")
     .addRoleOption(role =>
       role
       .setName("role")
-      .setDescription("Elige un rol para obtener información.")
+      .setDescription("Choose a role to get information.")
       .setRequired(true)))
   .addSubcommand(cmd =>
     cmd
     .setName("server")
-    .setDescription("Obtén información sobre el servidor."))
+    .setDescription("Get information about the guild."))
   .addSubcommand(cmd =>
     cmd
     .setName("user")
-    .setDescription("Obtén información sobre un usuario de Discord.")
+    .setDescription("Get information about a Discord user.")
     .addUserOption(user =>
       user
       .setName("user")
-      .setDescription("Elige un usuario para obtener información.")
+      .setDescription("Choose or type the ID of a Discord user to get information.")
       .setRequired(true))),
   testGuildOnly: true,
   async run(interaction, client) {

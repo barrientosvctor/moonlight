@@ -5,19 +5,19 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
   .setDMPermission(true)
   .setName("image")
-  .setDescription("Mira imagenes de distintas cosas")
+  .setDescription("Look images about many things.")
   .addSubcommand(cmd =>
     cmd
     .setName("cat")
-    .setDescription("Mira imágenes de gatitos."))
+    .setDescription("Look cat's images."))
   .addSubcommand(cmd =>
     cmd
     .setName("dog")
-    .setDescription("Mira imágenes de perritos."))
+    .setDescription("Look dog's images."))
   .addSubcommand(cmd =>
     cmd
     .setName("fox")
-    .setDescription("Mira imágenes de zorros.")),
+    .setDescription("Look fox's images.")),
   testGuildOnly: true,
   async run(interaction, _) {
     const subcommand = interaction.options.getSubcommand();

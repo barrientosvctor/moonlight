@@ -4,15 +4,15 @@ import { SlashCommand } from "../../structures/CommandBuilder.js";
 export default new SlashCommand({
   data: new SlashCommandBuilder()
   .setName("bot")
-  .setDescription("Comandos relacionados a Moonlight.")
+  .setDescription("Commands related to Moonlight.")
   .addSubcommand(cmd =>
     cmd
     .setName("invite")
-    .setDescription("Invita a Moonlight a tu servidor."))
+    .setDescription("Invites Moonlight to their server."))
   .addSubcommand(cmd =>
     cmd
     .setName("ping")
-    .setDescription("Revisa el tiempo de respuesta de Moonlight.")),
+    .setDescription("Checks the Moonlight's response time.")),
   testGuildOnly: true,
   async run(interaction, client) {
     const subcommand = interaction.options.getSubcommand();
