@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder, bold, hyperlink, time } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder, bold, hyperlink, time, underline } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
@@ -30,11 +30,11 @@ export default new SlashCommand({
   .addSubcommand(cmd =>
     cmd
     .setName("weather")
-    .setDescription("Search information about a country's weather.")
+    .setDescription("Search information about a location's weather.")
     .addStringOption(input =>
       input
-      .setName("country")
-      .setDescription("Type the country's name.")
+      .setName("location")
+      .setDescription("Type the location's name.")
       .setRequired(true)
       .setMinLength(1)
       .setMaxLength(255))),
@@ -94,6 +94,31 @@ ${bold("Última publicación")}: ${data.last_published}
 ${bold("Mantenedores")}: ${data.maintainers}
 ${bold("Repositorio")}: ${data.repository}
 ${bold("Descargas este año")}: ${data.downloads_this_year}`);
+      return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "weather") {
+      const locationName = interaction.options.getString("location", true);
+      const data = await fetch(`https://api.popcat.xyz/weather?q=${encodeURIComponent(locationName)}`)
+
+      if (data.headers.get("content-length") !== null && data.headers.get("content-length") == "0")
+        return interaction.reply({ content: "No pude encontrar ésta ubicación.", ephemeral: true });
+
+      const json = await data.json();
+      const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setTitle(`${json[0].location.name}`)
+      .setDescription(`
+> ${underline("Pronóstico del clima")}
+${bold("Cielo")}: ${json[0].current.skytext}
+${bold("Temperatura")}: ${json[0].current.temperature}°${json[0].location.degreetype}
+${bold("Sensación térmica")}: ${json[0].current.feelslike}°${json[0].location.degreetype}
+${bold("Humedad")}: ${json[0].current.humidity}%
+${bold("Velocidad del viento")}: ${json[0].current.winddisplay}
+
+> ${underline("Otra información")}
+${bold("Día")}: ${json[0].current.day} (${json[0].current.shortday})
+${bold("Fecha y hora")}: ${json[0].current.date} - ${json[0].current.observationtime}
+${bold("Zona horaria")}: GMT${json[0].location.timezone}`)
+      .setThumbnail(json[0].current.imageUrl);
       return interaction.reply({ embeds: [embed] });
     }
 
