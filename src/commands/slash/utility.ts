@@ -42,7 +42,7 @@ export default new SlashCommand({
 
     if (subcommand === "avatar") {
       const user = interaction.options.getUser("user", true);
-      if (!user) return interaction.reply("Usuario no encontrado.");
+      if (!user) return interaction.reply({ content: "Usuario no encontrado.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -67,11 +67,11 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
       const data = await fetch(`https://api.popcat.xyz/texttomorse?text=${encodeURIComponent(interaction.options.getString("text", true))}`, {
         method: "GET"
       }).then(res => res.json());
-      if (data.error) return interaction.reply("Hubo un error externo al intentar convertir el texto.");
+      if (data.error) return interaction.reply({ content: "Hubo un error externo al intentar convertir el texto.", ephemeral: true });
 
       return interaction.reply(data.morse);
     }
 
-    return interaction.reply("Haz uso de los diferentes subcomandos que trae éste comando.");
+    return interaction.reply({ content: "Haz uso de los diferentes subcomandos que trae éste comando.", ephemeral: true });
   },
 });

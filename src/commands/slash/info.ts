@@ -43,7 +43,7 @@ export default new SlashCommand({
     if (subcommand === "channel") {
       const channel = interaction.options.getChannel("name", true) as TextChannel;
 
-      if (!channel) return interaction.reply("No se pudo encontrar ese canal.");
+      if (!channel) return interaction.reply({ content: "No se pudo encontrar ese canal.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setTitle(`Información del canal #${channel.name}`)
@@ -56,7 +56,7 @@ export default new SlashCommand({
     } else if (subcommand === "role") {
       const role = interaction.options.getRole("role", true) as Role;
 
-      if (!role) return interaction.reply("No se pudo encontrar ese rol.");
+      if (!role) return interaction.reply({ content: "No se pudo encontrar ese rol.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor(role.hexColor || "Random")
@@ -80,7 +80,7 @@ export default new SlashCommand({
 
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "server") {
-      if (!interaction.inGuild() || !interaction.guild) return interaction.reply("Para usar éste subcomando debes de hacer uso de él en un servidor.");
+      if (!interaction.inGuild() || !interaction.guild) return interaction.reply({ content: "Para usar éste subcomando debes de hacer uso de él en un servidor.", ephemeral: true });
 
       const data = (await client.rest.get(Routes.guild(interaction.guild.id))) as APIGuild;
 
@@ -116,7 +116,7 @@ export default new SlashCommand({
       const userApiData = (await client.rest.get(Routes.user(user.id))) as APIUser;
       const embed = new EmbedBuilder().setColor(userApiData.accent_color || "Random");
 
-      if (!user) return interaction.reply("El usuario no fue encontrado.");
+      if (!user) return interaction.reply({ content: "El usuario no fue encontrado.", ephemeral: true });
 
       if (!interaction.guild.members.cache.get(user.id)) {
         embed
@@ -131,7 +131,7 @@ export default new SlashCommand({
 `);
       } else {
         const member = interaction.options.getMember("user") as GuildMember;
-        if (!member) return interaction.reply("No se pudo encontrar a éste usuario.");
+        if (!member) return interaction.reply({ content: "No se pudo encontrar a éste usuario.", ephemeral: true });
 
         embed
           .setThumbnail(member.user.displayAvatarURL({ size: 2048, extension: "png" }) || null)
@@ -154,6 +154,6 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     }
 
-    return interaction.reply("Haz uso de los diferentes subcomandos que ofrece éste comando.");
+    return interaction.reply({ content: "Haz uso de los diferentes subcomandos que ofrece éste comando.", ephemeral: true });
   },
 });

@@ -24,7 +24,7 @@ export default new SlashCommand({
     if (subcommand === "cat") {
       const data = await fetch(`https://api.thecatapi.com/v1/images/search`).then(res => res.json());
       if (!data)
-        return interaction.reply("No fue posible encontrar una imagen.");
+        return interaction.reply({ content: "No fue posible encontrar una imagen.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -38,7 +38,7 @@ export default new SlashCommand({
         method: "GET"
       }).then(res => res.json());
       if (!data)
-        return interaction.reply("No fue posible encontrar una imagen.");
+        return interaction.reply({ content: "No fue posible encontrar una imagen.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -53,7 +53,7 @@ export default new SlashCommand({
         method: "GET"
       }).then(res => res.json());
       if (!data)
-        return interaction.reply("No fue posible encontrar una imagen.");
+        return interaction.reply({ content: "No fue posible encontrar una imagen.", ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -63,6 +63,6 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     }
 
-    return interaction.reply("Haz uso de la variedad de comandos que ofrece éste comando.");
+    return interaction.reply({ content: "Haz uso de la variedad de comandos que ofrece éste comando.", ephemeral: true });
   }
 });

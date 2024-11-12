@@ -28,6 +28,6 @@ WebSocket: \`${client.ws.ping}ms\`
       return interaction.reply({ content: "Pong! :ping_pong:", embeds: [embed] });
     }
 
-    return interaction.reply("Haz uso de la variedad de comandos que ofrece éste comando.");
+    return interaction.reply({ content: "Haz uso de la variedad de comandos que ofrece éste comando.", ephemeral: true });
   },
 });

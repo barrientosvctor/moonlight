@@ -48,7 +48,7 @@ export default new SlashCommand({
         method: "GET"
       });
       const json = await data.json();
-      if (data.status === 404) return interaction.reply(`El usuario ${bold(githubUsername)} no existe en GitHub.`);
+      if (data.status === 404) return interaction.reply({ content: `El usuario ${bold(githubUsername)} no existe en GitHub.`, ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -80,7 +80,7 @@ ${hyperlink("Paquetes", `https://github.com/${json.login}?tab=packages`)}`);
       const data = await fetch(`https://api.popcat.xyz/npm?q=${packageName}`, {
         method: "GET"
       }).then(res => res.json());
-      if (data.error) return interaction.reply(`El paquete ${bold(packageName)} no existe.`);
+      if (data.error) return interaction.reply({ content: `El paquete ${bold(packageName)} no existe.`, ephemeral: true });
 
       const embed = new EmbedBuilder()
       .setColor("Random")
@@ -122,6 +122,6 @@ ${bold("Zona horaria")}: GMT${json[0].location.timezone}`)
       return interaction.reply({ embeds: [embed] });
     }
 
-    return interaction.reply("Haz uso de los diferentes subcomandos que trae éste comando.");
+    return interaction.reply({ content: "Haz uso de los diferentes subcomandos que trae éste comando.", ephemeral: true });
   },
 });
