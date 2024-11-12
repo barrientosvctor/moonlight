@@ -29,17 +29,6 @@ export default new SlashCommand({
       .setMaxLength(214)))
   .addSubcommand(cmd =>
     cmd
-    .setName("steam")
-    .setDescription("Search information about a Steam game.")
-    .addStringOption(input =>
-      input
-      .setName("game")
-      .setDescription("Type the game's name.")
-      .setRequired(true)
-      .setMinLength(1)
-      .setMaxLength(510)))
-  .addSubcommand(cmd =>
-    cmd
     .setName("weather")
     .setDescription("Search information about a country's weather.")
     .addStringOption(input =>
