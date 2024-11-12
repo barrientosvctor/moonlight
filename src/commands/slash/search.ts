@@ -86,6 +86,26 @@ ${hyperlink("Repositorios", `https://github.com/${json.login}?tab=repositories`)
 ${hyperlink("Proyectos", `https://github.com/${json.login}?tab=projects`)}
 ${hyperlink("Paquetes", `https://github.com/${json.login}?tab=packages`)}`);
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "npm") {
+      const packageName = interaction.options.getString("package", true);
+      const data = await fetch(`https://api.popcat.xyz/npm?q=${packageName}`, {
+        method: "GET"
+      }).then(res => res.json());
+      if (data.error) return interaction.reply(`El paquete ${bold(packageName)} no existe.`);
+
+      const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setTitle(`Nombre: ${data.name}`)
+      .setDescription(`
+${bold("Descripción")}: ${data.description}
+${bold("Versión")}: ${data.version}
+${bold("Palabras clave")}: ${data.keywords}
+${bold("Autor")}: ${data.author} (${data.author_email})
+${bold("Última publicación")}: ${data.last_published}
+${bold("Mantenedores")}: ${data.maintainers}
+${bold("Repositorio")}: ${data.repository}
+${bold("Descargas este año")}: ${data.downloads_this_year}`);
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply("Haz uso de los diferentes subcomandos que trae éste comando.");
