@@ -1,6 +1,10 @@
 import type { Message } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
 
+export type AnimeProviderResponse = {
+  url: string;
+};
+
 export async function getUser(user: string, client: MoonlightClient) {
   if (!user) return;
 
@@ -55,5 +59,5 @@ export function getRole(role: string, message: Message) {
 export async function fetchAnimeGIF(type: string) {
   return (await fetch(`https://api.otakugifs.xyz/gif?reaction=${type}`).then(
     res => res.json()
-  )) as { url: string };
+  )) as AnimeProviderResponse;
 }

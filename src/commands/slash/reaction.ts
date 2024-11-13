@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember, SlashCommandBuilder, bold } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
-import { fetchAnimeGIF } from "../../util/functions.js";
+import { type AnimeProviderResponse, fetchAnimeGIF } from "../../util/functions.js";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder()
@@ -87,6 +87,7 @@ export default new SlashCommand({
   testGuildOnly: true,
   async run(interaction) {
     const subcommand = interaction.options.getSubcommand();
+    let data: AnimeProviderResponse;
     if (subcommand === "bite") {
       const member = interaction.options.getMember("member") as GuildMember;
 
@@ -94,16 +95,16 @@ export default new SlashCommand({
       if (member.user.id === interaction.user.id)
         return interaction.reply({ content: "¿Por qué te morderías a ti mismo?", ephemeral: true });
 
-      const data = await fetchAnimeGIF("bite"),
-      embed = new EmbedBuilder()
+      data = await fetchAnimeGIF("bite");
+      const embed = new EmbedBuilder()
       .setDescription(`${bold(interaction.user.username)} modió a ${bold(member.user.username)}`)
       .setColor("Random")
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "cry") {
-      const data = await fetchAnimeGIF("cry"),
-      embed = new EmbedBuilder()
+      data = await fetchAnimeGIF("cry");
+      const embed = new EmbedBuilder()
       .setDescription(`${bold(interaction.user.username)} está llorando.`)
       .setColor("DarkGrey")
       .setImage(data.url);
@@ -111,6 +112,6 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     }
 
-    return interaction.reply("Haz uso de los diferentes subcomandos que tiene este comando.");
+    return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
   },
 });
