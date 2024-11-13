@@ -110,6 +110,14 @@ export default new SlashCommand({
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "dance") {
+      data = await fetchAnimeGIF("dance");
+      const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setImage(data.url)
+      .setDescription(`${bold(interaction.user.username)} está bailando.`);
+
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
