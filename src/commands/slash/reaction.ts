@@ -150,6 +150,21 @@ export default new SlashCommand({
         .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "kiss") {
+      const member = interaction.options.getMember("member") as GuildMember;
+      data = await fetchAnimeGIF("kiss");
+      const embed = new EmbedBuilder();
+
+      if (!member)
+        return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
+      if (member.user.id === interaction.user.id)
+        return interaction.reply({ content: "No puedes besarte a ti mismo, eso sería muy raro jeje.", ephemeral: true });
+
+      embed
+        .setImage(data.url)
+        .setColor("Random")
+        .setDescription(`¡${bold(interaction.user.username)} le dio un beso a ${bold(member.user.username)}!`);
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
