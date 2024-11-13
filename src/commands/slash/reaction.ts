@@ -88,6 +88,7 @@ export default new SlashCommand({
   async run(interaction) {
     const subcommand = interaction.options.getSubcommand();
     let data: AnimeProviderResponse;
+    const embed = new EmbedBuilder();
     if (subcommand === "bite") {
       const member = interaction.options.getMember("member") as GuildMember;
 
@@ -96,7 +97,7 @@ export default new SlashCommand({
         return interaction.reply({ content: "¿Por qué te morderías a ti mismo?", ephemeral: true });
 
       data = await fetchAnimeGIF("bite");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} modió a ${bold(member.user.username)}.`)
       .setColor("Random")
       .setImage(data.url);
@@ -104,7 +105,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "cry") {
       data = await fetchAnimeGIF("cry");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} está llorando.`)
       .setColor("DarkGrey")
       .setImage(data.url);
@@ -112,7 +113,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "dance") {
       data = await fetchAnimeGIF("dance");
-      const embed = new EmbedBuilder()
+      embed
       .setColor("Random")
       .setImage(data.url)
       .setDescription(`${bold(interaction.user.username)} está bailando.`);
@@ -120,7 +121,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "facepalm") {
       data = await fetchAnimeGIF("facepalm");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} está decepcionado.`)
       .setColor("DarkGrey")
       .setImage(data.url);
@@ -128,7 +129,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "happy") {
       data = await fetchAnimeGIF("happy");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} está feliz! :D`)
       .setColor("Random")
       .setImage(data.url);
@@ -137,7 +138,6 @@ export default new SlashCommand({
     } else if (subcommand === "hug") {
       const member = interaction.options.getMember("member") as GuildMember;
       data = await fetchAnimeGIF("hug");
-      const embed = new EmbedBuilder();
 
       if (!member)
         return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
@@ -153,7 +153,6 @@ export default new SlashCommand({
     } else if (subcommand === "kiss") {
       const member = interaction.options.getMember("member") as GuildMember;
       data = await fetchAnimeGIF("kiss");
-      const embed = new EmbedBuilder();
 
       if (!member)
         return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
@@ -167,7 +166,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "laugh") {
       data = await fetchAnimeGIF("laugh");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} se ríe fuertemente.`)
       .setColor("Random")
       .setImage(data.url);
@@ -176,7 +175,6 @@ export default new SlashCommand({
     } else if (subcommand === "pat") {
       const member = interaction.options.getMember("member") as GuildMember;
       data = await fetchAnimeGIF("pat");
-      const embed = new EmbedBuilder();
 
       if (!member)
         return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
@@ -191,7 +189,6 @@ export default new SlashCommand({
     } else if (subcommand === "slap") {
       const member = interaction.options.getMember("member") as GuildMember;
       data = await fetchAnimeGIF("slap");
-      const embed = new EmbedBuilder();
 
       if (!member)
         return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
@@ -205,7 +202,7 @@ export default new SlashCommand({
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "wave") {
       data = await fetchAnimeGIF("wave");
-      const embed = new EmbedBuilder()
+      embed
       .setDescription(`${bold(interaction.user.username)} está saludando a todos en el chat!`)
       .setColor("Random")
       .setImage(data.url);
@@ -221,7 +218,7 @@ export default new SlashCommand({
       if (member.user.id === interaction.user.id)
         return interaction.reply({ content: "No puedes guiñarte el ojo a ti mismo, eso sería muy raro jeje.", ephemeral: true });
 
-      const embed = new EmbedBuilder()
+      embed
       .setColor("Random")
       .setImage(data.url)
       .setDescription(`¡${bold(interaction.user.username)} le guiñó el ojo a ${bold(member.user.username)}!`);
