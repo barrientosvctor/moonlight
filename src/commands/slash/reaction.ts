@@ -118,6 +118,14 @@ export default new SlashCommand({
       .setDescription(`${bold(interaction.user.username)} está bailando.`);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "facepalm") {
+      data = await fetchAnimeGIF("facepalm");
+      const embed = new EmbedBuilder()
+      .setDescription(`${bold(interaction.user.username)} está decepcionado.`)
+      .setColor("DarkGrey")
+      .setImage(data.url);
+
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
