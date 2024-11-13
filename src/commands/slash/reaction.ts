@@ -101,6 +101,14 @@ export default new SlashCommand({
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "cry") {
+      const data = await fetchAnimeGIF("cry"),
+      embed = new EmbedBuilder()
+      .setDescription(`${bold(interaction.user.username)} está llorando.`)
+      .setColor("DarkGrey")
+      .setImage(data.url);
+
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply("Haz uso de los diferentes subcomandos que tiene este comando.");
