@@ -1,0 +1,108 @@
+import { EmbedBuilder, GuildMember, SlashCommandBuilder, bold } from "discord.js";
+import { SlashCommand } from "../../structures/CommandBuilder.js";
+import { fetchAnimeGIF } from "../../util/functions.js";
+
+export default new SlashCommand({
+  data: new SlashCommandBuilder()
+  .setName("reaction")
+  .setDescription("Reaction commands.")
+  .addSubcommand(cmd =>
+    cmd
+    .setName("bite")
+    .setDescription("Bite a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose the member to bite.")
+      .setRequired(true)))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("cry")
+    .setDescription("Just cry."))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("dance")
+    .setDescription("Dance to express your happiness."))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("facepalm")
+    .setDescription("Facepalm."))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("happy")
+    .setDescription("You are happy!"))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("hug")
+    .setDescription("Hug a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose a member to hug.")
+      .setRequired(true)))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("kiss")
+    .setDescription("Kiss a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose a member to kiss.")
+      .setRequired(true)))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("laugh")
+    .setDescription("You are laughing!"))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("pat")
+    .setDescription("Give a pat to a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose a member to pat.")
+      .setRequired(true)))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("slap")
+    .setDescription("Slap a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose a member to slap.")
+      .setRequired(true)))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("wave")
+    .setDescription("Wave to everyone at chat!"))
+  .addSubcommand(cmd =>
+    cmd
+    .setName("wink")
+    .setDescription("Wink a member.")
+    .addUserOption(user =>
+      user
+      .setName("member")
+      .setDescription("Choose a member to wink.")
+      .setRequired(true))),
+  testGuildOnly: true,
+  async run(interaction) {
+    const subcommand = interaction.options.getSubcommand();
+    if (subcommand === "bite") {
+      const member = interaction.options.getMember("member") as GuildMember;
+
+      if (!member) return interaction.reply("Este usuario no está en el servidor.");
+      if (member.user.id === interaction.user.id)
+        return interaction.reply({ content: "¿Por qué te morderías a ti mismo?", ephemeral: true });
+
+      const data = await fetchAnimeGIF("bite"),
+      embed = new EmbedBuilder()
+      .setDescription(`${bold(interaction.user.username)} modió a ${bold(member.user.username)}`)
+      .setColor("Random")
+      .setImage(data.url);
+
+      return interaction.reply({ embeds: [embed] });
+    }
+
+    return interaction.reply("Haz uso de los diferentes subcomandos que tiene este comando.");
+  },
+});
