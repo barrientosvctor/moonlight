@@ -173,6 +173,21 @@ export default new SlashCommand({
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "pat") {
+      const member = interaction.options.getMember("member") as GuildMember;
+      data = await fetchAnimeGIF("pat");
+      const embed = new EmbedBuilder();
+
+      if (!member)
+        return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
+      if (member.user.id === interaction.user.id)
+        return interaction.reply({ content: "No puedes darte una palmada a ti mismo, eso sería raro jeje.", ephemeral: true });
+
+      embed
+        .setDescription(`¡${bold(interaction.user.username)} le dio una palmadita a ${bold(member.user.username)}!`)
+        .setColor("Random")
+        .setImage(data.url);
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
