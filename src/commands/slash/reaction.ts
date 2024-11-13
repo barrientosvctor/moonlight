@@ -97,7 +97,7 @@ export default new SlashCommand({
 
       data = await fetchAnimeGIF("bite");
       const embed = new EmbedBuilder()
-      .setDescription(`${bold(interaction.user.username)} modió a ${bold(member.user.username)}`)
+      .setDescription(`${bold(interaction.user.username)} modió a ${bold(member.user.username)}.`)
       .setColor("Random")
       .setImage(data.url);
 
@@ -123,6 +123,14 @@ export default new SlashCommand({
       const embed = new EmbedBuilder()
       .setDescription(`${bold(interaction.user.username)} está decepcionado.`)
       .setColor("DarkGrey")
+      .setImage(data.url);
+
+      return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "happy") {
+      data = await fetchAnimeGIF("happy");
+      const embed = new EmbedBuilder()
+      .setDescription(`${bold(interaction.user.username)} está feliz! :D`)
+      .setColor("Random")
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
