@@ -165,6 +165,14 @@ export default new SlashCommand({
         .setColor("Random")
         .setDescription(`¡${bold(interaction.user.username)} le dio un beso a ${bold(member.user.username)}!`);
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "laugh") {
+      data = await fetchAnimeGIF("laugh");
+      const embed = new EmbedBuilder()
+      .setDescription(`${bold(interaction.user.username)} se ríe fuertemente.`)
+      .setColor("Random")
+      .setImage(data.url);
+
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
