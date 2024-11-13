@@ -211,6 +211,22 @@ export default new SlashCommand({
       .setImage(data.url);
 
       return interaction.reply({ embeds: [embed] });
+    } else if (subcommand === "wink") {
+      data = await fetchAnimeGIF("wink");
+
+      const member = interaction.options.getMember("member") as GuildMember;
+
+      if (!member)
+        return interaction.reply({ content: "No pude encontrar a esa persona en el servidor.", ephemeral: true });
+      if (member.user.id === interaction.user.id)
+        return interaction.reply({ content: "No puedes guiñarte el ojo a ti mismo, eso sería muy raro jeje.", ephemeral: true });
+
+      const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setImage(data.url)
+      .setDescription(`¡${bold(interaction.user.username)} le guiñó el ojo a ${bold(member.user.username)}!`);
+
+      return interaction.reply({ embeds: [embed] });
     }
 
     return interaction.reply({ content: "Haz uso de los diferentes subcomandos que tiene este comando.", ephemeral: true });
