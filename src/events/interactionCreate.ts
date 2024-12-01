@@ -8,8 +8,10 @@ export default new EventBuilder({
         interaction.commandName
       );
       if (command) {
-        if (command.ownerOnly && interaction.user.id !== "617173543582433280")
+        if (command.ownerOnly && interaction.user.id !== "617173543582433280") {
+          interaction.reply({ content: "No tienes permisos para usar este comando.", ephemeral: true });
           return;
+        }
 
         if (command.clientPermissions && !interaction.guild?.members.me?.permissions.has(command.clientPermissions)) {
           const diffPerms = client.utils.diff(command.clientPermissions, interaction.guild!.members.me!.permissions.toArray());
