@@ -10,7 +10,8 @@ import type {
   ChatInputCommandInteraction,
   ContextMenuCommandBuilder,
   ContextMenuCommandInteraction,
-  SlashCommandSubcommandsOnlyBuilder
+  SlashCommandSubcommandsOnlyBuilder,
+  SlashCommandOptionsOnlyBuilder
 } from "discord.js";
 import type { MoonlightClient } from "./Client.js";
 
@@ -43,7 +44,7 @@ export class LegacyCommandBuilder {
 }
 
 type SlashCommandOptions = {
-  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
   testGuildOnly?: boolean;
   ownerOnly?: boolean;
   clientPermissions?: PermissionsString[];
@@ -53,7 +54,7 @@ type SlashCommandOptions = {
 };
 
 export class SlashCommand implements SlashCommandOptions {
-  public data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+  public data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
   public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
   public clientPermissions?: PermissionsString[];
