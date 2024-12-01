@@ -57,7 +57,3 @@ Then run the following command:
 ```bash
   npm run dev
 ```
-
-## Acknowledgements
-
-- [EvolutionX-10/discordbot](https://github.com/EvolutionX-10/discordbot) -> the codebase for command's class and slash commands registering.
