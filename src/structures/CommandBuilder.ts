@@ -46,6 +46,7 @@ type SlashCommandOptions = {
   data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
   testGuildOnly?: boolean;
   ownerOnly?: boolean;
+  clientPermissions?: PermissionsString[];
   run: (
     ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
@@ -55,6 +56,7 @@ export class SlashCommand implements SlashCommandOptions {
   public data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
   public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
+  public clientPermissions?: PermissionsString[];
   public run: (
     ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
@@ -63,6 +65,7 @@ export class SlashCommand implements SlashCommandOptions {
     this.data = options.data;
     this.testGuildOnly = options.testGuildOnly ?? false;
     this.ownerOnly = options.ownerOnly ?? false;
+    this.clientPermissions = options.clientPermissions;
     this.run = options.run;
   }
 }

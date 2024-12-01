@@ -11,6 +11,12 @@ export default new EventBuilder({
         if (command.ownerOnly && interaction.user.id !== "617173543582433280")
           return;
 
+        if (command.clientPermissions && !interaction.guild?.members.me?.permissions.has(command.clientPermissions)) {
+          const diffPerms = client.utils.diff(command.clientPermissions, interaction.guild!.members.me!.permissions.toArray());
+          interaction.reply({ content: `Me faltan los siguientes permisos para ejecutar acciones sobre este comando.\n> ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`, ephemeral: true });
+          return;
+        }
+
         try {
           await command.run(interaction, client);
         } catch (error) {
