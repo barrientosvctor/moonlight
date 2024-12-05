@@ -34,6 +34,11 @@ export default new SlashCommand({
     if (user.id === interaction.guild.members.me.user.id)
       return interaction.reply({ content: "No puedes banearme con mis comandos.", ephemeral: true })
 
+    const bans = await interaction.guild.bans.fetch();
+
+    if (bans.has(user.id))
+      return interaction.reply({ content: "Éste usuario ya estaba baneado.", ephemeral: true });
+
     const member = interaction.guild.members.cache.get(user.id),
     author = interaction.guild.members.cache.get(interaction.user.id);
 
