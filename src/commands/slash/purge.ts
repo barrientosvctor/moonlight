@@ -1,4 +1,4 @@
-import { ChannelType, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from "discord.js";
+import { ChannelType, PermissionFlagsBits, SlashCommandBuilder, type TextChannel } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
