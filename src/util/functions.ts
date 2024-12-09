@@ -69,7 +69,7 @@ type Time = {
   seconds: number | null;
 };
 
-export function toMs(time: Time) {
+export function toMs(time: Partial<Time>) {
   const { days, hours, minutes, seconds } = time;
   const daysToMs = (days ?? 0) * 24 * 60 * 60 * 1000;
   const hoursToMs = (hours ?? 0) * 60 * 60 * 1000;
