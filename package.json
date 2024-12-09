@@ -17,7 +17,6 @@
     "discord.js": "14.15.0",
     "humanize-duration-ts": "2.1.1",
     "lowdb": "7.0.1",
-    "ms-typescript": "2.0.0",
     "rimraf": "5.0.5"
   },
   "devDependencies": {

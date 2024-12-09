@@ -61,3 +61,19 @@ export async function fetchAnimeGIF(type: string) {
     res => res.json()
   )) as AnimeProviderResponse;
 }
+
+type Time = {
+  days: number | null;
+  hours: number | null;
+  minutes: number | null;
+  seconds: number | null;
+};
+
+export function toMs(time: Time) {
+  const { days, hours, minutes, seconds } = time;
+  const daysToMs = (days ?? 0) * 24 * 60 * 60 * 1000;
+  const hoursToMs = (hours ?? 0) * 60 * 60 * 1000;
+  const minutesToMs = (minutes ?? 0) * 60 * 1000;
+  const secondsToMs = (seconds ?? 0) * 1000;
+  return daysToMs + hoursToMs + minutesToMs + secondsToMs;
+}
