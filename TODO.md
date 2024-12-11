@@ -3,3 +3,4 @@
 - [x] Allow to use and search commands via aliases
 - [x] Convert the commands folder name to its Spanish version on help command
 - [x] Show the remaining member permissions to run a command.
+- [ ] Implement guildMemberAdd event for auto roles
