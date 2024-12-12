@@ -8,7 +8,11 @@ export default new EventBuilder({
         interaction.commandName
       );
       if (command) {
-        if (!command.enabled) {
+        if (
+          !command.enabled &&
+          command.ownerOnly &&
+          interaction.user.id !== "617173543582433280"
+        ) {
           interaction.reply({
             content: "Comando no disponible, intenta más tarde.",
             ephemeral: true
