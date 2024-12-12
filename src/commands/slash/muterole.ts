@@ -34,6 +34,7 @@ export default new SlashCommand({
         .setDescription("Shows the actual mute role established in the guild.")
     ),
   testGuildOnly: true,
+  enabled: false,
   async run(interaction, client) {
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
