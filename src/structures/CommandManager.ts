@@ -1,7 +1,5 @@
 import { Collection, Routes } from "discord.js";
-import type {
-  CategoryInformation
-} from "../types/command.types.js";
+import type { CategoryInformation } from "../types/command.types.js";
 import type {
   ContextMenu,
   LegacyCommandBuilder,
@@ -73,44 +71,82 @@ export class CommandManager {
   }
 
   public async registerApplicationCommands() {
-    const [globalSlashCommandsData, guildSlashCommandsData] = [
-      this.__slashcommands.filter(slash => !slash.testGuildOnly).map(slash => slash.data.toJSON()),
-      this.__slashcommands.filter(slash => slash.testGuildOnly).map(slash => slash.data.toJSON())
+    const [
+      globalSlashCommandsData,
+      guildSlashCommandsData,
+      disabledSlashCommands
+    ] = [
+      this.__slashcommands
+        .filter(slash => !slash.testGuildOnly && slash.enabled)
+        .map(slash => slash.data.toJSON()),
+      this.__slashcommands
+        .filter(slash => slash.testGuildOnly)
+        .map(slash => slash.data.toJSON()),
+      this.__slashcommands.filter(slash => !slash.enabled)
     ];
     const [globalContextMenusData, guildContextMenusData] = [
-      this.__contextmenus.filter(ctx => !ctx.testGuildOnly).map(ctx => ctx.data.toJSON()),
-      this.__contextmenus.filter(ctx => ctx.testGuildOnly).map(ctx => ctx.data.toJSON())
+      this.__contextmenus
+        .filter(ctx => !ctx.testGuildOnly)
+        .map(ctx => ctx.data.toJSON()),
+      this.__contextmenus
+        .filter(ctx => ctx.testGuildOnly)
+        .map(ctx => ctx.data.toJSON())
     ];
 
     if (this.__client.user) {
       if (guildSlashCommandsData.length) {
-        await this.__client.rest.put(Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID), {
-          body: guildSlashCommandsData
-        });
-        console.log(`Successfully reloaded ${guildSlashCommandsData.length} guild slash (/) commands!`);
+        await this.__client.rest.put(
+          Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID),
+          {
+            body: guildSlashCommandsData
+          }
+        );
+        console.log(
+          `Successfully reloaded ${guildSlashCommandsData.length} guild slash (/) commands!`
+        );
+
+        if (disabledSlashCommands.size > 0)
+          console.log(
+            `Sucessfully reloaded ${disabledSlashCommands.size} **DISABLED** slash (/) commands (ONLY AVAILABLE IN TESTING GUILD).`
+          );
       }
 
       if (globalSlashCommandsData.length) {
-        await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
-          body: globalSlashCommandsData
-        });
+        await this.__client.rest.put(
+          Routes.applicationCommands(this.__client.user.id),
+          {
+            body: globalSlashCommandsData
+          }
+        );
 
-        console.log(`Successfully reloaded ${globalSlashCommandsData.length} slash (/) commands!`);
+        console.log(
+          `Successfully reloaded ${globalSlashCommandsData.length} slash (/) commands!`
+        );
       }
 
       if (guildContextMenusData.length) {
-        await this.__client.rest.put(Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID), {
-          body: guildContextMenusData
-        });
+        await this.__client.rest.put(
+          Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID),
+          {
+            body: guildContextMenusData
+          }
+        );
 
-        console.log(`Successfully reloaded ${guildContextMenusData.length} guild context menus commands!`);
+        console.log(
+          `Successfully reloaded ${guildContextMenusData.length} guild context menus commands!`
+        );
       }
 
       if (globalContextMenusData.length) {
-        await this.__client.rest.put(Routes.applicationCommands(this.__client.user.id), {
-          body: globalContextMenusData
-        });
-        console.log(`Successfully reloaded ${globalContextMenusData.length} context menus commands!`);
+        await this.__client.rest.put(
+          Routes.applicationCommands(this.__client.user.id),
+          {
+            body: globalContextMenusData
+          }
+        );
+        console.log(
+          `Successfully reloaded ${globalContextMenusData.length} context menus commands!`
+        );
       }
     } else {
       console.log(`I couldn't reload application commands.`);

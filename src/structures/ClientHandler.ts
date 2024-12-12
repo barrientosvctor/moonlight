@@ -125,14 +125,10 @@ export class ClientHandler {
     if (result.status === "rejected") throw new Error(result.reason);
 
     result.value.forEach(async info => {
-        const command = (
-          await import(`../commands/slash/${info.name}`)
-        ).default as SlashCommand;
+      const command = (await import(`../commands/slash/${info.name}`))
+        .default as SlashCommand;
 
-        this.__client.commandsManager.addSlashCommand(
-          command.data.name,
-          command
-        );
+      this.__client.commandsManager.addSlashCommand(command.data.name, command);
     });
   }
 }

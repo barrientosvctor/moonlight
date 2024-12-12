@@ -44,20 +44,28 @@ export class LegacyCommandBuilder {
 }
 
 type SlashCommandOptions = {
-  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
+  data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder;
   testGuildOnly?: boolean;
   ownerOnly?: boolean;
   clientPermissions?: PermissionsString[];
+  enabled?: boolean;
   run: (
     ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
 };
 
 export class SlashCommand implements SlashCommandOptions {
-  public data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
+  public data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder;
   public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
   public clientPermissions?: PermissionsString[];
+  public enabled?: boolean;
   public run: (
     ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
   ) => Awaitable<unknown>;
@@ -67,7 +75,10 @@ export class SlashCommand implements SlashCommandOptions {
     this.testGuildOnly = options.testGuildOnly ?? false;
     this.ownerOnly = options.ownerOnly ?? false;
     this.clientPermissions = options.clientPermissions;
+    this.enabled = options.enabled ?? true;
     this.run = options.run;
+
+    if (!this.enabled) this.testGuildOnly = true;
   }
 }
 
