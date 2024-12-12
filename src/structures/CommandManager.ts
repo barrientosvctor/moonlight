@@ -6,7 +6,6 @@ import type {
   SlashCommand
 } from "./CommandBuilder.js";
 import type { MoonlightClient } from "./Client.js";
-import { GUILD_ID } from "../constants.js";
 
 export class CommandManager {
   private readonly __commands = new Collection<string, LegacyCommandBuilder>();
@@ -96,7 +95,7 @@ export class CommandManager {
     if (this.__client.user) {
       if (guildSlashCommandsData.length) {
         await this.__client.rest.put(
-          Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID),
+          Routes.applicationGuildCommands(this.__client.user.id, process.env.TESTING_GUILD_ID),
           {
             body: guildSlashCommandsData
           }
@@ -126,7 +125,7 @@ export class CommandManager {
 
       if (guildContextMenusData.length) {
         await this.__client.rest.put(
-          Routes.applicationGuildCommands(this.__client.user.id, GUILD_ID),
+          Routes.applicationGuildCommands(this.__client.user.id, process.env.TESTING_GUILD_ID),
           {
             body: guildContextMenusData
           }

@@ -1,5 +1,3 @@
-export const GUILD_ID = "1305365241793871974" as const;
-
 /*
  * Maximum number for rate limit per user (slowmode)
  * Measure unit: seconds
