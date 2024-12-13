@@ -1,89 +1,78 @@
-import {
-  CommandType,
-  type CommandOptions,
-  type AddUndefinedToPossiblyUndefinedPropertiesOfInterface,
-  CommandCategory,
-  BaseCommandRunFunction,
-  AutoCompleteRunFunction,
-  CommandBuilderPieces
-} from "../types/command.types.js";
 import type {
-  ApplicationCommandOptionData,
-  RESTPostAPIChatInputApplicationCommandsJSONBody,
-  APIApplicationCommandOption,
-  ApplicationCommandType,
-  PermissionsString
+  PermissionsString,
+  Awaitable,
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  ContextMenuCommandBuilder,
+  ContextMenuCommandInteraction,
+  SlashCommandSubcommandsOnlyBuilder,
+  SlashCommandOptionsOnlyBuilder
 } from "discord.js";
+import type { MoonlightClient } from "./Client.js";
 
-export class CommandBuilder<Command extends CommandType = CommandType>
-  implements CommandBuilderPieces<Command>
-{
-  private data: CommandOptions<Command>;
-  public name: string;
-  public type: CommandType;
-  public category: CommandCategory;
-  public guildIds: string[] = [];
-  public runInDM?: boolean = false;
+type SlashCommandOptions = {
+  data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder;
+  testGuildOnly?: boolean;
+  ownerOnly?: boolean;
+  clientPermissions?: PermissionsString[];
+  enabled?: boolean;
+  run: (
+    ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
+  ) => Awaitable<unknown>;
+};
 
-  // All properties of every command type
-  public description?: string;
+export class SlashCommand implements SlashCommandOptions {
+  public data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder;
+  public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
-  public requiredMemberPermissions?: PermissionsString[];
-  public requiredClientPermissions?: PermissionsString[];
-  public cooldown?: number;
-  public aliases?: string[];
-  public usage?: string;
-  public example?: string;
-  public options?: ApplicationCommandOptionData[] = [];
+  public clientPermissions?: PermissionsString[];
+  public enabled?: boolean;
+  public run: (
+    ...args: [interaction: ChatInputCommandInteraction, client: MoonlightClient]
+  ) => Awaitable<unknown>;
 
-  public run: BaseCommandRunFunction<Command>;
-  public autoCompleteRun?: AutoCompleteRunFunction;
+  constructor(options: SlashCommandOptions) {
+    this.data = options.data;
+    this.testGuildOnly = options.testGuildOnly ?? false;
+    this.ownerOnly = options.ownerOnly ?? false;
+    this.clientPermissions = options.clientPermissions;
+    this.enabled = options.enabled ?? true;
+    this.run = options.run;
 
-  public constructor(data: CommandOptions<Command>) {
-    this.data = data;
-    this.name = data.name;
-    this.type = data.type;
-    this.category = data.category;
-    this.guildIds = this.data.guildIds ?? []; // Keep it empty for global commands
-    this.runInDM = data.dmPermission;
-
-    if (data.type === CommandType.Legacy) {
-      this.description = data.description;
-      this.ownerOnly = data.ownerOnly ?? false;
-      this.requiredMemberPermissions = data.requiredMemberPermissions ?? [];
-      this.requiredClientPermissions = data.requiredClientPermissions ?? [];
-
-      this.cooldown = data.cooldown;
-      this.aliases = data.aliases ?? [];
-      this.usage = data.usage;
-      this.example = data.example;
-    } else if (data.type === CommandType.ChatInput) {
-      this.description = data.description;
-      this.ownerOnly = data.ownerOnly;
-      this.requiredMemberPermissions = data.requiredMemberPermissions;
-      this.requiredClientPermissions = data.requiredClientPermissions;
-
-      this.options = data.options;
-      this.autoCompleteRun = data.autoCompleteRun;
-    }
-
-    this.run = data.run as BaseCommandRunFunction<Command>;
+    if (!this.enabled) this.testGuildOnly = true;
   }
+}
 
-  public buildAPIApplicationCommand(): RESTPostAPIChatInputApplicationCommandsJSONBody {
-    return {
-      name: this.data.name,
-      description: this.description ?? "",
-      default_member_permissions: this.requiredMemberPermissions?.toString(),
-      dm_permission: this.runInDM,
-      options: this
-        .options as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-        APIApplicationCommandOption[]
-      >,
-      type: this
-        .type as unknown as AddUndefinedToPossiblyUndefinedPropertiesOfInterface<
-        ApplicationCommandType.ChatInput | undefined
-      >
-    };
+type ContextMenuOptions = {
+  data: ContextMenuCommandBuilder;
+  testGuildOnly?: boolean;
+  run: (
+    ...args: [
+      interaction: ContextMenuCommandInteraction,
+      client: MoonlightClient
+    ]
+  ) => Awaitable<unknown>;
+};
+
+export class ContextMenu implements ContextMenuOptions {
+  public data: ContextMenuCommandBuilder;
+  public testGuildOnly?: boolean;
+  public run: (
+    ...args: [
+      interaction: ContextMenuCommandInteraction,
+      client: MoonlightClient
+    ]
+  ) => Awaitable<unknown>;
+
+  constructor(options: ContextMenuOptions) {
+    this.data = options.data;
+    this.testGuildOnly = options.testGuildOnly ?? false;
+    this.run = options.run;
   }
 }

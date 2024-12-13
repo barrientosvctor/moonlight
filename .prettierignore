@@ -1,4 +1,7 @@
+# Ignore artifacts:
+build
+coverage
+node_modules
 dist
+db
 *.json
-*.md
-pnpm-lock.yaml

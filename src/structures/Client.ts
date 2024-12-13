@@ -5,24 +5,21 @@ import { CommandManager } from "./CommandManager.js";
 import {
   type BeautyMessageOptions,
   type EmojiType,
-  emojiList,
-  type ClientPieces
+  emojiList
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";
 import { Database } from "./Database.js";
 
-export class MoonlightClient<Ready extends boolean = boolean>
-  extends Client<Ready>
-  implements ClientPieces
-{
+export class MoonlightClient<
+  Ready extends boolean = boolean
+> extends Client<Ready> {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
-  readonly commandsManager: CommandManager = new CommandManager();
+  readonly commandsManager: CommandManager = new CommandManager(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = new JSONWrapper();
   readonly utils = new ClientUtilities(this);
-  readonly database = new Database();
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -31,7 +28,7 @@ export class MoonlightClient<Ready extends boolean = boolean>
   static get Instance(): MoonlightClient {
     if (!MoonlightClient.__instance)
       MoonlightClient.__instance = new MoonlightClient({
-        intents: ["Guilds", "GuildMessages", "MessageContent", "GuildMembers"],
+        intents: ["Guilds", "GuildMessages", "GuildMembers"],
         presence: {
           status: "online",
           activities: [
@@ -48,35 +45,16 @@ export class MoonlightClient<Ready extends boolean = boolean>
   }
 
   public override async login(token?: string | undefined): Promise<string> {
-    const eventHandler = this.__handler.events();
-    const commandHandler = this.__handler.commands();
-    const userContextHandler = this.__handler.userContextMenus();
+    await this.__handler.events();
+    await this.__handler.slashCommands();
+    await this.__handler.contextMenus();
 
-    const [h1, h2, h3] = await Promise.allSettled([eventHandler, commandHandler, userContextHandler]);
-
-    if (h1.status === "rejected") {
-      console.error(h1.reason);
-      process.exit(1);
-    }
-
-    if (h2.status === "rejected") {
-      console.error(h2.reason);
-      process.exit(1);
-    }
-
-    if (h3.status === "rejected") {
-      console.error(h3.reason);
-      process.exit(1);
-    }
-
-    await this.database.createDatabaseFile();
+    await Database.instance.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
-    await this.database.read();
+    await Database.instance.read();
     const tok = await super.login(token);
 
-    await this.commandsManager.initializeSlashCommands(this, {
-      shortcut: true
-    });
+    await this.commandsManager.registerApplicationCommands();
 
     return tok;
   }
@@ -104,12 +82,5 @@ export class MoonlightClient<Ready extends boolean = boolean>
     }
 
     return `${emojiField}${mentionField}${message}`;
-  }
-
-  public getPrefix(guildId: string) {
-    if (this.database.has("prefix", guildId))
-      return this.database.get("prefix", guildId)!;
-
-    return "!!";
   }
 }

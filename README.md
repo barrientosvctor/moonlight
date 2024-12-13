@@ -12,7 +12,8 @@ Moonlight is a multi-purpose Discord bot in Spanish.
 To run this project, you will need to add the following environment variables to your .env file
 
 `DISCORD_TOKEN`: Get it on [Discord Developer Portal](https://discord.com/developers/applications)
-
+`TESTING_GUILD_ID`: The guild ID of a testing server.
+`OWNER_ID`: The owner id.
 
 ## Run Locally
 
@@ -57,7 +58,3 @@ Then run the following command:
 ```bash
   npm run dev
 ```
-
-## Acknowledgements
-
-- [EvolutionX-10/discordbot](https://github.com/EvolutionX-10/discordbot) -> the codebase for command's class and slash commands registering.

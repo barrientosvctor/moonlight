@@ -1,6 +1,10 @@
 import type { Message } from "discord.js";
 import type { MoonlightClient } from "../structures/Client.js";
 
+export type AnimeProviderResponse = {
+  url: string;
+};
+
 export async function getUser(user: string, client: MoonlightClient) {
   if (!user) return;
 
@@ -19,10 +23,14 @@ export async function getMember(member: string, message: Message) {
     member = member.slice(2, -1);
   if (!Number(member)) return;
 
-  const targetMember = await message.guild.members.fetch({ user: member, limit: 1, cache: false, force: false });
+  const targetMember = await message.guild.members.fetch({
+    user: member,
+    limit: 1,
+    cache: false,
+    force: false
+  });
 
-  if (!message.guild.members.cache.has(targetMember.id))
-    return undefined;
+  if (!message.guild.members.cache.has(targetMember.id)) return undefined;
 
   return targetMember;
 }
@@ -51,5 +59,21 @@ export function getRole(role: string, message: Message) {
 export async function fetchAnimeGIF(type: string) {
   return (await fetch(`https://api.otakugifs.xyz/gif?reaction=${type}`).then(
     res => res.json()
-  )) as { url: string };
+  )) as AnimeProviderResponse;
+}
+
+type Time = {
+  days: number | null;
+  hours: number | null;
+  minutes: number | null;
+  seconds: number | null;
+};
+
+export function toMs(time: Partial<Time>) {
+  const { days, hours, minutes, seconds } = time;
+  const daysToMs = (days ?? 0) * 24 * 60 * 60 * 1000;
+  const hoursToMs = (hours ?? 0) * 60 * 60 * 1000;
+  const minutesToMs = (minutes ?? 0) * 60 * 1000;
+  const secondsToMs = (seconds ?? 0) * 1000;
+  return daysToMs + hoursToMs + minutesToMs + secondsToMs;
 }
