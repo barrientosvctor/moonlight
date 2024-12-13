@@ -20,7 +20,6 @@ export class MoonlightClient<
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = new JSONWrapper();
   readonly utils = new ClientUtilities(this);
-  readonly database = new Database();
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -50,9 +49,9 @@ export class MoonlightClient<
     await this.__handler.slashCommands();
     await this.__handler.contextMenus();
 
-    await this.database.createDatabaseFile();
+    await Database.instance.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
-    await this.database.read();
+    await Database.instance.read();
     const tok = await super.login(token);
 
     await this.commandsManager.registerApplicationCommands();

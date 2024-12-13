@@ -5,6 +5,7 @@ import {
   roleMention
 } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
+import { Database } from "../../structures/Database.js";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder()
@@ -36,7 +37,7 @@ export default new SlashCommand({
   testGuildOnly: true,
   ownerOnly: true,
   enabled: false,
-  async run(interaction, client) {
+  async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
@@ -44,18 +45,19 @@ export default new SlashCommand({
       });
 
     const subcommand = interaction.options.getSubcommand();
+    const db = Database.instance;
 
     if (subcommand === "set") {
       const role = interaction.options.getRole("role", true);
 
-      if (client.database.has("muterole", interaction.guild.id))
-        await client.database.modify("muterole", interaction.guild.id, role.id);
-      else await client.database.add("muterole", interaction.guild.id, role.id);
+      if (db.has("muterole", interaction.guild.id))
+        await db.modify("muterole", interaction.guild.id, role.id);
+      else await db.add("muterole", interaction.guild.id, role.id);
 
       return interaction.reply("Rol establecido éxitosamente!");
     } else if (subcommand === "delete") {
-      if (client.database.has("muterole", interaction.guild.id))
-        await client.database.delete("muterole", interaction.guild.id);
+      if (db.has("muterole", interaction.guild.id))
+        await db.delete("muterole", interaction.guild.id);
       else
         return interaction.reply({
           content: "No tenía establecido anteriormente un rol para ello.",
@@ -64,13 +66,13 @@ export default new SlashCommand({
 
       return interaction.reply("Rol eliminado éxitosamente.");
     } else if (subcommand === "list") {
-      if (!client.database.has("muterole", interaction.guild.id))
+      if (!db.has("muterole", interaction.guild.id))
         return interaction.reply({
           content: `No hay roles para mostrar. Para establecer uno usa ${inlineCode(`/${this.data.name} set @rol`)}`,
           ephemeral: true
         });
 
-      const roleId = client.database.get("muterole", interaction.guild.id)!;
+      const roleId = db.get("muterole", interaction.guild.id)!;
 
       return interaction.reply(`
 # Rol para mutear

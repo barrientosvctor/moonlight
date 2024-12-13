@@ -7,6 +7,7 @@ import {
   roleMention
 } from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
+import { Database } from "../../structures/Database.js";
 export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("autorole")
@@ -59,7 +60,7 @@ export default new SlashCommand({
     ),
   testGuildOnly: true,
   clientPermissions: ["ManageRoles"],
-  async run(interaction, client) {
+  async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
@@ -68,18 +69,19 @@ export default new SlashCommand({
 
     const group = interaction.options.getSubcommandGroup();
     const subcommand = interaction.options.getSubcommand();
+    const db = Database.instance;
 
     if (!group) {
       if (subcommand === "list") {
         const list = [];
-        if (client.database.has("autorole", `user-${interaction.guild.id}`))
+        if (db.has("autorole", `user-${interaction.guild.id}`))
           list.push(
-            `- ${bold("Usuarios")}: ${roleMention(client.database.get("autorole", `user-${interaction.guild.id}`)!)}`
+            `- ${bold("Usuarios")}: ${roleMention(db.get("autorole", `user-${interaction.guild.id}`)!)}`
           );
 
-        if (client.database.has("autorole", `bot-${interaction.guild.id}`))
+        if (db.has("autorole", `bot-${interaction.guild.id}`))
           list.push(
-            `- ${bold("Bots")}: ${roleMention(client.database.get("autorole", `bot-${interaction.guildId}`)!)}`
+            `- ${bold("Bots")}: ${roleMention(db.get("autorole", `bot-${interaction.guildId}`)!)}`
           );
 
         if (list.length === 0)
@@ -138,17 +140,17 @@ ${list.join("\n")}`);
           });
 
         if (
-          client.database.has("autorole", key) &&
-          client.database.get("autorole", key) === targetRole.id
+          db.has("autorole", key) &&
+          db.get("autorole", key) === targetRole.id
         )
           return interaction.reply({
             content: `Este rol ya ha sido establecido anteriormente para los ${subcommand === "user" ? "usuarios" : "bots"}, prueba con otro.`,
             ephemeral: true
           });
 
-        if (client.database.has("autorole", key))
-          await client.database.modify("autorole", key, targetRole.id);
-        else await client.database.add("autorole", key, targetRole.id);
+        if (db.has("autorole", key))
+          await db.modify("autorole", key, targetRole.id);
+        else await db.add("autorole", key, targetRole.id);
 
         return interaction.reply(
           `A partir de ahora, éste rol será asignado a todos los ${subcommand === "user" ? "usuarios" : "bots"} que entren al servidor.`
@@ -156,13 +158,13 @@ ${list.join("\n")}`);
       } else if (group === "delete") {
         const key = `${subcommand}-${interaction.guild.id}`;
 
-        if (!client.database.has("autorole", key))
+        if (!db.has("autorole", key))
           return interaction.reply({
             content: `No hay ningún rol para eliminar. Para añadir uno, usa el comando: ${inlineCode(`/${this.data.name} set ${subcommand} @rol`)}`,
             ephemeral: true
           });
 
-        await client.database.delete("autorole", key);
+        await db.delete("autorole", key);
 
         return interaction.reply("Rol eliminado de la lista éxitosamente.");
       }
