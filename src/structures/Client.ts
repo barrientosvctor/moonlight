@@ -5,13 +5,15 @@ import { CommandManager } from "./CommandManager.js";
 import {
   type BeautyMessageOptions,
   type EmojiType,
-  emojiList,
+  emojiList
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
 import { ClientUtilities } from "./ClientUtilities.js";
 import { Database } from "./Database.js";
 
-export class MoonlightClient<Ready extends boolean = boolean> extends Client<Ready> {
+export class MoonlightClient<
+  Ready extends boolean = boolean
+> extends Client<Ready> {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager(this);
@@ -27,7 +29,7 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
   static get Instance(): MoonlightClient {
     if (!MoonlightClient.__instance)
       MoonlightClient.__instance = new MoonlightClient({
-        intents: ["Guilds", "GuildMessages", "MessageContent", "GuildMembers"],
+        intents: ["Guilds", "GuildMessages", "GuildMembers"],
         presence: {
           status: "online",
           activities: [
@@ -45,16 +47,14 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
 
   public override async login(token?: string | undefined): Promise<string> {
     await this.__handler.events();
-    await this.__handler.commands();
-    await this.__handler.contextMenus();
     await this.__handler.slashCommands();
+    await this.__handler.contextMenus();
 
     await this.database.createDatabaseFile();
     // Read before add new registers to database will not overwrite the last registers.
     await this.database.read();
     const tok = await super.login(token);
 
-    // TODO: Add slash commands initialization
     await this.commandsManager.registerApplicationCommands();
 
     return tok;
@@ -83,12 +83,5 @@ export class MoonlightClient<Ready extends boolean = boolean> extends Client<Rea
     }
 
     return `${emojiField}${mentionField}${message}`;
-  }
-
-  public getPrefix(guildId: string) {
-    if (this.database.has("prefix", guildId))
-      return this.database.get("prefix", guildId)!;
-
-    return "!!";
   }
 }

@@ -16,17 +16,6 @@ export class ClientUtilities {
   }
 
   /**
-   * This function is a short and modular way to search commands in the collection.
-   * You should use it when you need to get commands.
-   */
-  public receiveCommand(argument: string) {
-    return (
-      this.__client.commandsManager.getCommand(argument) ||
-      this.__client.commandsManager.getCommandByAlias(argument)
-    );
-  }
-
-  /**
    * This function is my own implementation of `Set.prototype.difference()` (not implemented yet) using arrays.
    *
    * Compares the differences between arr1 and arr2.
