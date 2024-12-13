@@ -11,7 +11,7 @@ export default new EventBuilder({
         if (
           !command.enabled &&
           command.ownerOnly &&
-          interaction.user.id !== "617173543582433280"
+          interaction.user.id !== process.env.OWNER_ID
         ) {
           interaction.reply({
             content: "Comando no disponible, intenta más tarde.",
@@ -19,7 +19,7 @@ export default new EventBuilder({
           });
           return;
         }
-        if (command.ownerOnly && interaction.user.id !== "617173543582433280") {
+        if (command.ownerOnly && interaction.user.id !== process.env.OWNER_ID) {
           interaction.reply({
             content: "No tienes permisos para usar este comando.",
             ephemeral: true
