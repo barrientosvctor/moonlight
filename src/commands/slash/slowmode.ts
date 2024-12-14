@@ -16,11 +16,17 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("slowmode")
     .setDescription("Sets slow mode in a text channel.")
+    .setDescriptionLocalizations({
+      "es-ES": "Establece modo lento en un canal de texto."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(ch =>
       ch
         .setName("channel")
         .setDescription("Specify the channel to apply slow mode.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica el canal para aplicar el modo lento."
+        })
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText)
     )
@@ -28,6 +34,9 @@ export default new SlashCommand({
       num
         .setName("hours")
         .setDescription("Specify the hours of the slow mode.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica las horas del modo lento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(6)
@@ -36,6 +45,9 @@ export default new SlashCommand({
       num
         .setName("minutes")
         .setDescription("Specify the minutes of the slow mode.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica los minutos del modo lento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(59)
@@ -44,6 +56,9 @@ export default new SlashCommand({
       num
         .setName("seconds")
         .setDescription("Specify the seconds of the slow mode.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica los segundos del modo lento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(59)
@@ -52,6 +67,9 @@ export default new SlashCommand({
       b
         .setName("hidden")
         .setDescription("Should the bot's response be hidden?")
+        .setDescriptionLocalizations({
+          "es-ES": "¿La respuesta del bot debería estar oculta?"
+        })
         .setRequired(false)
     ),
   testGuildOnly: true,

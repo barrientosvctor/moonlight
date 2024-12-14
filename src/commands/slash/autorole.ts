@@ -12,19 +12,31 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("autorole")
     .setDescription("Auto role commands.")
+    .setDescriptionLocalizations({
+      "es-ES": "Comandos de auto rol."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
     .addSubcommandGroup(group =>
       group
         .setName("set")
         .setDescription("Set commands.")
+        .setDescriptionLocalizations({
+          "es-ES": "Comandos set."
+        })
         .addSubcommand(cmd =>
           cmd
             .setName("user")
             .setDescription("Sets an auto role for new users.")
+            .setDescriptionLocalizations({
+              "es-ES": "Establece un auto rol para nuevos usuarios."
+            })
             .addRoleOption(r =>
               r
                 .setName("role")
                 .setDescription("Choose a role to assign to new users.")
+                .setDescriptionLocalizations({
+                  "es-ES": "Elige un rol para asignar a nuevos usuarios."
+                })
                 .setRequired(true)
             )
         )
@@ -32,10 +44,16 @@ export default new SlashCommand({
           cmd
             .setName("bot")
             .setDescription("Sets an auto role for new bots.")
+            .setDescriptionLocalizations({
+              "es-ES": "Establece un auto rol para nuevos bots."
+            })
             .addRoleOption(r =>
               r
                 .setName("role")
                 .setDescription("Choose a role to assign to new bots.")
+                .setDescriptionLocalizations({
+                  "es-ES": "Elige un rol para asignar a nuevos bots."
+                })
                 .setRequired(true)
             )
         )
@@ -44,11 +62,24 @@ export default new SlashCommand({
       group
         .setName("delete")
         .setDescription("Delete commands.")
+        .setDescriptionLocalizations({
+          "es-ES": "Comandos delete."
+        })
         .addSubcommand(cmd =>
-          cmd.setName("user").setDescription("Removes the auto role for users.")
+          cmd
+            .setName("user")
+            .setDescription("Removes the auto role for users.")
+            .setDescriptionLocalizations({
+              "es-ES": "Elimina el auto rol para usuarios."
+            })
         )
         .addSubcommand(cmd =>
-          cmd.setName("bot").setDescription("Removes the auto role for bots.")
+          cmd
+            .setName("bot")
+            .setDescription("Removes the auto role for bots.")
+            .setDescriptionLocalizations({
+              "es-ES": "Elimina el auto rol para bots."
+            })
         )
     )
     .addSubcommand(cmd =>
@@ -57,6 +88,10 @@ export default new SlashCommand({
         .setDescription(
           "Shows the auto roles established for users and bots in their guild."
         )
+        .setDescriptionLocalizations({
+          "es-ES":
+            "Muestra los auto roles establecidos para usuarios y bot en su servidor."
+        })
     ),
   testGuildOnly: true,
   clientPermissions: ["ManageRoles"],

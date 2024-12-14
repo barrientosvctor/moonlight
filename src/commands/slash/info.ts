@@ -1,53 +1,103 @@
-import { APIGuild, APIUser, ChannelType, EmbedBuilder, GuildMember, GuildPremiumTier, Role, Routes, SlashCommandBuilder, TextChannel } from "discord.js";
+import {
+  APIGuild,
+  APIUser,
+  ChannelType,
+  EmbedBuilder,
+  GuildMember,
+  GuildPremiumTier,
+  Role,
+  Routes,
+  SlashCommandBuilder,
+  TextChannel
+} from "discord.js";
 import { SlashCommand } from "../../structures/CommandBuilder.js";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder()
-  .setName("info")
-  .setDescription("Commands to get information.")
-  .addSubcommand(cmd =>
-    cmd
-    .setName("channel")
-    .setDescription("Get information about a guild's channel.")
-    .addChannelOption(ch =>
-      ch
-      .setName("name")
-      .setDescription("Choose a channel to get information.")
-      .setRequired(true)
-      .addChannelTypes(ChannelType.GuildText)))
-  .addSubcommand(cmd =>
-    cmd
-    .setName("role")
-    .setDescription("Get information about a guild's role.")
-    .addRoleOption(role =>
-      role
-      .setName("role")
-      .setDescription("Choose a role to get information.")
-      .setRequired(true)))
-  .addSubcommand(cmd =>
-    cmd
-    .setName("server")
-    .setDescription("Get information about the guild."))
-  .addSubcommand(cmd =>
-    cmd
-    .setName("user")
-    .setDescription("Get information about a Discord user.")
-    .addUserOption(user =>
-      user
-      .setName("user")
-      .setDescription("Choose or type the ID of a Discord user to get information.")
-      .setRequired(true))),
+    .setName("info")
+    .setDescription("Commands to get information.")
+    .setDescriptionLocalizations({
+      "es-ES": "Comandos para obtener información."
+    })
+    .addSubcommand(cmd =>
+      cmd
+        .setName("channel")
+        .setDescription("Get information about a guild's channel.")
+        .setDescriptionLocalizations({
+          "es-ES": "Obtén información sobre un canal del servidor."
+        })
+        .addChannelOption(ch =>
+          ch
+            .setName("name")
+            .setDescription("Choose a channel to get information.")
+            .setDescriptionLocalizations({
+              "es-ES": "Elige un canal para obtener información."
+            })
+            .setRequired(true)
+            .addChannelTypes(ChannelType.GuildText)
+        )
+    )
+    .addSubcommand(cmd =>
+      cmd
+        .setName("role")
+        .setDescription("Get information about a guild's role.")
+        .setDescriptionLocalizations({
+          "es-ES": "Obtén información sobre un rol del servidor."
+        })
+        .addRoleOption(role =>
+          role
+            .setName("role")
+            .setDescription("Choose a role to get information.")
+            .setDescriptionLocalizations({
+              "es-ES": "Elige un rol para obtener información."
+            })
+            .setRequired(true)
+        )
+    )
+    .addSubcommand(cmd =>
+      cmd.setName("server").setDescription("Get information about the guild.")
+    )
+    .setDescriptionLocalizations({
+      "es-ES": "Obtén información sobre el servidor."
+    })
+    .addSubcommand(cmd =>
+      cmd
+        .setName("user")
+        .setDescription("Get information about a Discord user.")
+        .setDescriptionLocalizations({
+          "es-ES": "Obtén información sobre un usuario de Discord."
+        })
+        .addUserOption(user =>
+          user
+            .setName("user")
+            .setDescription(
+              "Choose or type the ID of a Discord user to get information."
+            )
+            .setDescriptionLocalizations({
+              "es-ES":
+                "Elige o escribe la ID de un usuario de Discord para obtener información."
+            })
+            .setRequired(true)
+        )
+    ),
   testGuildOnly: true,
   async run(interaction, client) {
     const subcommand = interaction.options.getSubcommand();
     if (subcommand === "channel") {
-      const channel = interaction.options.getChannel("name", true) as TextChannel;
+      const channel = interaction.options.getChannel(
+        "name",
+        true
+      ) as TextChannel;
 
-      if (!channel) return interaction.reply({ content: "No se pudo encontrar ese canal.", ephemeral: true });
+      if (!channel)
+        return interaction.reply({
+          content: "No se pudo encontrar ese canal.",
+          ephemeral: true
+        });
 
       const embed = new EmbedBuilder()
-      .setTitle(`Información del canal #${channel.name}`)
-      .setColor("Random");
+        .setTitle(`Información del canal #${channel.name}`)
+        .setColor("Random");
       let info = `**Posición en lista:** ${channel.position + 1}\n**Descripción:** ${channel.topic || "Ninguno"}\n**NSFW:** ${channel.nsfw ? "Sí" : "No"}\n**Modo lento:** ${channel.rateLimitPerUser > 0 ? "Activado" : "Desactivado"}`;
 
       embed.setDescription(`**ID:** ${channel.id}\n${info}`);
@@ -56,13 +106,17 @@ export default new SlashCommand({
     } else if (subcommand === "role") {
       const role = interaction.options.getRole("role", true) as Role;
 
-      if (!role) return interaction.reply({ content: "No se pudo encontrar ese rol.", ephemeral: true });
+      if (!role)
+        return interaction.reply({
+          content: "No se pudo encontrar ese rol.",
+          ephemeral: true
+        });
 
       const embed = new EmbedBuilder()
-      .setColor(role.hexColor || "Random")
-      .setTitle(`Información del rol @${role.name}`)
-      .setDescription(
-        `
+        .setColor(role.hexColor || "Random")
+        .setTitle(`Información del rol @${role.name}`)
+        .setDescription(
+          `
 **Nombre:** ${role.name}
 **ID:** ${role.id}
 **Color:** ${role.hexColor}
@@ -72,22 +126,37 @@ export default new SlashCommand({
 **¿Mencionable?** ${role.mentionable ? "Sí" : "No"}
 **¿Editable?** ${role.editable ? "Sí" : "No"}
 **Fecha de creación:** <t:${Math.ceil(role.createdTimestamp / 1000)}>
-`)
-      .addFields({
-        name: "Permisos",
-        value: role.permissions.toArray().map(permission => client.wrapper.get("guild.roles.permissions", permission)).join(", ")
-      });
+`
+        )
+        .addFields({
+          name: "Permisos",
+          value: role.permissions
+            .toArray()
+            .map(permission =>
+              client.wrapper.get("guild.roles.permissions", permission)
+            )
+            .join(", ")
+        });
 
       return interaction.reply({ embeds: [embed] });
     } else if (subcommand === "server") {
-      if (!interaction.inGuild() || !interaction.guild) return interaction.reply({ content: "Para usar éste subcomando debes de hacer uso de él en un servidor.", ephemeral: true });
+      if (!interaction.inGuild() || !interaction.guild)
+        return interaction.reply({
+          content:
+            "Para usar éste subcomando debes de hacer uso de él en un servidor.",
+          ephemeral: true
+        });
 
-      const data = (await client.rest.get(Routes.guild(interaction.guild.id))) as APIGuild;
+      const data = (await client.rest.get(
+        Routes.guild(interaction.guild.id)
+      )) as APIGuild;
 
       const embed = new EmbedBuilder()
-      .setThumbnail(interaction.guild.iconURL({ size: 2048, extension: "png" }))
-      .setColor("Random")
-      .setTitle(`Información de ${interaction.guild.name}`).setDescription(`
+        .setThumbnail(
+          interaction.guild.iconURL({ size: 2048, extension: "png" })
+        )
+        .setColor("Random")
+        .setTitle(`Información de ${interaction.guild.name}`).setDescription(`
 **Nombre:** ${interaction.guild.name}
 **Descripción:** ${interaction.guild.description || "Ninguno"}
 **ID:** ${interaction.guildId}
@@ -113,47 +182,89 @@ export default new SlashCommand({
       if (!interaction.inGuild() || !interaction.guild) return;
 
       const user = interaction.options.getUser("user", true);
-      const userApiData = (await client.rest.get(Routes.user(user.id))) as APIUser;
-      const embed = new EmbedBuilder().setColor(userApiData.accent_color || "Random");
+      const userApiData = (await client.rest.get(
+        Routes.user(user.id)
+      )) as APIUser;
+      const embed = new EmbedBuilder().setColor(
+        userApiData.accent_color || "Random"
+      );
 
-      if (!user) return interaction.reply({ content: "El usuario no fue encontrado.", ephemeral: true });
+      if (!user)
+        return interaction.reply({
+          content: "El usuario no fue encontrado.",
+          ephemeral: true
+        });
 
       if (!interaction.guild.members.cache.get(user.id)) {
         embed
           .setThumbnail(user.displayAvatarURL({ size: 2048, extension: "png" }))
-          .setTitle(`Información del ${user.bot ? "bot" : "usuario"} ${user.tag}`)
-          .setDescription(`
+          .setTitle(
+            `Información del ${user.bot ? "bot" : "usuario"} ${user.tag}`
+          ).setDescription(`
 **ID:** \`${user.id}\`
 **Avatar:** [Avatar de ${user.username}](${userApiData.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${userApiData.avatar}.${userApiData.avatar.startsWith("a_") ? "gif" : "png"}?size=2048` : user.displayAvatarURL({ size: 2048, extension: "png" })})
 **Banner:** ${userApiData.banner ? `[Banner de ${user.username}](https://cdn.discordapp.com/banners/${user.id}/${userApiData.banner}.${userApiData.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : userApiData.accent_color ? `\`${userApiData.accent_color.toString(16)}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(user.createdTimestamp / 1000)}>
-**Insignias:** ${user.flags?.toArray().map(flag => `${client.wrapper.get("flags", flag)}`).join(", ") || "No tiene insignias"}
+**Insignias:** ${
+          user.flags
+            ?.toArray()
+            .map(flag => `${client.wrapper.get("flags", flag)}`)
+            .join(", ") || "No tiene insignias"
+        }
 `);
       } else {
         const member = interaction.options.getMember("user") as GuildMember;
-        if (!member) return interaction.reply({ content: "No se pudo encontrar a éste usuario.", ephemeral: true });
+        if (!member)
+          return interaction.reply({
+            content: "No se pudo encontrar a éste usuario.",
+            ephemeral: true
+          });
 
         embed
-          .setThumbnail(member.user.displayAvatarURL({ size: 2048, extension: "png" }) || null)
-          .setTitle(`Información del ${member.user.bot ? "bot" : "miembro"} ${member.user.tag}`)
+          .setThumbnail(
+            member.user.displayAvatarURL({ size: 2048, extension: "png" }) ||
+              null
+          )
+          .setTitle(
+            `Información del ${member.user.bot ? "bot" : "miembro"} ${member.user.tag}`
+          )
           .setDescription(
             `
 **ID:** ${member.user.id}
 **Avatar:** [Avatar de ${member.user.username}](${member.displayAvatarURL({ size: 2048, extension: "png" })})
 **Banner:** ${userApiData.banner ? `[Banner de ${member.user.username}](https://cdn.discordapp.com/banners/${member.user.id}/${userApiData.banner}.${userApiData.banner.startsWith("a_") ? "gif" : "png"}?size=2048)` : userApiData.accent_color ? `\`${userApiData.accent_color.toString(16)}\`` : "No tiene banner"}
 **Fecha de creación:** <t:${Math.ceil(member.user.createdTimestamp / 1000)}>
-**Insignias:** ${member.user.flags?.toArray().map(flag => `${client.wrapper.get("flags", flag)}`).join(", ") || "No tiene insignias"}
+**Insignias:** ${
+              member.user.flags
+                ?.toArray()
+                .map(flag => `${client.wrapper.get("flags", flag)}`)
+                .join(", ") || "No tiene insignias"
+            }
 **Apodo:** ${member.nickname || "No tiene apodo"}
-**Fecha de ingreso:** <t:${Math.ceil(member.joinedTimestamp! / 1000)}>`)
+**Fecha de ingreso:** <t:${Math.ceil(member.joinedTimestamp! / 1000)}>`
+          )
           .addFields({
-            name: `Roles (${member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).length})`,
-            value: member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role !== interaction.guild?.roles.everyone).map(role => role).join(", ") || "No tiene roles."
+            name: `Roles (${
+              member.roles.cache
+                .sort((a, b) => b.position - a.position)
+                .filter(role => role !== interaction.guild?.roles.everyone)
+                .map(role => role).length
+            })`,
+            value:
+              member.roles.cache
+                .sort((a, b) => b.position - a.position)
+                .filter(role => role !== interaction.guild?.roles.everyone)
+                .map(role => role)
+                .join(", ") || "No tiene roles."
           });
       }
 
       return interaction.reply({ embeds: [embed] });
     }
 
-    return interaction.reply({ content: "Haz uso de los diferentes subcomandos que ofrece éste comando.", ephemeral: true });
-  },
+    return interaction.reply({
+      content: "Haz uso de los diferentes subcomandos que ofrece éste comando.",
+      ephemeral: true
+    });
+  }
 });
