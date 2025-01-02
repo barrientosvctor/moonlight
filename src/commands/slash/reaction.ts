@@ -149,7 +149,6 @@ export default new SlashCommand({
             .setRequired(true)
         )
     ),
-  testGuildOnly: true,
   async run(interaction) {
     const subcommand = interaction.options.getSubcommand();
     let data: AnimeProviderResponse;

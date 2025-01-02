@@ -30,7 +30,6 @@ export default new SlashCommand({
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageChannels"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)

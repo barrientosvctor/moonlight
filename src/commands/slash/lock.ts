@@ -76,7 +76,6 @@ export default new SlashCommand({
             .setRequired(false)
         )
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageChannels", "ManageRoles"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)

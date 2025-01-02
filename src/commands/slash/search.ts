@@ -72,7 +72,6 @@ export default new SlashCommand({
             .setMaxLength(255)
         )
     ),
-  testGuildOnly: true,
   async run(interaction, _) {
     const subcommand = interaction.options.getSubcommand();
 

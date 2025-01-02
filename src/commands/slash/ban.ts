@@ -32,7 +32,6 @@ export default new SlashCommand({
         .setMinLength(1)
         .setMaxLength(255)
     ),
-  testGuildOnly: true,
   clientPermissions: ["BanMembers"],
   async run(interaction) {
     if (

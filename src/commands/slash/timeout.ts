@@ -82,7 +82,6 @@ export default new SlashCommand({
         .setMinLength(0)
         .setMaxLength(255)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ModerateMembers"],
   async run(interaction) {
     const member = interaction.options.getMember("member") as GuildMember;

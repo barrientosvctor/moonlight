@@ -24,7 +24,6 @@ export default new SlashCommand({
           "es-ES": "Revise el tiempo de respuesta de Moonlight."
         })
     ),
-  testGuildOnly: true,
   async run(interaction, client) {
     const subcommand = interaction.options.getSubcommand();
     if (subcommand === "invite") {

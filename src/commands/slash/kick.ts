@@ -34,7 +34,6 @@ export default new SlashCommand({
         .setMinLength(0)
         .setMaxLength(255)
     ),
-  testGuildOnly: true,
   clientPermissions: ["KickMembers"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild)

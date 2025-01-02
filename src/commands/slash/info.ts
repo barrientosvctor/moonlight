@@ -80,7 +80,6 @@ export default new SlashCommand({
             .setRequired(true)
         )
     ),
-  testGuildOnly: true,
   async run(interaction, client) {
     const subcommand = interaction.options.getSubcommand();
     if (subcommand === "channel") {

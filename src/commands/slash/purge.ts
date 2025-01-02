@@ -45,7 +45,6 @@ export default new SlashCommand({
         })
         .setRequired(false)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageMessages"],
   async run(interaction) {
     const amount = interaction.options.getString("amount", true);

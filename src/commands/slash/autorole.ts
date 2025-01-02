@@ -93,7 +93,6 @@ export default new SlashCommand({
             "Muestra los auto roles establecidos para usuarios y bot en su servidor."
         })
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageRoles"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild)

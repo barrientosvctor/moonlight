@@ -21,7 +21,6 @@ export default new SlashCommand({
         })
         .setRequired(true)
     ),
-  testGuildOnly: true,
   clientPermissions: ["BanMembers"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild)

@@ -33,7 +33,6 @@ export default new SlashCommand({
           "es-ES": "Mira imagenes de zorros."
         })
     ),
-  testGuildOnly: true,
   async run(interaction, _) {
     const subcommand = interaction.options.getSubcommand();
     if (subcommand === "cat") {

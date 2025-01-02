@@ -50,7 +50,6 @@ export default new SlashCommand({
           "es-ES": "Muestra el rol silenciar actual establecido en su servidor."
         })
     ),
-  testGuildOnly: true,
   ownerOnly: true,
   enabled: false,
   async run(interaction) {
