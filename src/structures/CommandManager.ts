@@ -25,91 +25,26 @@ export class CommandManager {
   }
 
   public async registerApplicationCommands() {
-    const [
-      globalSlashCommandsData,
-      guildSlashCommandsData,
-      disabledSlashCommands
-    ] = [
-      this.__slashcommands
-        .filter(slash => !slash.testGuildOnly && slash.enabled)
-        .map(slash => slash.data.toJSON()),
-      this.__slashcommands
-        .filter(slash => slash.testGuildOnly)
-        .map(slash => slash.data.toJSON()),
-      this.__slashcommands.filter(slash => !slash.enabled)
-    ];
-    const [globalContextMenusData, guildContextMenusData] = [
-      this.__contextmenus
-        .filter(ctx => !ctx.testGuildOnly)
-        .map(ctx => ctx.data.toJSON()),
-      this.__contextmenus
-        .filter(ctx => ctx.testGuildOnly)
-        .map(ctx => ctx.data.toJSON())
-    ];
+    const globalSlashCommandsData = this.__slashcommands.map(slash => slash.data.toJSON());
+    const globalContextMenusData = this.__contextmenus.map(ctx => ctx.data.toJSON());
+    const commands = [globalSlashCommandsData, globalContextMenusData].flat();
 
     if (this.__client.user) {
-      if (guildSlashCommandsData.length) {
-        await this.__client.rest.put(
-          Routes.applicationGuildCommands(
-            this.__client.user.id,
-            process.env.TESTING_GUILD_ID
-          ),
-          {
-            body: guildSlashCommandsData
-          }
-        );
-        console.log(
-          `Successfully reloaded ${guildSlashCommandsData.length} guild slash (/) commands!`
-        );
-
-        if (disabledSlashCommands.size > 0)
-          console.log(
-            `Sucessfully reloaded ${disabledSlashCommands.size} **DISABLED** slash (/) commands (ONLY AVAILABLE IN TESTING GUILD).`
+      if (commands.length > 0) {
+        try {
+          const data = await this.__client.rest.put(
+            Routes.applicationCommands(this.__client.user.id),
+            {
+              body: commands
+            }
           );
-      }
-
-      if (globalSlashCommandsData.length) {
-        await this.__client.rest.put(
-          Routes.applicationCommands(this.__client.user.id),
-          {
-            body: globalSlashCommandsData
-          }
-        );
-
-        console.log(
-          `Successfully reloaded ${globalSlashCommandsData.length} slash (/) commands!`
-        );
-      }
-
-      if (guildContextMenusData.length) {
-        await this.__client.rest.put(
-          Routes.applicationGuildCommands(
-            this.__client.user.id,
-            process.env.TESTING_GUILD_ID
-          ),
-          {
-            body: guildContextMenusData
-          }
-        );
-
-        console.log(
-          `Successfully reloaded ${guildContextMenusData.length} guild context menus commands!`
-        );
-      }
-
-      if (globalContextMenusData.length) {
-        await this.__client.rest.put(
-          Routes.applicationCommands(this.__client.user.id),
-          {
-            body: globalContextMenusData
-          }
-        );
-        console.log(
-          `Successfully reloaded ${globalContextMenusData.length} context menus commands!`
-        );
+          console.log(`Successfully reloaded ${(data as any).length} slash (/) commands!`);
+        } catch (error) {
+          console.error(error);
+        }
       }
     } else {
-      console.log(`I couldn't reload application commands.`);
+      console.log("I can't reload commands because client is not connected.");
     }
   }
 }
