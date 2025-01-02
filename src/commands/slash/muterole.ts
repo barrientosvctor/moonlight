@@ -66,6 +66,12 @@ export default new SlashCommand({
     if (subcommand === "set") {
       const role = interaction.options.getRole("role", true);
 
+      if (role === interaction.guild.roles.everyone)
+        return interaction.reply({
+          content: "No puedes agregar ese rol, prueba con otro.",
+          ephemeral: true
+        });
+
       if (db.has("muterole", interaction.guild.id))
         await db.modify("muterole", interaction.guild.id, role.id);
       else await db.add("muterole", interaction.guild.id, role.id);
