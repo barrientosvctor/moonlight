@@ -14,17 +14,26 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("timeout")
     .setDescription("Times a guild member out.")
+    .setDescriptionLocalizations({
+      "es-ES": "Aisla a un miembro del servidor."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(user =>
       user
         .setName("member")
         .setDescription("Choose a member to time out.")
+        .setDescriptionLocalizations({
+          "es-ES": "Elige a un miembro para aislar."
+        })
         .setRequired(true)
     )
     .addNumberOption(num =>
       num
         .setName("seconds")
         .setDescription("Specify the seconds of the timeout.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica los segundos del aislamiento."
+        })
         .setRequired(true)
         .setMinValue(1)
         .setMaxValue(59)
@@ -33,6 +42,9 @@ export default new SlashCommand({
       num
         .setName("minutes")
         .setDescription("Specify the minutes of the timeout.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica los minutos del aislamiento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(59)
@@ -41,6 +53,9 @@ export default new SlashCommand({
       num
         .setName("hours")
         .setDescription("Specify the hours of the timeout.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica las horas del aislamiento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(24)
@@ -49,6 +64,9 @@ export default new SlashCommand({
       num
         .setName("days")
         .setDescription("Specify the days of the timeout.")
+        .setDescriptionLocalizations({
+          "es-ES": "Especifica los días del aislamiento."
+        })
         .setRequired(false)
         .setMinValue(0)
         .setMaxValue(30)
@@ -57,11 +75,13 @@ export default new SlashCommand({
       input
         .setName("reason")
         .setDescription("Write the reason why you're timeout this member.")
+        .setDescriptionLocalizations({
+          "es-ES": "Escriba la razón del por qué estás aislando a éste miembro."
+        })
         .setRequired(false)
         .setMinLength(0)
         .setMaxLength(255)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ModerateMembers"],
   async run(interaction) {
     const member = interaction.options.getMember("member") as GuildMember;

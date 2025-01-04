@@ -10,6 +10,9 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("lock")
     .setDescription("Lock command.")
+    .setDescriptionLocalizations({
+      "es-ES": "Comando lock."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addSubcommand(cmd =>
       cmd
@@ -17,12 +20,19 @@ export default new SlashCommand({
         .setDescription(
           "Blocks access to sending messages in some text channel."
         )
+        .setDescriptionLocalizations({
+          "es-ES":
+            "Bloquea el acceso a enviar mensajes en algún canal de texto."
+        })
         .addChannelOption(ch =>
           ch
             .setName("channel")
             .setDescription(
               "Choose a channel to block the access for everyone."
             )
+            .setDescriptionLocalizations({
+              "es-ES": "Elige un canal para bloquear el acceso para todos."
+            })
             .setRequired(false)
             .addChannelTypes(ChannelType.GuildText)
         )
@@ -30,6 +40,9 @@ export default new SlashCommand({
           b
             .setName("hidden")
             .setDescription("Should the bot's response be hidden?")
+            .setDescriptionLocalizations({
+              "es-ES": "¿La respuesta del bot debería estar oculta?"
+            })
             .setRequired(false)
         )
     )
@@ -39,10 +52,17 @@ export default new SlashCommand({
         .setDescription(
           "Adds back access to sending messages in a text channel."
         )
+        .setDescriptionLocalizations({
+          "es-ES":
+            "Pone de vuelta el acceso a enviar mensajes en un canal de texto."
+        })
         .addChannelOption(ch =>
           ch
             .setName("channel")
             .setDescription("Choose a channel to unblock.")
+            .setDescriptionLocalizations({
+              "es-ES": "Elige un canal para desbloquear."
+            })
             .setRequired(false)
             .addChannelTypes(ChannelType.GuildText)
         )
@@ -50,10 +70,12 @@ export default new SlashCommand({
           b
             .setName("hidden")
             .setDescription("Should the bot's response be hidden?")
+            .setDescriptionLocalizations({
+              "es-ES": "¿La respuesta del bot debería estar oculta?"
+            })
             .setRequired(false)
         )
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageChannels", "ManageRoles"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)

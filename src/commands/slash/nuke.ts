@@ -16,15 +16,20 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("nuke")
     .setDescription("Delete and then create again a text channel.")
+    .setDescriptionLocalizations({
+      "es-ES": "Elimina y crea de nuevo un canal de texto."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addChannelOption(ch =>
       ch
         .setName("channel")
         .setDescription("Choose a channel to nuke.")
+        .setDescriptionLocalizations({
+          "es-ES": "Elige un canal para explotar."
+        })
         .setRequired(false)
         .addChannelTypes(ChannelType.GuildText)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ManageChannels"],
   async run(interaction) {
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)

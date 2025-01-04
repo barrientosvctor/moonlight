@@ -11,15 +11,25 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("muterole")
     .setDescription("Mute role commands.")
+    .setDescriptionLocalizations({
+      "es-ES": "Comandos para el rol silenciar."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addSubcommand(cmd =>
       cmd
         .setName("set")
         .setDescription("Sets a mute role in bot for guild.")
+        .setDescriptionLocalizations({
+          "es-ES": "Establece un rol silenciar en el bot para el servidor."
+        })
         .addRoleOption(r =>
           r
             .setName("role")
             .setDescription("Choose a role to be used when a mute is executed.")
+            .setDescriptionLocalizations({
+              "es-ES":
+                "Elige un rol para ser usado cuando un mute sea ejecutado."
+            })
             .setRequired(true)
         )
     )
@@ -27,14 +37,19 @@ export default new SlashCommand({
       cmd
         .setName("delete")
         .setDescription("Removes the mute role configured in their guild.")
+        .setDescriptionLocalizations({
+          "es-ES": "Quita el rol silenciar configurado en su servidor."
+        })
     )
 
     .addSubcommand(cmd =>
       cmd
         .setName("list")
         .setDescription("Shows the actual mute role established in the guild.")
+        .setDescriptionLocalizations({
+          "es-ES": "Muestra el rol silenciar actual establecido en su servidor."
+        })
     ),
-  testGuildOnly: true,
   ownerOnly: true,
   enabled: false,
   async run(interaction) {
@@ -49,6 +64,12 @@ export default new SlashCommand({
 
     if (subcommand === "set") {
       const role = interaction.options.getRole("role", true);
+
+      if (role === interaction.guild.roles.everyone)
+        return interaction.reply({
+          content: "No puedes agregar ese rol, prueba con otro.",
+          ephemeral: true
+        });
 
       if (db.has("muterole", interaction.guild.id))
         await db.modify("muterole", interaction.guild.id, role.id);

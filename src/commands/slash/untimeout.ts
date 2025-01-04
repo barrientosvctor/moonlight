@@ -8,11 +8,17 @@ export default new SlashCommand({
   data: new SlashCommandBuilder()
     .setName("untimeout")
     .setDescription("Removes the timeout to a guild member.")
+    .setDescriptionLocalizations({
+      "es-ES": "Quita el aislamiento a un miembro del servidor."
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .addUserOption(user =>
       user
         .setName("member")
         .setDescription("Choose a member to remove their time out.")
+        .setDescriptionLocalizations({
+          "es-ES": "Elige a un miembro para quitarle su aislamiento."
+        })
         .setRequired(true)
     )
     .addStringOption(input =>
@@ -21,11 +27,14 @@ export default new SlashCommand({
         .setDescription(
           "Write the reason why you're removing the timeout to this member."
         )
+        .setDescriptionLocalizations({
+          "es-ES":
+            "Escriba la razón del por qué estás quitándole el aislamiento a éste miembro."
+        })
         .setRequired(false)
         .setMinLength(0)
         .setMaxLength(255)
     ),
-  testGuildOnly: true,
   clientPermissions: ["ModerateMembers"],
   async run(interaction) {
     const member = interaction.options.getMember("member") as GuildMember;

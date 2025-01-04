@@ -15,7 +15,6 @@ type SlashCommandOptions = {
     | SlashCommandBuilder
     | SlashCommandSubcommandsOnlyBuilder
     | SlashCommandOptionsOnlyBuilder;
-  testGuildOnly?: boolean;
   ownerOnly?: boolean;
   clientPermissions?: PermissionsString[];
   enabled?: boolean;
@@ -29,7 +28,6 @@ export class SlashCommand implements SlashCommandOptions {
     | SlashCommandBuilder
     | SlashCommandSubcommandsOnlyBuilder
     | SlashCommandOptionsOnlyBuilder;
-  public testGuildOnly?: boolean;
   public ownerOnly?: boolean;
   public clientPermissions?: PermissionsString[];
   public enabled?: boolean;
@@ -39,19 +37,17 @@ export class SlashCommand implements SlashCommandOptions {
 
   constructor(options: SlashCommandOptions) {
     this.data = options.data;
-    this.testGuildOnly = options.testGuildOnly ?? false;
     this.ownerOnly = options.ownerOnly ?? false;
     this.clientPermissions = options.clientPermissions;
     this.enabled = options.enabled ?? true;
     this.run = options.run;
 
-    if (!this.enabled) this.testGuildOnly = true;
+    if (!this.enabled) this.ownerOnly = true;
   }
 }
 
 type ContextMenuOptions = {
   data: ContextMenuCommandBuilder;
-  testGuildOnly?: boolean;
   run: (
     ...args: [
       interaction: ContextMenuCommandInteraction,
@@ -62,7 +58,6 @@ type ContextMenuOptions = {
 
 export class ContextMenu implements ContextMenuOptions {
   public data: ContextMenuCommandBuilder;
-  public testGuildOnly?: boolean;
   public run: (
     ...args: [
       interaction: ContextMenuCommandInteraction,
@@ -72,7 +67,6 @@ export class ContextMenu implements ContextMenuOptions {
 
   constructor(options: ContextMenuOptions) {
     this.data = options.data;
-    this.testGuildOnly = options.testGuildOnly ?? false;
     this.run = options.run;
   }
 }
