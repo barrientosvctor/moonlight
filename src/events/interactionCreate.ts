@@ -19,6 +19,7 @@ export default new EventBuilder({
           });
           return;
         }
+
         if (command.ownerOnly && interaction.user.id !== process.env.OWNER_ID) {
           interaction.reply({
             content: "No tienes permisos para usar este comando.",

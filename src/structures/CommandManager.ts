@@ -25,20 +25,25 @@ export class CommandManager {
   }
 
   public async registerApplicationCommands() {
-    const globalSlashCommandsData = this.__slashcommands.map(slash => slash.data.toJSON());
-    const globalContextMenusData = this.__contextmenus.map(ctx => ctx.data.toJSON());
+    const globalSlashCommandsData = this.__slashcommands.map(slash =>
+      slash.data.toJSON()
+    );
+    const globalContextMenusData = this.__contextmenus.map(ctx =>
+      ctx.data.toJSON()
+    );
     const commands = [globalSlashCommandsData, globalContextMenusData].flat();
 
     if (this.__client.user) {
       if (commands.length > 0) {
         try {
-          const data = await this.__client.rest.put(
+          await this.__client.rest.put(
             Routes.applicationCommands(this.__client.user.id),
             {
               body: commands
             }
           );
-          console.log(`Successfully reloaded ${(data as any).length} slash (/) commands!`);
+
+          console.log("Slash (/) commands successfully reloaded!");
         } catch (error) {
           console.error(error);
         }

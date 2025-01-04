@@ -41,6 +41,8 @@ export class SlashCommand implements SlashCommandOptions {
     this.clientPermissions = options.clientPermissions;
     this.enabled = options.enabled ?? true;
     this.run = options.run;
+
+    if (!this.enabled) this.ownerOnly = true;
   }
 }
 
