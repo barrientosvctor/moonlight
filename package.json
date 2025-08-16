@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "14.15.0",
+    "discord.js": "14.21.0",
     "humanize-duration-ts": "2.1.1",
     "lowdb": "7.0.1",
     "rimraf": "5.0.5"
