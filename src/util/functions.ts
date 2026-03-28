@@ -77,3 +77,7 @@ export function toMs(time: Partial<Time>) {
   const secondsToMs = (seconds ?? 0) * 1000;
   return daysToMs + hoursToMs + minutesToMs + secondsToMs;
 }
+
+export function isProductionEnvironment() {
+  return process.env.NODE_ENV === "production";
+}

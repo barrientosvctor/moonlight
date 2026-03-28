@@ -1,22 +1,20 @@
 import { join } from "node:path";
+import { isProductionEnvironment } from "../util/functions.js";
 
 type FileExtensions = ".ts" | ".js";
 type SourceFolder = "src" | "dist";
 
 export class PathCreator {
-  private __dev = false;
-  private __extension: FileExtensions = ".js";
-  private __source: SourceFolder = "dist";
+  private readonly __extension: FileExtensions;
+  private readonly __source: SourceFolder;
 
-  constructor(protected readonly devMode: boolean = false) {
-    this.__dev = devMode;
-
-    if (this.__dev) {
-      this.__extension = ".ts";
-      this.__source = "src";
-    } else {
+  constructor() {
+    if (isProductionEnvironment()) {
       this.__extension = ".js";
       this.__source = "dist";
+    } else {
+      this.__extension = ".ts";
+      this.__source = "src";
     }
   }
 

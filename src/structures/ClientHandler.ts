@@ -2,11 +2,10 @@ import type { MoonlightClient } from "./Client.js";
 import { readdir } from "node:fs/promises";
 import { PathCreator } from "../structures/PathCreator.js";
 import type { EventBuilder } from "./EventBuilder.js";
-import { PATH_CREATOR_DEV_MODE } from "../constants.js";
 import { ContextMenu, SlashCommand } from "./CommandBuilder.js";
 
 export class ClientHandler {
-  private readonly __path = new PathCreator(PATH_CREATOR_DEV_MODE);
+  private readonly __path = new PathCreator();
 
   constructor(private readonly __client: MoonlightClient) {}
 

@@ -50,10 +50,6 @@ Start the bot
 
 ### Run on development
 
-Make sure the `PATH_CREATOR_DEV_MODE` constant is set to `true`. That constant is located into [constants.ts](src/constants.ts).
-
-Then run the following command:
-
 ```bash
   npm run dev
 ```
