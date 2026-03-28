@@ -18,7 +18,7 @@ export class MoonlightClient<
   private readonly __handler: ClientHandler = new ClientHandler(this);
   readonly commandsManager: CommandManager = new CommandManager(this);
   readonly cooldown = new Map<string, Map<string, number>>();
-  readonly wrapper = new JSONWrapper();
+  readonly wrapper = JSONWrapper.Instance;
   readonly utils = new ClientUtilities(this);
 
   private constructor(options: ClientOptions) {
