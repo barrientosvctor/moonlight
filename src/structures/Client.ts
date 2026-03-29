@@ -16,7 +16,7 @@ export class MoonlightClient<
 > extends Client<Ready> {
   private static __instance: MoonlightClient;
   private readonly __handler: ClientHandler = new ClientHandler(this);
-  readonly commandsManager: CommandManager = new CommandManager(this);
+  readonly commandsManager: CommandManager = CommandManager.InitializeInstance(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = JSONWrapper.Instance;
   readonly utils = new ClientUtilities(this);

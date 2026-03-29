@@ -3,10 +3,18 @@ import type { ContextMenu, SlashCommand } from "./CommandBuilder.js";
 import type { MoonlightClient } from "./Client.js";
 
 export class CommandManager {
+  private static __instance: CommandManager;
   private readonly __slashcommands = new Collection<string, SlashCommand>();
   private readonly __contextmenus = new Collection<string, ContextMenu>();
 
-  public constructor(private readonly __client: MoonlightClient) {}
+  private constructor(private readonly __client: MoonlightClient) {}
+
+  static InitializeInstance(client: MoonlightClient) {
+    if (!CommandManager.__instance)
+      CommandManager.__instance = new CommandManager(client);
+
+    return CommandManager.__instance;
+  }
 
   public addSlashCommand(name: string, options: SlashCommand) {
     this.__slashcommands.set(name, options);
