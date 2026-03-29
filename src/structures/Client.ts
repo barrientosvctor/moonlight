@@ -14,7 +14,7 @@ export class MoonlightClient<
   Ready extends boolean = boolean
 > extends Client<Ready> {
   private static __instance: MoonlightClient;
-  private readonly __handler: ClientHandler = new ClientHandler(this);
+  private readonly __handler: ClientHandler = ClientHandler.InitializeInstance(this);
   readonly commandsManager: CommandManager = CommandManager.InitializeInstance(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = JSONWrapper.Instance;

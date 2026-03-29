@@ -5,9 +5,17 @@ import type { EventBuilder } from "./EventBuilder.js";
 import { ContextMenu, SlashCommand } from "./CommandBuilder.js";
 
 export class ClientHandler {
+  private static __instance: ClientHandler;
   private readonly __path = new PathCreator();
 
-  constructor(private readonly __client: MoonlightClient) {}
+  private constructor(private readonly __client: MoonlightClient) {}
+
+  static InitializeInstance(client: MoonlightClient): ClientHandler {
+    if (!ClientHandler.__instance)
+      ClientHandler.__instance = new ClientHandler(client);
+
+    return ClientHandler.__instance;
+  }
 
   async events() {
     const eventsFolder = readdir(this.__path.joinPaths("events"), {
