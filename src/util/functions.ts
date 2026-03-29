@@ -81,3 +81,16 @@ export function toMs(time: Partial<Time>) {
 export function isProductionEnvironment() {
   return process.env.NODE_ENV === "production";
 }
+
+/**
+* This function is my own implementation of `Set.prototype.difference()` (not implemented yet) using arrays.
+*
+* Compares the differences between arr1 and arr2.
+* This function will return a new array with those values that stay in arr1 and not in arr2.
+*/
+export function diff<ArrayType extends unknown[]>(
+  arr1: ArrayType,
+  arr2: ArrayType
+): ArrayType {
+  return arr1.filter(item => !arr2.includes(item)) as ArrayType;
+}

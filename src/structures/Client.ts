@@ -1,4 +1,4 @@
-import { ActivityType, Client, type ClientOptions } from "discord.js";
+import { ActivityType, Client, type PermissionsString, type ClientOptions } from "discord.js";
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
@@ -8,7 +8,6 @@ import {
   emojiList
 } from "../types/client.types.js";
 import { JSONWrapper } from "./JSONWrapper.js";
-import { ClientUtilities } from "./ClientUtilities.js";
 import { Database } from "./Database.js";
 
 export class MoonlightClient<
@@ -19,7 +18,6 @@ export class MoonlightClient<
   readonly commandsManager: CommandManager = CommandManager.InitializeInstance(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = JSONWrapper.Instance;
-  readonly utils = new ClientUtilities(this);
 
   private constructor(options: ClientOptions) {
     super(options);
@@ -82,5 +80,16 @@ export class MoonlightClient<
     }
 
     return `${emojiField}${mentionField}${message}`;
+  }
+
+  /**
+   * It takes the permissions array and convert it to its Spanish version on a new array.
+   *
+   * @param {string} perms
+   */
+  public convertPermissionsToSpanish(perms: PermissionsString[]) {
+    return perms.map(perm =>
+      this.wrapper.get("guild.roles.permissions", perm)
+    );
   }
 }

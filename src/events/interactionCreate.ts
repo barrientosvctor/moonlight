@@ -1,4 +1,5 @@
 import { EventBuilder } from "../structures/EventBuilder.js";
+import { diff } from "../util/functions.js";
 
 export default new EventBuilder({
   event: "interactionCreate",
@@ -34,12 +35,12 @@ export default new EventBuilder({
             command.clientPermissions
           )
         ) {
-          const diffPerms = client.utils.diff(
+          const diffPerms = diff(
             command.clientPermissions,
             interaction.guild!.members.me!.permissions.toArray()
           );
           interaction.reply({
-            content: `Me faltan los siguientes permisos para ejecutar acciones sobre este comando.\n> ${client.utils.convertPermissionsToSpanish(diffPerms).join(", ")}`,
+            content: `Me faltan los siguientes permisos para ejecutar acciones sobre este comando.\n> ${client.convertPermissionsToSpanish(diffPerms).join(", ")}`,
             ephemeral: true
           });
           return;
