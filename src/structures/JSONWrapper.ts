@@ -11,8 +11,7 @@ export class JSONWrapper {
   }
 
   static get Instance(): JSONWrapper {
-    if (!JSONWrapper.__instance)
-      JSONWrapper.__instance = new JSONWrapper();
+    if (!JSONWrapper.__instance) JSONWrapper.__instance = new JSONWrapper();
 
     return JSONWrapper.__instance;
   }

@@ -1,4 +1,9 @@
-import { ActivityType, Client, type PermissionsString, type ClientOptions } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  type PermissionsString,
+  type ClientOptions
+} from "discord.js";
 
 import { ClientHandler } from "./ClientHandler.js";
 import { CommandManager } from "./CommandManager.js";
@@ -14,8 +19,10 @@ export class MoonlightClient<
   Ready extends boolean = boolean
 > extends Client<Ready> {
   private static __instance: MoonlightClient;
-  private readonly __handler: ClientHandler = ClientHandler.InitializeInstance(this);
-  readonly commandsManager: CommandManager = CommandManager.InitializeInstance(this);
+  private readonly __handler: ClientHandler =
+    ClientHandler.InitializeInstance(this);
+  readonly commandsManager: CommandManager =
+    CommandManager.InitializeInstance(this);
   readonly cooldown = new Map<string, Map<string, number>>();
   readonly wrapper = JSONWrapper.Instance;
 
@@ -88,8 +95,6 @@ export class MoonlightClient<
    * @param {string} perms
    */
   public convertPermissionsToSpanish(perms: PermissionsString[]) {
-    return perms.map(perm =>
-      this.wrapper.get("guild.roles.permissions", perm)
-    );
+    return perms.map(perm => this.wrapper.get("guild.roles.permissions", perm));
   }
 }
