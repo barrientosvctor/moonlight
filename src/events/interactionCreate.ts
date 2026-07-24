@@ -4,6 +4,8 @@ import { diff } from "../util/functions.js";
 export default new EventBuilder({
   event: "interactionCreate",
   async execute(interaction, client) {
+    if (!interaction.guild && !interaction.inGuild()) return;
+
     if (interaction.isChatInputCommand()) {
       const command = client.commandsManager.getSlashCommand(
         interaction.commandName
