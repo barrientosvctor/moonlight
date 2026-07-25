@@ -200,7 +200,7 @@ export default new SlashCommand({
           ) {
             return interaction.reply({
               content: `No posees el permiso de ${bold(client.convertPermissionsToSpanish(["CreateGuildExpressions"]).toString())} para ejecutar este comando.`,
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -211,14 +211,14 @@ export default new SlashCommand({
           if (!EmojiManager.isAcceptableName(name)) {
             return interaction.reply({
               content: "Este nombre no está permitido. Intente con otro.",
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
           if (targetEmojiId) {
             return interaction.reply({
               content: "Ya existe un emoji con este nombre.",
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -239,7 +239,7 @@ export default new SlashCommand({
           ) {
             return interaction.reply({
               content: `No posees el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para ejecutar este comando.`,
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -252,7 +252,7 @@ export default new SlashCommand({
           if (!targetEmojiId) {
             return interaction.reply({
               content: "Este emoji no pertenece al servidor.",
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -274,7 +274,7 @@ export default new SlashCommand({
           ) {
             return interaction.reply({
               content: `No posees el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para ejecutar este comando.`,
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -286,7 +286,7 @@ export default new SlashCommand({
           if (!targetEmojiId) {
             return interaction.reply({
               content: "Este emoji no pertenece al servidor.",
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -295,7 +295,7 @@ export default new SlashCommand({
           if (!targetEmoji.deletable) {
             return interaction.reply({
               content: "Este emoji no puede ser eliminado.",
-              ephemeral: true
+              flags: "Ephemeral"
             });
           }
 
@@ -314,7 +314,7 @@ export default new SlashCommand({
         if (!user)
           return interaction.reply({
             content: "Usuario no encontrado.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         const embed = new EmbedBuilder()
@@ -349,7 +349,7 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
         if (data.error)
           return interaction.reply({
             content: "Hubo un error externo al intentar convertir el texto.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         return interaction.reply(data.morse);
@@ -364,7 +364,7 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
         if (!emoji) {
           return interaction.reply({
             content: "No se pudo encontrar este emoji en el servidor.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
         }
 
@@ -379,7 +379,7 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
 
     return interaction.reply({
       content: "Haz uso de los diferentes subcomandos que trae éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

@@ -56,7 +56,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const subcommand = interaction.options.getSubcommand();
@@ -68,7 +68,7 @@ export default new SlashCommand({
       if (role === interaction.guild.roles.everyone)
         return interaction.reply({
           content: "No puedes agregar ese rol, prueba con otro.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       if (db.has("muterole", interaction.guild.id))
@@ -82,7 +82,7 @@ export default new SlashCommand({
       else
         return interaction.reply({
           content: "No tenía establecido anteriormente un rol para ello.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       return interaction.reply("Rol eliminado éxitosamente.");
@@ -90,7 +90,7 @@ export default new SlashCommand({
       if (!db.has("muterole", interaction.guild.id))
         return interaction.reply({
           content: `No hay roles para mostrar. Para establecer uno usa ${inlineCode(`/${this.data.name} set @rol`)}`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const roleId = db.get("muterole", interaction.guild.id)!;

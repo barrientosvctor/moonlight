@@ -20,7 +20,7 @@ export default new ContextMenu({
           "Para seguir, esta interacción debe estar en cache.",
           { emoji: "error" }
         ),
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const member = interaction.guild.members.cache.get(interaction.targetId);
@@ -31,7 +31,7 @@ export default new ContextMenu({
         content: client.beautifyMessage("No puedes expulsarte a tí mismo.", {
           emoji: "error"
         }),
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (member === interaction.guild.members.me)
       return interaction.reply({
@@ -39,7 +39,7 @@ export default new ContextMenu({
           "No puedes expulsarme con mis comandos.",
           { emoji: "error" }
         ),
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (
       member.roles.highest.position >= interaction.member.roles.highest.position
@@ -49,7 +49,7 @@ export default new ContextMenu({
           "No puedo expulsar a este usuario debido a que su rol es igual o superior al tuyo.",
           { emoji: "error" }
         ),
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (!member.manageable)
       return interaction.reply({
@@ -57,14 +57,14 @@ export default new ContextMenu({
           "No puedo expulsar a este usuario debido a que su rol es igual o superior al mío.",
           { emoji: "error" }
         ),
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (!member.kickable)
       return interaction.reply({
         content: client.beautifyMessage("No puedo expulsar a este usuario.", {
           emoji: "error"
         }),
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {

@@ -21,7 +21,7 @@ export default new ContextMenu({
           "Para seguir, esta interacción debe estar en cache.",
           { emoji: "error" }
         ),
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const member = interaction.guild.members.cache.get(interaction.targetId);
@@ -30,7 +30,7 @@ export default new ContextMenu({
         content: client.beautifyMessage("No existe este usuario.", {
           emoji: "error"
         }),
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const data = (await client.rest.get(

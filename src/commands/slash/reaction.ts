@@ -161,7 +161,7 @@ export default new SlashCommand({
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content: "¿Por qué te morderías a ti mismo?",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       data = await fetchAnimeGIF("bite");
@@ -212,12 +212,12 @@ export default new SlashCommand({
       if (!member)
         return interaction.reply({
           content: "No pude encontrar a esa persona en el servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content: "No puedes abrazarte a ti mismo, eso sería muy raro jeje.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       embed
@@ -235,12 +235,12 @@ export default new SlashCommand({
       if (!member)
         return interaction.reply({
           content: "No pude encontrar a esa persona en el servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content: "No puedes besarte a ti mismo, eso sería muy raro jeje.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       embed
@@ -267,13 +267,13 @@ export default new SlashCommand({
       if (!member)
         return interaction.reply({
           content: "No pude encontrar a esa persona en el servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content:
             "No puedes darte una palmada a ti mismo, eso sería raro jeje.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       embed
@@ -290,12 +290,12 @@ export default new SlashCommand({
       if (!member)
         return interaction.reply({
           content: "No pude encontrar a esa persona en el servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content: "¿Enserio quieres hacerte daño?",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       embed
@@ -323,13 +323,13 @@ export default new SlashCommand({
       if (!member)
         return interaction.reply({
           content: "No pude encontrar a esa persona en el servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       if (member.user.id === interaction.user.id)
         return interaction.reply({
           content:
             "No puedes guiñarte el ojo a ti mismo, eso sería muy raro jeje.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       embed
@@ -344,7 +344,7 @@ export default new SlashCommand({
 
     return interaction.reply({
       content: "Haz uso de los diferentes subcomandos que tiene este comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

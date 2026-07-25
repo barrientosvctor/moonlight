@@ -45,7 +45,7 @@ export default new SlashCommand({
     if (!member.isCommunicationDisabled())
       return interaction.reply({
         content: "Este usuario no estaba aislado!",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {
@@ -55,7 +55,7 @@ export default new SlashCommand({
       return interaction.reply({
         content:
           "No es posible quitarle el aislamiento a éste usuario, intenta más tarde.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     }
 

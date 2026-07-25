@@ -39,7 +39,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Éste comando debe usarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const member = interaction.options.getMember("member") as GuildMember;
@@ -47,7 +47,7 @@ export default new SlashCommand({
     if (!member)
       return interaction.reply({
         content: "Éste usuario no está en el servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const reason = interaction.options.getString("reason") ?? "Ninguno.";
@@ -55,28 +55,28 @@ export default new SlashCommand({
     if (member.user.id === interaction.user.id)
       return interaction.reply({
         content: "No te puedes expulsar a ti mismo, prueba con otro.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (member.user.id === interaction.guild.members.me?.user.id)
       return interaction.reply({
         content: "No puedes hacer eso.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     const author = await interaction.guild.members.fetch(interaction.user.id);
     if (member.roles.highest.position >= author.roles.highest.position)
       return interaction.reply({
         content: `No puedes expulsar a ${member.user.username} debido a que cuenta con un rol igual o superior al tuyo.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (!member.manageable)
       return interaction.reply({
         content: `No puedo expulsar a ${member.user.username} ya que tiene un rol igual o superior al mío.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (!member.kickable)
       return interaction.reply({
         content: `Es imposible expulsar a ${member.user.username}.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {
@@ -86,7 +86,7 @@ export default new SlashCommand({
       return interaction.reply({
         content:
           "Hubo un error al intentar expulsar al usuario del servidor. Vuelve a intentar más tarde.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     }
 

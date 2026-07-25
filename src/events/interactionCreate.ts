@@ -18,7 +18,7 @@ export default new EventBuilder({
         ) {
           interaction.reply({
             content: "Comando no disponible, intenta más tarde.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
           return;
         }
@@ -26,7 +26,7 @@ export default new EventBuilder({
         if (command.ownerOnly && interaction.user.id !== process.env.OWNER_ID) {
           interaction.reply({
             content: "No tienes permisos para usar este comando.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
           return;
         }
@@ -43,7 +43,7 @@ export default new EventBuilder({
           );
           interaction.reply({
             content: `Me faltan los siguientes permisos para ejecutar acciones sobre este comando.\n> ${client.convertPermissionsToSpanish(diffPerms).join(", ")}`,
-            ephemeral: true
+            flags: "Ephemeral"
           });
           return;
         }

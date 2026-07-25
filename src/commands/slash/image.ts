@@ -42,7 +42,7 @@ export default new SlashCommand({
       if (!data)
         return interaction.reply({
           content: "No fue posible encontrar una imagen.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -59,7 +59,7 @@ export default new SlashCommand({
       if (!data)
         return interaction.reply({
           content: "No fue posible encontrar una imagen.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -77,7 +77,7 @@ export default new SlashCommand({
       if (!data)
         return interaction.reply({
           content: "No fue posible encontrar una imagen.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -90,7 +90,7 @@ export default new SlashCommand({
 
     return interaction.reply({
       content: "Haz uso de la variedad de comandos que ofrece éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

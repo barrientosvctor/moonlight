@@ -41,7 +41,7 @@ export default new SlashCommand({
     )
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const user = interaction.options.getUser("user", true);
@@ -49,18 +49,18 @@ export default new SlashCommand({
     if (!user)
       return interaction.reply({
         content: "Usuario no encontrado.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     if (user.id === interaction.user.id)
       return interaction.reply({
         content: "No puedes banearte a tí mismo.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     if (user.id === interaction.guild.members.me.user.id)
       return interaction.reply({
         content: "No puedes banearme con mis comandos.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const bans = await interaction.guild.bans.fetch();
@@ -68,7 +68,7 @@ export default new SlashCommand({
     if (bans.has(user.id))
       return interaction.reply({
         content: "Éste usuario ya estaba baneado.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const member = interaction.guild.members.cache.get(user.id),
@@ -81,19 +81,19 @@ export default new SlashCommand({
       )
         return interaction.reply({
           content: `No puedes banear a ${member.user.username} debido a que tiene un rol igual o superior al tuyo.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       if (!member.manageable)
         return interaction.reply({
           content: `No puedo banear a ${member.user.username} debido a que tiene un rol igual o superior al mío.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       if (!member.bannable)
         return interaction.reply({
           content: `No puedo banear a ${member.user.username}.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
     }
 

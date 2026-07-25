@@ -81,7 +81,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)
       return interaction.reply({
         content: "El comando debe ejecutarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const subcommand = interaction.options.getSubcommand();
@@ -99,7 +99,7 @@ export default new SlashCommand({
       )
         return interaction.reply({
           content: `El canal <#${channel.id}> ya estaba bloqueado.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       try {
@@ -114,13 +114,13 @@ export default new SlashCommand({
         console.error(error);
         return interaction.reply({
           content: "Ocurrió un error al intentar bloquear el canal.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       }
 
       return interaction.reply({
         content: `El canal <#${channel.id}> ha sido bloqueado.`,
-        ephemeral: hidden
+        flags: hidden ? "Ephemeral" : undefined
       });
     } else if (subcommand === "remove") {
       if (
@@ -130,7 +130,7 @@ export default new SlashCommand({
       )
         return interaction.reply({
           content: `El canal <#${channel.id}> no estaba bloqueado.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       try {
@@ -145,13 +145,13 @@ export default new SlashCommand({
         console.error(error);
         return interaction.reply({
           content: "Ocurrió un error al intentar bloquear el canal.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       }
 
       return interaction.reply({
         content: `El canal <#${channel.id}> ha sido desbloqueado.`,
-        ephemeral: hidden
+        flags: hidden ? "Ephemeral" : undefined
       });
     } else {
       return;

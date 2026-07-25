@@ -56,32 +56,32 @@ export default new SlashCommand({
     if (Number.isNaN(numMessages))
       return interaction.reply({
         content: "La cantidad de mensajes a eliminar debe ser un número.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     if (!(Number.isInteger(numMessages) && Number.isSafeInteger(numMessages)))
       return interaction.reply({
         content:
           "La cantidad de mensajes a eliminar debe ser un número entero.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     if (!channel)
       return interaction.reply({
         content: "Canal no encontrado.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     if (channel.type !== ChannelType.GuildText)
       return interaction.reply({
         content: "Solo puedo hacer esta acción con canales de texto.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     if (numMessages < 1 || numMessages > 100)
       return interaction.reply({
         content: "Solo puedo eliminar entre 1 y 100 mensajes.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {
@@ -90,13 +90,13 @@ export default new SlashCommand({
       console.error(error);
       return interaction.reply({
         content: "Ocurrió un error al intentar eliminar los mensajes.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     }
 
     return interaction.reply({
       content: `${numMessages} mensajes eliminados.`,
-      ephemeral: hidden
+      flags: hidden ? "Ephemeral" : undefined
     });
   }
 });

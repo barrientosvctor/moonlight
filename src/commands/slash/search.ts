@@ -87,7 +87,7 @@ export default new SlashCommand({
       if (data.status === 404)
         return interaction.reply({
           content: `El usuario ${bold(githubUsername)} no existe en GitHub.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -122,7 +122,7 @@ ${hyperlink("Paquetes", `https://github.com/${json.login}?tab=packages`)}`);
       if (data.error)
         return interaction.reply({
           content: `El paquete ${bold(packageName)} no existe.`,
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -149,7 +149,7 @@ ${bold("Descargas este año")}: ${data.downloads_this_year}`);
       )
         return interaction.reply({
           content: "No pude encontrar ésta ubicación.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const json = await data.json();
@@ -176,7 +176,7 @@ ${bold("Zona horaria")}: GMT${json[0].location.timezone}`
 
     return interaction.reply({
       content: "Haz uso de los diferentes subcomandos que trae éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

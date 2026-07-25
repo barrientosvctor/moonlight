@@ -71,12 +71,12 @@ export default new SlashCommand({
           );
       }
 
-      return interaction.reply({ embeds: [embed], ephemeral: hidden });
+      return interaction.reply({ embeds: [embed], flags: hidden ? "Ephemeral" : undefined });
     }
 
     return interaction.reply({
       content: "Haz uso de los diferentes subcomandos que trae éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

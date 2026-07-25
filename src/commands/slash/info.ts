@@ -91,7 +91,7 @@ export default new SlashCommand({
       if (!channel)
         return interaction.reply({
           content: "No se pudo encontrar ese canal.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -108,7 +108,7 @@ export default new SlashCommand({
       if (!role)
         return interaction.reply({
           content: "No se pudo encontrar ese rol.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const embed = new EmbedBuilder()
@@ -143,7 +143,7 @@ export default new SlashCommand({
         return interaction.reply({
           content:
             "Para usar éste subcomando debes de hacer uso de él en un servidor.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       const data = (await client.rest.get(
@@ -191,7 +191,7 @@ export default new SlashCommand({
       if (!user)
         return interaction.reply({
           content: "El usuario no fue encontrado.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
 
       if (!interaction.guild.members.cache.get(user.id)) {
@@ -216,7 +216,7 @@ export default new SlashCommand({
         if (!member)
           return interaction.reply({
             content: "No se pudo encontrar a éste usuario.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         embed
@@ -263,7 +263,7 @@ export default new SlashCommand({
 
     return interaction.reply({
       content: "Haz uso de los diferentes subcomandos que ofrece éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

@@ -98,7 +98,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const group = interaction.options.getSubcommandGroup();
@@ -121,7 +121,7 @@ export default new SlashCommand({
         if (list.length === 0)
           return interaction.reply({
             content: "No hay roles establecidos para mostrar acá.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         return interaction.reply(`# Lista de autoroles
@@ -130,7 +130,7 @@ ${list.join("\n")}`);
       } else {
         return interaction.reply({
           content: "Comando no preparado. Intenta más tarde.",
-          ephemeral: true
+          flags: "Ephemeral"
         });
       }
     } else {
@@ -140,7 +140,7 @@ ${list.join("\n")}`);
         if (targetRole === interaction.guild.roles.everyone)
           return interaction.reply({
             content: "No puedes agregar ese rol, prueba con otro.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         const key = `${subcommand}-${interaction.guild.id}`;
@@ -153,7 +153,7 @@ ${list.join("\n")}`);
           return interaction.reply({
             content:
               "No puedo añadir este rol debido a que jerárquicamente tiene un puesto mayor o igual al mío.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         const authorMember = await interaction.guild.members.fetch(
@@ -163,14 +163,14 @@ ${list.join("\n")}`);
           return interaction.reply({
             content:
               "No puedes añadir el rol ya que jerárquicamente tiene un puesto mayor o igual al tuyo!",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         if (targetRole.managed)
           return interaction.reply({
             content:
               "No puedo asignar roles que estén administrados por una integración, prueba con otro.",
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         if (
@@ -179,7 +179,7 @@ ${list.join("\n")}`);
         )
           return interaction.reply({
             content: `Este rol ya ha sido establecido anteriormente para los ${subcommand === "user" ? "usuarios" : "bots"}, prueba con otro.`,
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         if (db.has("autorole", key))
@@ -195,7 +195,7 @@ ${list.join("\n")}`);
         if (!db.has("autorole", key))
           return interaction.reply({
             content: `No hay ningún rol para eliminar. Para añadir uno, usa el comando: ${inlineCode(`/${this.data.name} set ${subcommand} @rol`)}`,
-            ephemeral: true
+            flags: "Ephemeral"
           });
 
         await db.delete("autorole", key);

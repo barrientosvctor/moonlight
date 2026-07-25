@@ -26,14 +26,14 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild)
       return interaction.reply({
         content: "Para usar este comando debes de usarlo en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const user = interaction.options.getUser("user", true);
     if (!user)
       return interaction.reply({
         content: "Este usuario no existe.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const bans = await interaction.guild.bans.fetch();
@@ -41,7 +41,7 @@ export default new SlashCommand({
     if (!bans.has(user.id))
       return interaction.reply({
         content: `${user.username} no ha sido baneado anteriormente en el servidor.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {
@@ -54,7 +54,7 @@ export default new SlashCommand({
       return interaction.reply({
         content:
           "Hubo un error inesperado al intentar quitarle el ban a este usuario.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     }
 

@@ -97,7 +97,7 @@ export default new SlashCommand({
     if (member.isCommunicationDisabled())
       return interaction.reply({
         content: "Este usuario ya estaba aislado!",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const humanizeService = new HumanizeDuration(
@@ -118,7 +118,7 @@ export default new SlashCommand({
     if (timeToMs > TIMEOUT_LIMIT)
       return interaction.reply({
         content: `La duración del aislamiento no puede ser mayor a ${humanizeService.humanize(TIMEOUT_LIMIT)}.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     try {
@@ -127,7 +127,7 @@ export default new SlashCommand({
       console.error(error);
       return interaction.reply({
         content: "No es posible aislar a éste usuario, prueba con otro.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     }
 

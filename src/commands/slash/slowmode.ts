@@ -77,7 +77,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)
       return interaction.reply({
         content: "El comando debe ejecutarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     const channel =
@@ -108,7 +108,7 @@ export default new SlashCommand({
     if (toSeconds > SLOWMODE_LIMIT)
       return interaction.reply({
         content: `El tiempo del modo lento no puede ser mayor a ${humanizeService.humanize(SLOWMODE_LIMIT * 1000)}.`,
-        ephemeral: true
+        flags: "Ephemeral"
       });
 
     await channel.setRateLimitPerUser(toSeconds);
@@ -118,7 +118,7 @@ export default new SlashCommand({
         channel.rateLimitPerUser == 0
           ? `Modo lento removido en el canal <#${channel.id}>.`
           : `Ahora el canal <#${channel.id}> tiene un modo lento de ${humanizeService.humanize(ms)}.`,
-      ephemeral: hidden
+      flags: hidden ? "Ephemeral" : undefined
     });
   }
 });

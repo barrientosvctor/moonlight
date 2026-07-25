@@ -43,7 +43,7 @@ WebSocket: \`${client.ws.ping}ms\`
 
     return interaction.reply({
       content: "Haz uso de la variedad de comandos que ofrece éste comando.",
-      ephemeral: true
+      flags: "Ephemeral"
     });
   }
 });

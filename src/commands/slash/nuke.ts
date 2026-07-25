@@ -35,7 +35,7 @@ export default new SlashCommand({
     if (!interaction.inGuild() || !interaction.guild || !interaction.channel)
       return interaction.reply({
         content: "Este comando debe usarse en un servidor.",
-        ephemeral: true
+        flags: "Ephemeral"
       });
     const channel =
       (interaction.options.getChannel("channel", false) as TextChannel) ??
