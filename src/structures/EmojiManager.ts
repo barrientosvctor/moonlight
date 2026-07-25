@@ -9,4 +9,13 @@ export class EmojiManager {
 
     return null;
   }
+
+  public static ExtractEmojiName(input: string): string {
+    const emojiReferenceSyntax = /<(?:a|):([A-Za-z0-9_]+):\d{17,}>/g;
+    const match = emojiReferenceSyntax.exec(input);
+
+    if (!match) return input;
+
+    return match[1];
+  }
 }
