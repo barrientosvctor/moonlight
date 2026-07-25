@@ -88,7 +88,7 @@ export default new SlashCommand({
               opt
                 .setName("name")
                 .setDescription("The emoji's name.")
-                .setMinLength(1)
+                .setMinLength(2)
                 .setMaxLength(32)
                 .setRequired(true)
 
@@ -119,8 +119,8 @@ export default new SlashCommand({
               opt
                 .setName("name")
                 .setDescription("The emoji's name.")
-                .setMinLength(1)
-                .setMaxLength(32)
+                .setMinLength(2)
+                .setMaxLength(80)
                 .setRequired(true)
 
                 .setDescriptionLocalizations({
@@ -132,7 +132,7 @@ export default new SlashCommand({
               opt
                 .setName("new_name")
                 .setDescription("The new name of that emoji.")
-                .setMinLength(1)
+                .setMinLength(2)
                 .setMaxLength(32)
                 .setRequired(true)
 
@@ -154,8 +154,8 @@ export default new SlashCommand({
               opt
                 .setName("name")
                 .setDescription("The emoji's name.")
-                .setMinLength(1)
-                .setMaxLength(32)
+                .setMinLength(2)
+                .setMaxLength(80)
                 .setRequired(true)
 
                 .setDescriptionLocalizations({
@@ -187,6 +187,13 @@ export default new SlashCommand({
           const name = interaction.options.getString("name", true);
           const attch = interaction.options.getAttachment("emoji", true);
           const targetEmojiId = EmojiManager.GetTargetEmojiId(emojis!, name);
+
+          if (!EmojiManager.isAcceptableName(name)) {
+            return interaction.reply({
+              content: "Este nombre no está permitido. Intente con otro.",
+              ephemeral: true
+            });
+          }
 
           if (targetEmojiId) {
             return interaction.reply({
