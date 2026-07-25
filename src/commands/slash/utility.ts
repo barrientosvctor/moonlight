@@ -70,6 +70,26 @@ export default new SlashCommand({
             .setMaxLength(255)
         )
     )
+    .addSubcommand(cmd =>
+      cmd
+        .setName("jumbo")
+        .setDescription("Makes an emoji bigger.")
+        .setDescriptionLocalizations({
+          "es-ES": "Haz un emoji más grande."
+        })
+        .addStringOption(input =>
+          input
+            .setName("emoji")
+            .setDescription("Type the name of the emoji or the emoji itself.")
+            .setDescriptionLocalizations({
+              "es-ES": "Escriba el nombre del emoji o el mismo emoji."
+            })
+            .setRequired(true)
+            .setMinLength(2)
+            .setMaxLength(80)
+        )
+    )
+
     .addSubcommandGroup(group =>
       group
         .setName("emoji")
@@ -333,6 +353,27 @@ ${hyperlink("PNG", user.displayAvatarURL({ size: 2048, extension: "png", forceSt
           });
 
         return interaction.reply(data.morse);
+      } else if (subcommand === "jumbo") {
+        const emojiName = EmojiManager.ExtractEmojiName(
+          interaction.options.getString("emoji", true)
+        );
+        const emoji = interaction.guild?.emojis.cache.find(em => {
+          return em.name === emojiName;
+        });
+
+        if (!emoji) {
+          return interaction.reply({
+            content: "No se pudo encontrar este emoji en el servidor.",
+            ephemeral: true
+          });
+        }
+
+        return interaction.reply({
+          content: emoji.imageURL({
+            size: 2048,
+            extension: emoji.animated ? "gif" : "png"
+          })
+        });
       }
     }
 
