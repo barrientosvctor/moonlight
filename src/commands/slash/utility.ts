@@ -204,6 +204,17 @@ export default new SlashCommand({
             });
           }
 
+          if (
+            !interaction.guild?.members.me?.permissions.has(
+              PermissionFlagsBits.CreateGuildExpressions
+            )
+          ) {
+            return interaction.reply({
+              content: `No tengo el permiso de ${bold(client.convertPermissionsToSpanish(["CreateGuildExpressions"]).toString())} para llevar a cabo tu solicitud.`,
+              flags: "Ephemeral"
+            });
+          }
+
           const name = interaction.options.getString("name", true);
           const attch = interaction.options.getAttachment("emoji", true);
           const targetEmojiId = EmojiManager.GetTargetEmojiId(emojis!, name);
@@ -222,15 +233,27 @@ export default new SlashCommand({
             });
           }
 
-          await interaction.guild?.emojis.create({
-            name,
-            attachment: attch.url,
-            reason: `Emoji creado por ${interaction.user.username}`
-          });
+          try {
+            await interaction.guild?.emojis.create({
+              name,
+              attachment: attch.url,
+              reason: `Emoji creado por ${interaction.user.username}`
+            });
 
-          return interaction.reply({
-            content: `Se ha creado exitosamente el emoji ${bold(name)}.`
-          });
+            return interaction.reply({
+              content: `Se ha creado exitosamente el emoji ${bold(name)}.`
+            });
+          } catch (err) {
+            console.error(err);
+
+            return interaction.reply({
+              content: client.beautifyMessage(
+                "No se pudo agregar el emoji al servidor.",
+                { emoji: "error" }
+              ),
+              flags: "Ephemeral"
+            });
+          }
         } else if (subcommand === "rename") {
           if (
             !interaction.memberPermissions?.has(
@@ -239,6 +262,17 @@ export default new SlashCommand({
           ) {
             return interaction.reply({
               content: `No posees el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para ejecutar este comando.`,
+              flags: "Ephemeral"
+            });
+          }
+
+          if (
+            !interaction.guild?.members.me?.permissions.has(
+              PermissionFlagsBits.ManageGuildExpressions
+            )
+          ) {
+            return interaction.reply({
+              content: `No tengo el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para llevar a cabo tu solicitud.`,
               flags: "Ephemeral"
             });
           }
@@ -274,6 +308,17 @@ export default new SlashCommand({
           ) {
             return interaction.reply({
               content: `No posees el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para ejecutar este comando.`,
+              flags: "Ephemeral"
+            });
+          }
+
+          if (
+            !interaction.guild?.members.me?.permissions.has(
+              PermissionFlagsBits.ManageGuildExpressions
+            )
+          ) {
+            return interaction.reply({
+              content: `No tengo el permiso de ${bold(client.convertPermissionsToSpanish(["ManageGuildExpressions"]).toString())} para llevar a cabo tu solicitud.`,
               flags: "Ephemeral"
             });
           }
