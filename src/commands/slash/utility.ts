@@ -215,7 +215,7 @@ export default new SlashCommand({
             });
           }
 
-          const name = interaction.options.getString("name", true);
+          const name = interaction.options.getString("name", true).trim();
           const attch = interaction.options.getAttachment("emoji", true);
           const targetEmojiId = EmojiManager.GetTargetEmojiId(emojis!, name);
 
@@ -278,9 +278,9 @@ export default new SlashCommand({
           }
 
           const name = EmojiManager.ExtractEmojiName(
-            interaction.options.getString("name", true)
+            interaction.options.getString("name", true).trim()
           );
-          const new_name = interaction.options.getString("new_name", true);
+          const new_name = interaction.options.getString("new_name", true).trim();
           const targetEmojiId = EmojiManager.GetTargetEmojiId(emojis!, name);
 
           if (!targetEmojiId) {
@@ -324,7 +324,7 @@ export default new SlashCommand({
           }
 
           const name = EmojiManager.ExtractEmojiName(
-            interaction.options.getString("name", true)
+            interaction.options.getString("name", true).trim()
           );
           const targetEmojiId = EmojiManager.GetTargetEmojiId(emojis!, name);
 
