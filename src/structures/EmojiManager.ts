@@ -14,11 +14,11 @@ export class EmojiManager {
   }
 
   public static isAcceptableName(emojiName: string): boolean {
-    const match = this.emojiNameRegex.exec(emojiName);
+    const emojiNameArray = emojiName.split(" ");
 
-    if (!match) return false;
+    if (emojiNameArray.length !== 1) return false;
 
-    return match[1] === emojiName;
+    return this.emojiNameRegex.test(emojiNameArray[0]);
   }
 
   public static ExtractEmojiName(input: string): string {
